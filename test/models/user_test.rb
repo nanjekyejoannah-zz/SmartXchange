@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  email           :string           not null
+#  name            :string           not null
+#  age             :integer          not null
+#  language        :string           not null
+#  language_level  :integer          not null
+#  password_digest :string           not null
+#  session_token   :string           not null
+#  image           :string
+#  active          :boolean          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase

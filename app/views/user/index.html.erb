@@ -1,0 +1,13 @@
+<h1> All Users </h1>
+<% unless @users.empty? %>
+  <ul>
+    <% @users.each do |user| %>
+      <li> <%= user.email %> </li>
+      <ul>
+        <li> <%= user.name %> </li>
+        <li> <%= user.age %> </li>
+        <li> <%= user.title %> </li>
+      </ul>
+    <% end %>
+  </ul>
+<% end %>
