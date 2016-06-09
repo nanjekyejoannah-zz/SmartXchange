@@ -19,8 +19,9 @@ gem 'coffee-rails', '~> 4.1.0'
 #for generating password encryption
 gem 'bcrypt'
 
-#for uploading images
+#for uploading images, need mini_magick
 gem 'carrierwave'
+gem 'mini_magick'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
