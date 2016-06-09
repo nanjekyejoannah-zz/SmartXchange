@@ -1,9 +1,7 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby on Rails basic application to allow users to find each other for the purpose of practicing languages. Will eventually like to incorporate unique features. Deployed on heroku as smartxchange.herokuapp.com
 
-Things you may want to cover:
 
 * Ruby version
 
@@ -12,14 +10,17 @@ Things you may want to cover:
 * Configuration
 
 * Database creation
+Running on sqlite3 for development and postgres in production
 
 * Database initialization
+
 
 * How to run the test suite
 
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
+Runs Heroku
 
 * ...
 
