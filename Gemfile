@@ -5,8 +5,12 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+#will need postgres for heroku deployment
+#gem 'pg', '~> 0.18.4' error installing will keep out for now
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+#bootstrap
+gem 'bootstrap-sass'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
