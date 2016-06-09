@@ -18,12 +18,11 @@
 
 class User < ActiveRecord::Base
   validates :email, :session_token, presence: true
-  validates :password, length: { minimum: 5, allow_nil: true }
+  validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates :email, uniqueness: true
+  validates :email, length: {maximum: 255}
   validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
-  #need to validate that this is a valid email address later
-  #add location
-  #need to make random bullshit generator for title, or random funny title
+  has_secure_password
 
   attr_reader :password
   after_initialize :ensure_session_token
