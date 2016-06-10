@@ -1,7 +1,7 @@
 <%= image_tag(user.image.small_thumb.url, alt: user.name) %>
-<b><%= user.email %></b>
+<b><%= user.name %></b>
 <ul>
-  <li> <%= user.name %> </li>
+  <li> <%= user.language %>, <%= user.language_level %> </li>
   <li> <%= user.age %> </li>
   <li> <%= user.title %> </li>
 </ul>
