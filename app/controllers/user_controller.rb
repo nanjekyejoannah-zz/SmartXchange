@@ -12,6 +12,7 @@ class UserController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       sign_in!(@user)
+      flash[:success] = "Welcome to the SmartXchange!"
       redirect_to root_url
     else
       flash.now[:errors] = @user.errors.full_messages
@@ -30,10 +31,26 @@ class UserController < ApplicationController
     render :show
   end
 
+  def update
+    @user = User.find(params[:id])
+    # fail
+    if @user.update(user_params)
+      redirect_to user_url(@user)
+      flash[:success] = "Profile updated"
+    else
+      flash.now[:errors] = @user.errors.full_messages
+      redirect_to :back
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:password, :email)
+    params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image)
+  end
+
+  def image_params
+
   end
 
 end

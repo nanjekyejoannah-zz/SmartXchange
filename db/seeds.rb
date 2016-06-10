@@ -7,6 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 u1 = User.create!(email: 'example1@gmail.com',password: 'password')
-u2 = User.create!(email: 'example2@gmail.com', password: 'password')
+u2 = User.create!(email: 'example2@gmail.com', password: 'password', language: 'German', language_level: 7)
 
 # image: File.open("chair_images/Gym-Ergonomic.jpg")

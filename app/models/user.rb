@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   validates :email, length: {maximum: 255}
   validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
   has_secure_password
+  mount_uploader :image, AvatarUploader
 
   attr_reader :password
   after_initialize :ensure_session_token

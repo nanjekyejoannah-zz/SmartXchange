@@ -2,7 +2,8 @@
 <% unless @users.empty? %>
   <ul>
     <% @users.each do |user| %>
-      <li> <%= user.email %> </li>
+      <li><b><%= user.email %></b></li>
+      <%= image_tag(user.image.small_thumb.url, alt: user.name) %>
       <ul>
         <li> <%= user.name %> </li>
         <li> <%= user.age %> </li>
