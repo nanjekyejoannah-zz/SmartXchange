@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  before_action :require_signed_in!, only: [:destroy]
 
   def new
     redirect_to root_url if signed_in?

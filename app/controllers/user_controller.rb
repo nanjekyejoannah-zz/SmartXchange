@@ -2,7 +2,8 @@ class UserController < ApplicationController
 
   #add location
 
-  before_action :require_signed_in!, only: [:destroy, :show, :index]
+  before_action :require_signed_in!, only: [:destroy, :show, :index, :update]
+  before_action :correct_user,   only: [:update]
 
   def new
     redirect_to root_url if signed_in?
@@ -22,7 +23,7 @@ class UserController < ApplicationController
 
   def index
     #will implement matching algorithm here or someone else
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 20)
     render :index
   end
 
@@ -35,8 +36,8 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
     # fail
     if @user.update(user_params)
-      redirect_to user_url(@user)
       flash[:success] = "Profile updated"
+      redirect_to user_url(@user)
     else
       flash.now[:errors] = @user.errors.full_messages
       redirect_to :back
@@ -49,8 +50,9 @@ class UserController < ApplicationController
     params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image)
   end
 
-  def image_params
-
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless @user == current_user
   end
 
 end
