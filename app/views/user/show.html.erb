@@ -11,7 +11,7 @@
         <%= image_tag(@user.image.thumb.url, alt: @user.name, class: "profile_image") %>
         <% if current_user == @user %>
             <h2>Edit</h2>
-            <form action="<%= user_url(@user) %>" method="post" multipart=true>
+            <form action="<%= user_url(@user) %>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="_method" value="patch">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <label>Name<br>
