@@ -12,9 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require user
 //= require chat
 //= require turbolinks
+//= require user
 //= require bootstrap
 //= require faye
 //= require private_pub
