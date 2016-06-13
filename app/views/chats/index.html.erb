@@ -1,0 +1,8 @@
+<h1> All Chats </h1>
+<% unless @chats.empty? %>
+  <ul>
+    <% @chats.each do |chat| %>
+      <%=  render 'chats/chat', chat: chat %>
+    <% end %>
+  </ul>
+<% end %>

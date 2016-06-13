@@ -1,0 +1,4 @@
+module ChatsHelper
+
+
+end
