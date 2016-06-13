@@ -12,6 +12,11 @@ Rails.application.routes.draw do
 
   resources :user
 
+  resources :chats  do
+    resources :messages
+  end
+
+
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 

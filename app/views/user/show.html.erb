@@ -52,12 +52,23 @@
             </form>
         <% else %>
           <%= @user.name %>
-          <%= @user.age %>
+          <%= @user.age %><br>
+          <%= @user.title %><br>
           <%= @user.language %>
-          <%= @user.language_level %>
-          <%= @user.title %>
+          <%= @user.language_level %> <br>
+          <form class="send-message" action="/chats" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="sender_id" value="<%= current_user.id%>">
+            <input type="hidden" name="recipient_id" value="<%= @user.id %>">
+            <input class="btn btn-primary" type="submit" value="Message">
+          </form>
+          <!-- <%= link_to "Message", new_chat_url({sender_id: current_user.id, recipient_id: @user.id}) %> -->
+           <!-- <%= link_to "Message", "#", class: "btn btn-success btn-xs start-chat",
+                             "data-sid" => current_user.id, "data-rip" => @user.id %> -->
+
+
+
         <% end %>
-        <!-- <%= file_field :image, multiple: false %> -->
 
       </h1>
     </section>

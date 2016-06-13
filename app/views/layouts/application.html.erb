@@ -5,15 +5,17 @@
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <meta content='<%= signed_in? ? current_user.id : "" %>' name='user-id'/>
   <%= csrf_meta_tags %>
-  <%= render partial: '/layouts/header' %>
 
 </head>
 <body>
+    <%= render partial: '/layouts/header' %>
     <div class="container">
       <%= yield %>
       <%= render partial: '/layouts/footer' %>
       <%= debug(params) if Rails.env.development? %>
     </div>
+    <audio id="chatAudio"><source src="/sounds/decay.mp3" type="audio/mpeg"></audio>
 </body>
 </html>
