@@ -12,8 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require chat
 //= require turbolinks
+//= require chat
 //= require user
 //= require bootstrap
 //= require faye
