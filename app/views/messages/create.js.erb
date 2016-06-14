@@ -3,7 +3,7 @@
     var chatbox = $(".chatboxcontent")
     var sender_id = "<%= @message.user.id %>";
     var reciever_id = $('meta[name=user-id]').attr("content");
-
+    <% puts @message %>
     chatbox.append("<%= j render( partial: @message ) %>");
     chatbox.scrollTop(chatbox[0].scrollHeight);
 
@@ -12,6 +12,6 @@
         chatbox.children().last().removeClass("self").addClass("other");
     	chatbox.scrollTop(chatbox[0].scrollHeight);
         chatBox.notify();
-        
+
     }
 <% end %>
