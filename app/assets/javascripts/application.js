@@ -19,3 +19,8 @@
 //= require faye
 //= require private_pub
 //= require_tree .
+
+// for websocket conenction
+// var scheme   = "ws://";
+// var uri      = scheme + window.document.location.host + "/";
+// var ws       = new WebSocket(uri);

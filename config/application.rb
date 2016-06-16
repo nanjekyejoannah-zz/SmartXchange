@@ -2,6 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'yaml'
+# require 'chat_backend'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -25,7 +26,8 @@ module SmartXchange
     config.active_record.raise_in_transactional_callbacks = true
 
     #for using Faye as middleware and mounting onto /faye path
-    config.middleware.delete Rack::Lock
-    config.middleware.use FayeRails::Middleware, mount: '/faye', :timeout => 25
+    # config.middleware.use ChatDemo::ChatBackend
+    # config.middleware.delete Rack::Lock
+    # config.middleware.use FayeRails::Middleware, mount: '/faye', :timeout => 25
   end
 end
