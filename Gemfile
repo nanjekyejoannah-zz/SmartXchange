@@ -43,9 +43,7 @@ gem 'bootstrap-will_paginate'
 #for chat and messaging
 gem 'faye-rails', '~> 2.0'
 gem 'thin'
-gem 'private_pub' #adding security to messaging through faye, only private channels
-gem "faye-websocket"
-gem "redis"
+gem 'private_pub' #adding security to messaging through faye, only private channel
 
 # Use Unicorn as the app server
 # gem 'unicorn'
