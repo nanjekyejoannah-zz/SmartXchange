@@ -1,5 +1,4 @@
 <ul>
-  <li> <%= chat.sender.name %> </li>
-  <li> <%= chat.recipient.name %> </li>
+  <li> <%= chat_interlocutor(chat).name %> </li>
   <%= link_to "Chat", chat_url(chat) %>
 </ul>
