@@ -1,7 +1,7 @@
 
 <li class="<%=  self_or_other(message) %>">
   <div class="image">
-    <%= image_tag(message.user.image.small_thumb.url, alt: message.user.name) %>
+    <%= image_tag(message.sender.image.small_thumb.url, alt: message.sender.name) %>
   </div>
   <div class="chatboxmessagecontent">
     <p><%= message.body %></p>

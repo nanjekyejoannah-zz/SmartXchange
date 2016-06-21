@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160611150011) do
+ActiveRecord::Schema.define(version: 20160621000049) do
 
   create_table "chats", force: :cascade do |t|
     t.integer  "sender_id"
@@ -27,15 +27,28 @@ ActiveRecord::Schema.define(version: 20160611150011) do
   create_table "messages", force: :cascade do |t|
     t.text     "body"
     t.integer  "chat_id"
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "sender_id"
   end
 
   add_index "messages", ["chat_id", "created_at"], name: "index_messages_on_chat_id_and_created_at"
   add_index "messages", ["chat_id"], name: "index_messages_on_chat_id"
   add_index "messages", ["created_at"], name: "index_messages_on_created_at"
-  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "chat_id"
+    t.boolean  "read",        default: false, null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "notified_id"
+    t.integer  "notifier_id"
+    t.integer  "message_id"
+  end
+
+  add_index "notifications", ["chat_id"], name: "index_notifications_on_chat_id"
+  add_index "notifications", ["notified_id"], name: "index_notifications_on_notified_id"
+  add_index "notifications", ["notifier_id"], name: "index_notifications_on_notifier_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                                      null: false

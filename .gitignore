@@ -20,3 +20,6 @@
 # Ignore .DS_Store files, don't know why these are created
 .DS_Store
 */.DS_Store
+
+#Ingnore byebug history
+.byebug_history

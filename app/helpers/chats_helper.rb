@@ -4,4 +4,14 @@ module ChatsHelper
     current_user == chat.recipient ? chat.sender : chat.recipient
   end
 
+  def chat_count_unread(chat, user)
+    chat.notifications.where(read: "false", notified_id: user.id).count
+  end
+
+  def chat_mark_read(chat, user)
+    chat.notifications.where(read: "false", notified_id: user.id).each do |notification|
+      notification.update(read: "true")
+    end
+  end
+
 end

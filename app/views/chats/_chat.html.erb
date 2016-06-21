@@ -1,4 +1,8 @@
 <ul>
   <li> <%= chat_interlocutor(chat).name %> </li>
-  <%= link_to "Chat", chat_url(chat) %>
+    <% if count_unread > 0 %>
+      <%= link_to "Chat (#{count_unread})", chat_url(chat) %>
+    <% else %>
+      <%= link_to "Chat", chat_url(chat) %>
+    <% end %>
 </ul>

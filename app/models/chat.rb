@@ -16,6 +16,8 @@ class Chat < ActiveRecord::Base
 
   has_many :messages, dependent: :destroy
 
+  has_many :notifications, dependent: :destroy
+
   validates_uniqueness_of :sender_id, :scope => :recipient_id
 
   #to check for any existing chats initiated by you or with you

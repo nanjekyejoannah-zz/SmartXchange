@@ -36,8 +36,4 @@ class ChatsController < ApplicationController
     params.permit(:sender_id, :recipient_id)
   end
 
-  def interlocutor(chat)
-    current_user == chat.recipient ? chat.sender : chat.recipient
-  end
-
 end

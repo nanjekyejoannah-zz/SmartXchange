@@ -2,7 +2,7 @@
 <% unless @chats.empty? %>
   <ul>
     <% @chats.each do |chat| %>
-      <%=  render 'chats/chat', chat: chat %>
+      <%=  render 'chats/chat', chat: chat, count_unread: chat_count_unread(chat,current_user) %>
     <% end %>
   </ul>
 <% end %>

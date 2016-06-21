@@ -1,3 +1,4 @@
+
 # == Schema Information
 #
 # Table name: users
@@ -26,6 +27,7 @@ class User < ActiveRecord::Base
   has_secure_password
   mount_uploader :image, AvatarUploader
   has_many :chats, :foreign_key => :sender_id, dependent: :destroy
+  has_many :notifications, :foreign_key => :notified_id, dependent: :destroy
 
 
   attr_reader :password

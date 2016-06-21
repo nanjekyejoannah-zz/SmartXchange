@@ -42,11 +42,10 @@ var ready = function () {
         /**
          * Plays a notification sound when a new chat message arrives
          */
-
+        //  need to implement realtime header notifications
         notify: function () {
             var audioplayer = $('#chatAudio')[0];
             audioplayer.play();
-            
         },
 
         /**

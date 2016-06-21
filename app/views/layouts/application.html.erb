@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    <%= render partial: '/layouts/header' %>
+    <%= render partial: '/layouts/header', :locals => { :count_unread => user_count_unread(current_user) } %>
     <div class="container">
       <%= yield %>
       <%= render partial: '/layouts/footer' %>
