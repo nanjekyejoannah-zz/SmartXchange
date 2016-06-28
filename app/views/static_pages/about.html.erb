@@ -1,2 +1,176 @@
-<h1>About</h1>
-<p>We are a unique platform for connecting people with the intent of practicing a second or third language. Chats are instantly transmitted across a secure channel to the other user. Follow us on <%= link_to "twitter", "https://www.twitter.com/smart_xchange" %> to get notified of the latest updates!</p>
+<body class="about">
+
+<!-- Services Section -->
+  <section id="services">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 text-center">
+                  <h2 class="section-heading">Services</h2>
+                  <h3 class="section-subheading text-muted">We are a unique platform for connecting people with the intent of practicing a second or third language. Chats are instantly transmitted across a secure channel to the other user. Follow us on <%= link_to "twitter", "https://www.twitter.com/smart_xchange" %> to get notified of the latest updates!</h3>
+              </div>
+          </div>
+          <div class="row text-center">
+              <div class="col-md-4">
+                  <span class="fa-stack fa-4x">
+                      <%= image_tag('Matching.png', alt: 'SmartXchange') %>
+                  </span>
+                  <h4 class="service-heading">Matching</h4>
+                  <p class="text-muted">Match with people at the right time and place.</p>
+              </div>
+              <div class="col-md-4">
+                  <span class="fa-stack fa-4x">
+                      <%= image_tag('Network.png', alt: 'SmartXchange') %>
+                  </span>
+                  <h4 class="service-heading">Network</h4>
+                  <p class="text-muted">Find other international students and professionals who want to practice a language and exchange insightful career, educational, and informal experiences.</p>
+              </div>
+              <div class="col-md-4">
+                  <span class="fa-stack fa-4x">
+                      <%= image_tag('Trust.png', alt: 'SmartXchange') %>
+                      <!-- save as reference -->
+                      <!-- <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-lock fa-stack-1x fa-inverse"></i> -->
+                  </span>
+                  <h4 class="service-heading">Trust and Security</h4>
+                  <p class="text-muted">Ensure quality interactions with peer to peer language level reviews, chat securely over our platform, and review integrated Linkedin information before meetings</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Portfolio Grid Section -->
+    <section id="portfolio" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">What the data says</h2>
+                    <h3 class="section-subheading text-muted">Finding an adequate language learning partner is key</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                      <%= image_tag('Practice_second_language.png', alt: 'SmartXchange', class: 'img-responsive') %>
+                    <div class="portfolio-caption">
+                        <h4>95%</h4>
+                        <p class="text-muted">Of people practice at least a second language</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                        <%= image_tag('Practice_second_language_important.png', alt: 'SmartXchange', class: 'img-responsive') %>
+                    <div class="portfolio-caption">
+                        <h4>85%</h4>
+                        <p class="text-muted">Of people believe practicing is the best way to improve a language</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                        <%= image_tag('Practice_second_language_unknown_partner.png', alt: 'SmartXchange', class: 'img-responsive') %>
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>79%</h4>
+                        <p class="text-muted">Of people feel confident to meet unknown people</p>
+                    </div>
+                </div>
+
+                <!-- for reference -->
+                <!-- <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/escape.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Escape</h4>
+                        <p class="text-muted">Website Design</p>
+                    </div>
+                </div> -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">History</h2>
+                    <h3 class="section-subheading text-muted">From Concept to Reality</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-image">
+                                <%= image_tag('Original Team adjusted', alt: 'SmartXchange', class: 'img-circle img-responsive') %>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>March 2016</h4>
+                                    <h4 class="subheading">Our Humble Beginnings</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">The team met at a Wayra WeStartDigital event. Two members of the team pitched similar ideas and joined forces to implement a concept encompassing both ideas. Through the gruesome startup battlefield, only 4 of the 7 original members remain.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <%= image_tag('Concept Development adjusted.jpg', alt: 'SmartXchange', class: 'img-circle img-responsive') %>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>April 2016</h4>
+                                    <h4 class="subheading">Concept Development</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">With weekly meetings and working remotely we discussed our business model, target customers, value proposition, competitors, product, and features.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <%= image_tag('Pitch action shot adjusted', alt: 'SmartXchange', class: 'img-circle img-responsive') %>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>May 2016</h4>
+                                    <h4 class="subheading">Pitches and Applications</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">We continued to develop our concept and started planning the launch of our MVP. Meanwhile we applied to incubator programs and pitched at events like BBVA Innovation.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <%= image_tag('default-profile-pic adjusted.png', alt: 'SmartXchange', class: 'img-circle img-responsive') %>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>June 2016</h4>
+                                    <h4 class="subheading">MVP Development and Mentoring</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">With a general concept down, we created a basic online application to test our concept. More features to come :).</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <h4>Be Part
+                                    <br>Of Our
+                                    <br>Story!</h4>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>

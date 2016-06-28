@@ -1,8 +1,14 @@
-<ul>
-  <li> <%= chat_interlocutor(chat).name %> </li>
+  <li>
+    <a href="<%=chat_url(chat)%>">
+      <%= image_tag(user.image.small_thumb.url, alt: user.name, class: "user-image") %>
+      <!-- need to refactor this as well -->
+      <br>
+      <%= "#{user.name}" %>
     <% if count_unread > 0 %>
-      <%= link_to "Chat (#{count_unread})", chat_url(chat) %>
-    <% else %>
-      <%= link_to "Chat", chat_url(chat) %>
+      <%="(#{count_unread})"%>
     <% end %>
-</ul>
+    <!-- need to refactor this -->
+    <br>
+    <br>
+    </a>
+  </li>

@@ -20,10 +20,12 @@
 
 class User < ActiveRecord::Base
   validates :email, :session_token, presence: true
-  validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates :email, uniqueness: true
   validates :email, length: {maximum: 255}
+  validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
+  validates :title, length: {maximum: 255}
+  validates :age, numericality: { only_integer: true }
   has_secure_password
   mount_uploader :image, AvatarUploader
   has_many :chats, :foreign_key => :sender_id, dependent: :destroy

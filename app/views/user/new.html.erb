@@ -1,12 +1,27 @@
-<h1>Register</h1>
+<!-- may need to refactor this (body) -->
+<body class="new">
 
-<form action="/user" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label>Email<br>
-    <input name="user[email]" type="text"><br>
-  </label><br>
-  <label>Password<br>
-    <input name="user[password]" type="password"><br>
-  </label><br>
-  <input type="submit" value="Register" class="btn btn-primary"><br>
-</form>
+<div class="col-lg-12 text-center">
+
+  <h2 class="new section-heading">Welcome To Our Platform!</h2>
+  <h3 class="new section-subheading">It's Nice To Meet You</h3>
+  <a href="/about" class="page-scroll btn btn-xl">Tell Me More</a>
+
+  <br>
+  <br>
+  <br>
+
+  <form action="/user" method="post" class="new">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <label>Email<br>
+      <input name="user[email]" type="text"><br>
+    </label><br>
+    <label>Password<br>
+      <input name="user[password]" type="password"><br>
+    </label><br>
+    <input type="submit" value="Register" class="btn btn-primary"><br>
+  </form>
+
+</div>
+
+</body>

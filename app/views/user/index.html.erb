@@ -1,9 +1,44 @@
-<h1> All Users </h1>
+<!-- Page Heading -->
+      <!-- <div class="row">
+          <div class="col-lg-12">
+              <h1 class="page-header">Users
+                  <small>Secondary Text</small>
+              </h1>
+          </div>
+      </div> -->
 <% unless @users.empty? %>
-  <ul>
-    <% @users.each do |user| %>
-      <%=  render 'user/user', user: user %>
-    <% end %>
-  </ul>
+<!-- Could refactor this -->
+<!-- Projects Row -->
+      <div class="row">
+        <% @users.slice(0,3).each do |user| %>
+          <%=  render 'user/user', user: user %>
+        <% end %>
+      </div>
+      <!-- /.row -->
+      <!-- no idea why it automatically adds a third row with this code -->
+      <div class="row">
+        <% if @users.length > 3 %>
+          <% @users.slice(3,3).each do |user| %>
+            <%=  render 'user/user', user: user %>
+          <% end %>
+        <% end %>
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <% if @users.length > 6 %>
+          <% @users.slice(6,3).each do |user| %>
+            <%=  render 'user/user', user: user %>
+          <% end %>
+        <% end %>
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <% if @users.length > 9 %>
+          <% @users.slice(9,3).each do |user| %>
+            <%=  render 'user/user', user: user %>
+          <% end %>
+        <% end %>
+      </div>
+
   <%= will_paginate @users%>
 <% end %>

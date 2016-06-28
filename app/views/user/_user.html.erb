@@ -1,9 +1,14 @@
-<%= image_tag(user.image.small_thumb.url, alt: user.name) %>
-<b><%= user.name %></b>
-<ul>
-  <li> <%= user.language %>, <%= user.language_level %> </li>
-  <li> <%= user.age %> </li>
-  <li> <%= user.title %> </li>
-  <%= link_to "View Profile", user_url(user) %>
 
-</ul>
+
+
+<div class="col-md-4 portfolio-item">
+    <a href="<%= user_url(user) %>">
+        <%= image_tag(user.image.small_thumb.url, alt: user.name, class: "user-image") %>
+        <div class="user-content">
+          <h3><%= user.name %></h3>
+          <%= user.age %><br>
+          <span class="h4"><%= user.language %> <span style="font-weight:normal">| </span> <%= user.language_level %></span><br>
+          <%= truncate(user.title, :length => 80) %><br>
+        </div>
+    </a>
+</div>

@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621000049) do
+ActiveRecord::Schema.define(version: 20160628015449) do
+
+  create_table "basic_profiles", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "maiden_name"
+    t.string   "formatted_name"
+    t.string   "headline"
+    t.string   "location"
+    t.string   "industry"
+    t.string   "summary"
+    t.string   "specialties"
+    t.string   "picture_url"
+    t.string   "public_profile_url"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
 
   create_table "chats", force: :cascade do |t|
     t.integer  "sender_id"
@@ -23,6 +40,36 @@ ActiveRecord::Schema.define(version: 20160621000049) do
   add_index "chats", ["created_at"], name: "index_chats_on_created_at"
   add_index "chats", ["recipient_id"], name: "index_chats_on_recipient_id"
   add_index "chats", ["sender_id"], name: "index_chats_on_sender_id"
+
+  create_table "educations", force: :cascade do |t|
+    t.string   "school_name"
+    t.string   "field_of_study"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "degree"
+    t.string   "activities"
+    t.string   "notes"
+    t.integer  "full_profile_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "full_profiles", force: :cascade do |t|
+    t.string   "associations"
+    t.string   "honors"
+    t.string   "interests"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "linkedin_oauth_settings", force: :cascade do |t|
+    t.string   "atoken"
+    t.string   "asecret"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "messages", force: :cascade do |t|
     t.text     "body"
@@ -50,19 +97,31 @@ ActiveRecord::Schema.define(version: 20160621000049) do
   add_index "notifications", ["notified_id"], name: "index_notifications_on_notified_id"
   add_index "notifications", ["notifier_id"], name: "index_notifications_on_notifier_id"
 
+  create_table "positions", force: :cascade do |t|
+    t.string   "title"
+    t.string   "summary"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.boolean  "is_current"
+    t.string   "company"
+    t.integer  "full_profile_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                      null: false
-    t.string   "name",            default: "User",           null: false
-    t.integer  "age",             default: 25,               null: false
-    t.string   "language",        default: "Spanish",        null: false
-    t.integer  "language_level",  default: 5,                null: false
-    t.string   "password_digest",                            null: false
-    t.string   "session_token",                              null: false
+    t.string   "email",                                           null: false
+    t.string   "name",            default: "Buddha",              null: false
+    t.integer  "age",             default: 25,                    null: false
+    t.string   "language",        default: "Spanish",             null: false
+    t.integer  "language_level",  default: 5,                     null: false
+    t.string   "password_digest",                                 null: false
+    t.string   "session_token",                                   null: false
     t.string   "image"
-    t.boolean  "active",          default: false,            null: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.string   "title",           default: "Baller at Life", null: false
+    t.boolean  "active",          default: false,                 null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "title",           default: "Finding inner peace", null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

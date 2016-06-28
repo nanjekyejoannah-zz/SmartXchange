@@ -13,7 +13,7 @@ class UserController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       sign_in!(@user)
-      flash[:success] = "Welcome to the SmartXchange!"
+      flash[:success] = "Welcome to the smartXchange!"
       redirect_to root_url
     else
       flash.now[:errors] = @user.errors.full_messages
@@ -23,7 +23,7 @@ class UserController < ApplicationController
 
   def index
     #will implement matching algorithm here or someone else
-    @users = User.paginate(page: params[:page], per_page: 20)
+    @users = User.paginate(page: params[:page], per_page: 12)
     render :index
   end
 
@@ -34,12 +34,11 @@ class UserController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    # fail
     if @user.update(user_params)
       flash[:success] = "Profile updated"
       redirect_to user_url(@user)
     else
-      flash.now[:errors] = @user.errors.full_messages
+      flash[:error] = @user.errors.full_messages.to_sentence
       redirect_to :back
     end
   end

@@ -1,10 +1,7 @@
 <div class="row">
-  <aside class="col-md-4">
-    <section class="user_info">
-      <h1>
-        <%= image_tag(@user.image.thumb.url, alt: @user.name, class: "profile_image") %>
+      <%= image_tag(@user.image.thumb.url, alt: @user.name, class: "user-image") %>
+      <div class="user-content">
         <% if current_user == @user %>
-            <h2>Edit</h2>
             <form action="<%= user_url(@user) %>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="_method" value="patch">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
@@ -15,7 +12,7 @@
                 <input name="user[age]" type="text" value="<%= @user.age %>"><br>
               </label><br>
               <label>Title<br>
-                <input name="user[title]" type="text" value="<%= @user.title %>"><br>
+                <input id="user-title" name="user[title]" type="text" value="<%= @user.title %>"><br>
 
               </label><br>
               <label>Language<br>
@@ -41,30 +38,27 @@
               </label><br>
               <label>Picture<br>
                 <input type="file" name="user[image]" value="<%= @user.image.small_thumb %>">
-              </label>
-              <input class="btn btn-primary" type="submit" value="Edit">
+              </label><br>
+              <input class="btn btn-primary" type="submit" value="Update">
             </form>
         <% else %>
-          <%= @user.name %>
-          <%= @user.age %><br>
-          <%= @user.title %><br>
-          <%= @user.language %>
-          <%= @user.language_level %> <br>
+          <!-- need to refactor this -->
+          <h1> <%= @user.name %></h1>
+          <h4> <%= @user.age %></h4>
+          <h4> <%= @user.title %></h4>
+          <h4> <%= @user.language %>
+          <%= @user.language_level %> </h4>
           <form class="send-message" action="/chats" method="post">
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
             <input type="hidden" name="sender_id" value="<%= current_user.id%>">
             <input type="hidden" name="recipient_id" value="<%= @user.id %>">
-            <input class="btn btn-primary" type="submit" value="Message">
+            <input class="btn btn-primary" type="submit" value="Chat">
           </form>
           <!-- <%= link_to "Message", new_chat_url({sender_id: current_user.id, recipient_id: @user.id}) %> -->
            <!-- <%= link_to "Message", "#", class: "btn btn-success btn-xs start-chat",
                              "data-sid" => current_user.id, "data-rip" => @user.id %> -->
 
 
-
         <% end %>
-
-      </h1>
-    </section>
-  </aside>
+      </div>
 </div>
