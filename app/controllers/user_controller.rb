@@ -16,7 +16,7 @@ class UserController < ApplicationController
       flash[:success] = "Welcome to the smartXchange!"
       redirect_to root_url
     else
-      flash.now[:errors] = @user.errors.full_messages
+      flash.now[:error] = @user.errors.full_messages.to_sentence
       render :new
     end
   end
