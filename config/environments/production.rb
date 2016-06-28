@@ -23,9 +23,9 @@ Rails.application.configure do
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
 
-  #needs to be implemented in rails 4 to serve static assets in production according to stack overflow
-  config.serve_static_files = true
-  # config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  # needs to be implemented in rails 4 to serve static assets in production according to stack overflow
+  # config.serve_static_files = true
+  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
