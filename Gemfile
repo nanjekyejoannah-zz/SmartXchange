@@ -70,6 +70,7 @@ end
 
 group :production do
   ruby '2.0.0'
+  gem 'fog-aws'
   gem 'pg'
   gem 'rails_12factor'
 end

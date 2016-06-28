@@ -9,12 +9,11 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
 
   #Need to implement once move to s3
-  # if Rails.env.production?
-  #   storage :fog
-  # else
-  #   storage :file
-  # end
-  storage :file
+  if Rails.env.production?
+    storage :fog
+  else
+    storage :file
+  end
   # storage :fog
 
   #to be able to work on heroku without using fog
