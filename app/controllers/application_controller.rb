@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_signed_in!
-    flash[:danger] = "Please log in." unless signed_in?
+    flash[:error] = "Please log in." unless signed_in?
     redirect_to login_url unless signed_in?
     # raise 'Auth Error' unless signed_in? #for $http requests
   end
