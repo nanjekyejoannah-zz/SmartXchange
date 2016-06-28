@@ -24,9 +24,6 @@ module SmartXchange
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    # For serving static assets on heroku with > Rails 4
-    config.serve_static_assets = true
-
     #for using Faye as middleware and mounting onto /faye path
     # config.middleware.delete Rack::Lock
     # config.middleware.use FayeRails::Middleware, mount: '/faye', :timeout => 25
