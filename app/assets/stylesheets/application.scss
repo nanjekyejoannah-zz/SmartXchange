@@ -48,7 +48,7 @@ a:hover,a:focus,a:active,a.active{color:#fec503}h1,h2,h3,h4,h5,h6{font-family:Mo
 .navbar-default {
   background-color:#8fb8e2;
   border-color:transparent;
-  padding-bottom: 19px;
+  padding-bottom: 29px;
 }
 .navbar-default .navbar-brand {
   color:#fed136;
@@ -59,7 +59,7 @@ a:hover,a:focus,a:active,a.active{color:#fec503}h1,h2,h3,h4,h5,h6{font-family:Mo
 }
 .navbar-default .navbar-collapse {
   border-color:rgba(255,255,255,.02);
-  padding-top: 15px;
+  padding-top: 25px;
 }
 .navbar-default .navbar-toggle {
   background-color:#fed136;
@@ -199,7 +199,7 @@ header .intro-text .intro-heading {
 
 //to clear header
 .container {
-  padding-top: 80px;
+  padding-top: 90px;
 }
 
 //to make users closer to one another
@@ -261,6 +261,7 @@ form.new input {
 .navbar-brand {
   padding: 0;
   padding-left: 10px;
+  padding-top: -10px;
 }
 
 

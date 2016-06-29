@@ -4,7 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  email           :string           not null
-#  name            :string           default("User"), not null
+#  name            :string           default("Buddha"), not null
 #  age             :integer          default(25), not null
 #  language        :string           default("Spanish"), not null
 #  language_level  :integer          default(5), not null
@@ -14,7 +14,7 @@
 #  active          :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  title           :string           default("Baller at Life"), not null
+#  title           :string           default("Finding inner peace"), not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

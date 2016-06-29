@@ -12,7 +12,7 @@
             </button>
             <div id="div-item-data" data-item-id="<%= current_user.id %>"></div>
         <% end  %>
-        <a class="navbar-brand" href="<%= user_index_url %>"><%= image_tag('logo small no padding high res.png', alt: 'SmartXchange') %></a>
+        <a class="navbar-brand" href="<%= user_index_url %>"><%= image_tag('logo.png', alt: 'SmartXchange') %></a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -20,7 +20,7 @@
         <ul class="nav navbar-nav navbar-right">
           <% if signed_in? %>
             <li><%= link_to "My profile", user_url(current_user) %></li>
-            <li><%= link_to "Home", user_index_url %></li>
+            <li><%= link_to "Matches", user_index_url %></li>
             <!-- refactor this -->
             <% if count_unread > 0 %>
               <li class="chats-header"><%= link_to "Chats (#{count_unread})", chats_url %></li>

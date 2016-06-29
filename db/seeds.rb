@@ -6,14 +6,16 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-u1 = User.create!(email: 'example@gmail.com',password: 'password', name: 'User1', language: 'Spanish', language_level: 6)
+u1 = User.create!(email: 'example@gmail.com',password: 'password', name: 'Dennis McQuigly', language: 'Spanish', language_level: 6)
 
 languages = ["Spanish","English","German"]
 language_levels = [1,2,3,4,5,6,7,8,9,10]
 ages = [23,25,27,29,31,33,35,37]
-titles = ["Baller at Life", "I don't wear the pants", "I want a sushi burrito", "Give that man a horse", "Nothing like a Friday night walk in Retiro", "Shorts o'clock", "Suns out guns out", "Shirtless o'clock"]
+titles = ["Monetizing intuitive partnerships", "Deploying vertical web services", "Generating frictionless technologies", "Innovating world class niches", "Syndicate b2c niches", "Harnessing front-end metrics", "Generating b2c bandwidth", "Optimizing holistic systems"]
 
-50.times do |n|
+
+
+5.times do |n|
   name  = Faker::Name.name
   email = "example#{n+1}@gmail.com"
   password = "password"
