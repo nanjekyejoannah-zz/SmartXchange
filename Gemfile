@@ -32,6 +32,7 @@ gem 'bcrypt'
 #for uploading images, need mini_magick
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'fog', require: 'fog/aws'
 
 #for generating fake value
 gem 'faker'
@@ -70,7 +71,6 @@ end
 
 group :production do
   ruby '2.0.0'
-  gem 'fog', require: 'fog/aws'
   gem 'pg'
   gem 'rails_12factor'
 end
