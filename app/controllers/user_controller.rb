@@ -6,7 +6,7 @@ class UserController < ApplicationController
   before_action :correct_user,   only: [:update]
 
   def new
-    redirect_to root_url if signed_in?
+    redirect_to user_index_url if signed_in?
   end
 
   def create
@@ -14,7 +14,7 @@ class UserController < ApplicationController
     if @user.save
       sign_in!(@user)
       flash[:success] = "Welcome to the smartXchange!"
-      redirect_to root_url
+      redirect_to user_index_url
     else
       flash[:error] = @user.errors.full_messages.to_sentence
       render :new
@@ -51,7 +51,7 @@ class UserController < ApplicationController
 
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_url) unless @user == current_user
+    redirect_to(user_index_url) unless @user == current_user
   end
 
 end

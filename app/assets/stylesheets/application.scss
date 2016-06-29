@@ -221,7 +221,7 @@ a:-webkit-any-link {
 body.new {
    background-image: image-url("chatting_people_bar_0_exposure.jpg"), image-url("Friends-having-a-drinks-on-a-sunny-evening-in-a-cozy-house.jpg"), image-url("happy-female-friends-having-a-conversation-by-counter-in-coffeeshop.jpg");
    background-repeat: no-repeat, no-repeat, no-repeat;
-   background-position: center, center, center;
+   background-position: center top, center center, center bottom;
 }
 //so that text on session/new and user/new shows up white with image background
 h2.new, h3.new {
