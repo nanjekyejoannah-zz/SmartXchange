@@ -212,6 +212,15 @@ header .intro-text .intro-heading {
   max-height: 292px;
 }
 
+.user-image {
+  background-color: #000;
+  width: 50px;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 0px;
+  padding-left: 0px;
+}
+
 //over-riding underlining which is occurring, needs to be refactored
 a:-webkit-any-link {
   text-decoration: none;
