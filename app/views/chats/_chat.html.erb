@@ -1,6 +1,6 @@
   <li>
     <a href="<%=chat_url(chat)%>">
-      <%= image_tag(user.image.small_thumb.url, alt: user.name, class: "user-image") %>
+      <%= image_tag(user.image.small_thumb.url, alt: user.name) %>
       <!-- need to refactor this as well -->
       <br>
       <%= "#{user.name}" %>
