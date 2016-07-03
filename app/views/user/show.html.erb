@@ -6,16 +6,15 @@
               <input type="hidden" name="_method" value="patch">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <label>Name<br>
-                <input name="user[name]" type="text" value="<%= @user.name %>"><br>
+                <input id="user-name" name="user[name]" type="text" value="<%= @user.name %>"><br>
               </label><br>
               <label>Age<br>
-                <input name="user[age]" type="text" value="<%= @user.age %>"><br>
+                <input id="user-age" name="user[age]" type="text" value="<%= @user.age %>"><br>
               </label><br>
-              <label>Title<br>
-                <input id="user-title" name="user[title]" type="text" value="<%= @user.title %>"><br>
-
+              <label>Profession<br>
+                <textarea id="user-title" name="user[title]" rows="3" cols="25"><%= @user.title %></textarea><br>
               </label><br>
-              <label>Language<br>
+              <label>Language (to practice)<br>
                 <select name="user[language]">
                  <option value="Spanish" <%= 'selected' if @user.language=='Spanish'%> >Spanish</option>
                  <option value="English" <%= 'selected' if @user.language=='English'%> >English</option>
@@ -25,16 +24,12 @@
               </label><br>
               <label>Language level <br>
                 <select name="user[language_level]">
-                   <option value="1" <%= 'selected' if @user.language_level==1 %> >1 - beginner</option>
-                   <option value="2" <%= 'selected' if @user.language_level==2 %> >2</option>
-                   <option value="3" <%= 'selected' if @user.language_level==3 %> >3</option>
-                   <option value="4" <%= 'selected' if @user.language_level==4 %> >4</option>
-                   <option value="5" <%= 'selected' if @user.language_level==5 %> >5 - intermediate</option>
-                   <option value="6" <%= 'selected' if @user.language_level==6 %> >6</option>
-                   <option value="7" <%= 'selected' if @user.language_level==7 %> >7</option>
-                   <option value="8" <%= 'selected' if @user.language_level==8 %> >8</option>
-                   <option value="9" <%= 'selected' if @user.language_level==9 %> >9</option>
-                   <option value="10" <%= 'selected' if @user.language_level==10 %> >10 - advanced</option>
+                   <option value="1" <%= 'selected' if @user.language_level==1 %> >A1 - beginner</option>
+                   <option value="2" <%= 'selected' if @user.language_level==2 %> >A2 - elementary</option>
+                   <option value="3" <%= 'selected' if @user.language_level==3 %> >B1 - intermediate</option>
+                   <option value="4" <%= 'selected' if @user.language_level==4 %> >B2 - upper intermediate</option>
+                   <option value="5" <%= 'selected' if @user.language_level==5 %> >C1 - advanced</option>
+                   <option value="6" <%= 'selected' if @user.language_level==6 %> >C2 - master</option>
                </select>
               </label><br>
               <label>Picture<br>
@@ -45,10 +40,18 @@
         <% else %>
           <!-- need to refactor this -->
           <h1> <%= @user.name %></h1>
-          <h4> <%= @user.age %></h4>
+          <h4><span style="font-weight:normal">
+                <i> <%= @user.age %></i>
+              </span>
+          </h4>
           <h4> <%= @user.title %></h4>
-          <h4> <%= @user.language %>
-          <%= @user.language_level %> </h4>
+          <h4> <b><%= "#{@user.language}, "%>
+            <span style="font-weight:normal"><%= user_convert_language_level(@user.language_level) %>
+            </span>
+          </h4>
+          <!-- may change class to start-chat but have to make sure it doesn't conflict with js code -->
+          <!-- also need to refactor the break -->
+          <br>
           <form class="send-message" action="/chats" method="post">
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
             <input type="hidden" name="sender_id" value="<%= current_user.id%>">

@@ -7,24 +7,28 @@
 #  name            :string           default("Buddha"), not null
 #  age             :integer          default(25), not null
 #  language        :string           default("Spanish"), not null
-#  language_level  :integer          default(5), not null
+#  language_level  :integer          default(3), not null
 #  password_digest :string           not null
 #  session_token   :string           not null
 #  image           :string
-#  active          :boolean          default(FALSE), not null
+#  active          :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  title           :string           default("Finding inner peace"), not null
 #
 
+#active is for instantaneous feature Tati talked about
+
 class User < ActiveRecord::Base
-  validates :email, :session_token, presence: true
+  validates :email, :session_token, :age, :language, presence: true
   validates :email, uniqueness: true
   validates :email, length: {maximum: 255}
   validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
-  validates :title, length: {maximum: 255}
+  validates :title, length: {minimum: 5, maximum: 255}
+  validates :name, length: {minimum: 2, maximum: 255}
   validates :age, numericality: { only_integer: true }
+  validates :language_level, numericality: {only_integer: true} #may change this since it's a dropdown
   has_secure_password
   mount_uploader :image, AvatarUploader
   has_many :chats, :foreign_key => :sender_id, dependent: :destroy

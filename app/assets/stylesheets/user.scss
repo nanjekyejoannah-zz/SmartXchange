@@ -21,8 +21,24 @@
 .user-content {overflow: hidden; padding-left:15px;padding-top: 10px; color: black;}
 .user-content h1 {text-transform: uppercase;}
 .user-content h3 {padding:0;margin: 0; }
-.user-content .h4 {font-size: 14px;}
-//maybe change this to 100% if possible
-#user-title  {
-    width: 500px;
+// need to change span and header use here
+.user-content h4 {font-size: 14px; margin: 0px}
+.user-content .title {
+  color: #777;
+  padding-top: 3px;
+}
+.user-content .name {
+  min-height: 52px;
+}
+#user-name {
+  width: 200px;
+}
+#user-email {
+  width: 200px;
+}
+#user-password {
+  width: 200px;
+}
+#user-age {
+  width: 50px;
 }

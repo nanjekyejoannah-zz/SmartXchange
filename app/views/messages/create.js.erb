@@ -3,11 +3,14 @@
     var chatbox = $(".chatboxcontent")
     var sender_id = "<%= @message.sender.id %>";
     var reciever_id = $('meta[name=user-id]').attr("content");
+    var title = $('title');
     chatbox.append("<%= j render( partial: @message ) %>");
     chatbox.scrollTop(chatbox[0].scrollHeight);
 
     if(sender_id != reciever_id){
-    	chatBox.chatWith(id);
+        // only for use when chatting with other user and need to pop up a chatbox
+      // chatBox.chatWith(id);
+      // title.html("(1)");
         chatbox.children().last().removeClass("self").addClass("other");
     	chatbox.scrollTop(chatbox[0].scrollHeight);
         chatBox.notify();

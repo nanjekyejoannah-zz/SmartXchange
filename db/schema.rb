@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628015449) do
+ActiveRecord::Schema.define(version: 20160703192734) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -110,18 +110,18 @@ ActiveRecord::Schema.define(version: 20160628015449) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                           null: false
-    t.string   "name",            default: "Buddha",              null: false
-    t.integer  "age",             default: 25,                    null: false
-    t.string   "language",        default: "Spanish",             null: false
-    t.integer  "language_level",  default: 5,                     null: false
-    t.string   "password_digest",                                 null: false
-    t.string   "session_token",                                   null: false
+    t.string   "email",                                                      null: false
+    t.string   "name",            default: "New User",                       null: false
+    t.integer  "age",             default: 25,                               null: false
+    t.string   "language",        default: "Spanish",                        null: false
+    t.integer  "language_level",  default: 3,                                null: false
+    t.string   "password_digest",                                            null: false
+    t.string   "session_token",                                              null: false
     t.string   "image"
-    t.boolean  "active",          default: false,                 null: false
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.string   "title",           default: "Finding inner peace", null: false
+    t.boolean  "active",          default: false,                            null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+    t.string   "title",           default: "Please fill in your profession", null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

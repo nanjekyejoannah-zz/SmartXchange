@@ -14,11 +14,39 @@
   <form action="/user" method="post" class="new">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <label>Email<br>
-      <input name="user[email]" type="text"><br>
+      <input id="user-email" name="user[email]" type="text"><br>
     </label><br>
     <label>Password<br>
-      <input name="user[password]" type="password"><br>
+      <input id="user-password" name="user[password]" type="password"><br>
     </label><br>
+    <label>Name<br>
+      <input id="user-name" name="user[name]" type="text"><br>
+    </label><br>
+    <label>Age<br>
+      <input id="user-age" name="user[age]" type="text"><br>
+    </label><br>
+    <label>Profession<br>
+      <textarea id="user-title" name="user[title]" rows="3" cols="25"></textarea><br>
+    </label><br>
+    <label>Language (to practice)<br>
+      <select name="user[language]">
+       <option value="Spanish" >Spanish</option>
+       <option value="English" >English</option>
+       <option value="German"  >German</option>
+       <option value="French"  >French</option>
+     </select>
+    </label>
+    <label>Language level <br>
+      <select name="user[language_level]">
+         <option value="1"  >A1 - beginner</option>
+         <option value="2"  >A2 - elementary</option>
+         <option value="3"  >B1 - intermediate</option>
+         <option value="4"  >B2 - upper intermediate</option>
+         <option value="5"  >C1 - advanced</option>
+         <option value="6"  >C2 - master</option>
+     </select>
+    </label><br>
+
     <input type="submit" value="Register" class="btn btn-primary"><br>
   </form>
 

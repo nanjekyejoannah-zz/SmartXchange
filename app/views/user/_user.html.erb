@@ -4,13 +4,23 @@
 <div class="col-md-4 portfolio-item">
     <a href="<%= user_url(user) %>">
         <div class="user-image">
-          <%= image_tag(user.image.small_thumb.url, alt: user.name) %>
+        <p><%= image_tag(user.image.small_thumb.url, alt: user.name) %></p>
         </div>
         <div class="user-content">
-          <h3><%= user.name %></h3>
-          <%= user.age %><br>
-          <span class="h4"><%= user.language %> <span style="font-weight:normal">| </span> <%= user.language_level %></span><br>
-          <%= truncate(user.title, :length => 80) %><br>
+          <div class="name">
+            <h3><%= user.name %></h3>
+          </div>
+          <div class="age">
+            <i><%= user.age %></i>
+          </div>
+          <h4><%= user.language %>,
+            <span style="font-weight:normal">
+            <%= user_convert_language_level(user.language_level) %>
+            </span>
+          </h4>
+          <div class="title">
+            <%= truncate(user.title, :length => 80) %>
+          </div>
         </div>
     </a>
 </div>
