@@ -4,6 +4,7 @@
 <div class="col-md-4 portfolio-item">
     <a href="<%= user_url(user) %>">
         <div class="user-image">
+          <!-- kind of hack with paragraph to align image may need to refactor -->
         <p><%= image_tag(user.image.small_thumb.url, alt: user.name) %></p>
         </div>
         <div class="user-content">
