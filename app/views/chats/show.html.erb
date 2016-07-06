@@ -1,7 +1,8 @@
 <% chat_mark_read(@chat, current_user) %>
 <div class="chatboxhead">
   <div class="chatboxtitle">
-    <h1><%= chat_interlocutor(@chat).name %> </h1>
+    <!-- span hack job again, need to refactor -->
+    <h1><a href="<%=user_url(@receiver)%>"><%= "#{@receiver.name}," %> <span style="font-weight:normal"> <%= "#{@receiver.language} #{user_convert_language_level(@receiver.language_level)}" %></span> </a></h1>
   </div>
   <div class="check"></div>
   <br clear="all"/>

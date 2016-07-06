@@ -1,5 +1,5 @@
 class ChatsController < ApplicationController
-
+  include ChatsHelper
   before_action :require_signed_in!, only: [:create, :index, :show]
 
   def create
@@ -18,6 +18,7 @@ class ChatsController < ApplicationController
     @receiver = @chat.recipient
     @messages = @chat.messages
     @message = Message.new
+    @receiver = chat_interlocutor(@chat)
     render :show
   end
 
