@@ -1,0 +1,18 @@
+<% chat_room_mark_read(@chat_room.id, current_user.id) %>
+<h2><a href="<%=user_url(@receiver)%>">
+  <%= user_convert_title_to_img(@chat_room.title) %>
+  <%= " #{@receiver.name}," %>
+  <span style="font-weight:normal">
+    <%= " #{user_convert_language_level(@receiver.language_level)}" %>
+  </span>
+  <%= image_tag('green-dot.png', class:'active', alt: 'Active') if @receiver.active %>
+</a></h2>
+
+<div id="messages" data-chat-room-id="<%= @chat_room.id %>">
+  <%= render @chat_room.messages %>
+</div>
+
+<br/><br/>
+<%= form_for @message, url: '#', id: "new_message" do |f| %>
+<%= f.text_area :body, id: 'message_body' %>
+<% end %>

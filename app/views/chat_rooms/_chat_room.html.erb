@@ -1,0 +1,16 @@
+<div id="chat-room">
+  <% unread = chat_room_count_unread(chat_room, current_user) > 0 ? "(#{chat_room_count_unread(chat_room, current_user)})" : "" %>
+  <% user = chat_room_interlocutor(chat_room, current_user) %>
+  <a href="<%= chat_room_path(chat_room) %>">
+    <!-- using user scss here may change to chat css later -->
+      <div class="user-image">
+        <p><%= user_convert_title_to_img(chat_room.title) %></p>
+      </div>
+      <div class="user-content">
+        <%= "#{user.name} #{unread}" %> <%= image_tag('green-dot.png', class:'active', alt: 'Active') if user.active %>
+      </div>
+      <!-- need to add css to chat_room.css instead of double br -->
+      <br>
+      <br>
+  </a>
+</div>

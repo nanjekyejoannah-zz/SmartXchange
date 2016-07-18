@@ -1,6 +1,8 @@
 <div class="row">
       <%= image_tag(@user.image.thumb.url, alt: @user.name, class: "profile-image") %>
       <div class="user-content">
+        <!-- maybe move this later -->
+        <%= image_tag('green-dot.png', class:'active', alt: 'Active') if @user.active %> <br>
         <% if current_user == @user %>
             <form action="<%= user_url(@user) %>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="_method" value="patch">
@@ -20,6 +22,7 @@
                  <option value="English" <%= 'selected' if @user.language=='English'%> >English</option>
                  <option value="German" <%= 'selected' if @user.language=='German'%> >German</option>
                  <option value="French" <%= 'selected' if @user.language=='French'%> >French</option>
+                 <option value="Italian" <%= 'selected' if @user.language=='Italian'%> >Italian</option>
                </select>
               </label><br>
               <label>Language level <br>
@@ -52,16 +55,10 @@
           <!-- may change class to start-chat but have to make sure it doesn't conflict with js code -->
           <!-- also need to refactor the break -->
           <br>
-          <form class="send-message" action="/chats" method="post">
-            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-            <input type="hidden" name="sender_id" value="<%= current_user.id%>">
-            <input type="hidden" name="recipient_id" value="<%= @user.id %>">
-            <input class="btn btn-primary" type="submit" value="Chat">
-          </form>
-          <!-- <%= link_to "Message", new_chat_url({sender_id: current_user.id, recipient_id: @user.id}) %> -->
-           <!-- <%= link_to "Message", "#", class: "btn btn-success btn-xs start-chat",
-                             "data-sid" => current_user.id, "data-rip" => @user.id %> -->
-
+          <%= form_for @chat_room do |f| %>
+            <%= f.hidden_field :recipient_id, :value => @user.id %>
+            <%= f.submit "Enter Chatroom", class: 'btn btn-primary' %>
+          <% end %>
 
         <% end %>
       </div>

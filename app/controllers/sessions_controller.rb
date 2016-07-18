@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-  before_action :require_signed_in!, only: [:destroy]
+  # before_action :require_signed_in!, only: [:destroy]
+  skip_before_action :require_signed_in!, only: [:new, :create]
 
   def new
     redirect_to user_index_url if signed_in?

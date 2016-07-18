@@ -13,7 +13,6 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <meta content='<%= signed_in? ? current_user.id : "" %>' name='user-id'/>
   <%= csrf_meta_tags %>
-
 </head>
 <body>
     <!-- need to refactor this -->
@@ -25,10 +24,7 @@
 
     <div class="container">
       <% if flash %>
-      <%= flash_messages %>
-        <!-- <% flash.each do |message_type, message| %>
-                <div class="alert alert-<%= message_type %>"><%= message %></div>
-         <% end %> -->
+        <%= flash_messages %>
       <% end %>
       <%= yield %>
       <%= render partial: '/layouts/footer' %>

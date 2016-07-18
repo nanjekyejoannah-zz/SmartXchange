@@ -30,6 +30,25 @@
 .user-content .name {
   min-height: 52px;
 }
+//for aligning image horizontally
+.user-image {
+  background-color: #000;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 0px;
+  padding-left: 0px;
+  overflow: hidden;
+  float: left;
+  display: table;
+}
+//for aligning image vertically
+.user-image p {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 #user-name {
   width: 200px;
 }
@@ -41,4 +60,8 @@
 }
 #user-age {
   width: 50px;
+}
+.filter-image {
+  // for chrome safari opera
+  -webkit-filter: grayscale(0%);
 }

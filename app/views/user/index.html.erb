@@ -1,23 +1,28 @@
-<!-- Page Heading -->
-      <!-- <div class="row">
-          <div class="col-lg-12">
-              <h1 class="page-header">Users
-                  <small>Secondary Text</small>
-              </h1>
-          </div>
-      </div> -->
 <% unless @users.empty? %>
-<!-- Could refactor this -->
+<!-- Could refactor this, would like to get rid of to_a and put in a for loop -->
 <!-- Projects Row -->
+    <div class="row">
+      <h2 style="display: inline; text-transform: capitalize;">SmartFact of the week: </h2>
+      <h4 style="display: inline; text-transform: none; color:#fec503;">There are 4 official languages in Spain</h4>
+      <h4>Total Users: <span style="font-weight: 300;"> <%= User.all.count %> </span>,
+        Total Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span>,
+        <%= user_convert_title_to_img('Spanish') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Spanish').count %> </span>,
+        <%= user_convert_title_to_img('Italian') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Italian').count %> </span>,
+        <%= user_convert_title_to_img('German') %> : <span style="font-weight: 300;"> <%= User.where(language: 'German').count %> </span>,
+        <%= user_convert_title_to_img('French') %> : <span style="font-weight: 300;"> <%= User.where(language: 'French').count %> </span>,
+        <%= user_convert_title_to_img('English') %> : <span style="font-weight: 300;"> <%= User.where(language: 'English').count %> </span>
+      </h4>
+
+    </div>
       <div class="row">
-        <% @users.slice(0,3).each do |user| %>
+        <% @users.to_a.slice(0,3).each do |user| %>
           <%=  render 'user/user', user: user %>
         <% end %>
       </div>
       <!-- /.row -->
       <div class="row">
         <% if @users.length > 3 %>
-          <% @users.slice(3,3).each do |user| %>
+          <% @users.to_a.slice(3,3).each do |user| %>
             <%=  render 'user/user', user: user %>
           <% end %>
         <% end %>
@@ -25,7 +30,7 @@
       <!-- /.row -->
       <div class="row">
         <% if @users.length > 6 %>
-          <% @users.slice(6,3).each do |user| %>
+          <% @users.to_a.slice(6,3).each do |user| %>
             <%=  render 'user/user', user: user %>
           <% end %>
         <% end %>
@@ -33,7 +38,7 @@
       <!-- /.row -->
       <div class="row">
         <% if @users.length > 9 %>
-          <% @users.slice(9,3).each do |user| %>
+          <% @users.to_a.slice(9,3).each do |user| %>
             <%=  render 'user/user', user: user %>
           <% end %>
         <% end %>

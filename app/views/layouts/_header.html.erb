@@ -22,9 +22,9 @@
             <li><%= link_to "Network", user_index_url %></li>
             <!-- refactor this -->
             <% if count_unread > 0 %>
-              <li class="chats-header"><%= link_to "Chats (#{count_unread})", chats_url %></li>
+              <li class="chats-header-<%= current_user.id %>"><%= link_to "Chat Rooms (#{count_unread})", chat_rooms_url %></li>
             <% else %>
-              <li class="chats-header"><%= link_to "Chats", chats_url %></li>
+              <li class="chats-header-<%= current_user.id %>"><%= link_to "Chat Rooms", chat_rooms_url %></li>
             <% end %>
             <li><%= link_to "My profile", user_url(current_user) %></li>
             <li><%= link_to "About", about_url %></li>
@@ -39,3 +39,8 @@
   </div>
   <!-- /.container-fluid -->
 </nav>
+<!-- <script type="text/javascript">
+  PrivatePub.subscribe("/messages/new", function(data, channel) {
+    alert(data)
+  });
+</script> -->

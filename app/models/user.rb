@@ -19,22 +19,24 @@
 
 #active is for instantaneous feature Tati talked about
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   validates :email, :session_token, :age, :language, presence: true
   validates :email, uniqueness: true
   validates :email, length: {maximum: 255}
-  validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
+  validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates :title, length: {minimum: 5, maximum: 255}
   validates :name, length: {minimum: 2, maximum: 255}
   validates :age, numericality: { only_integer: true }
   validates :language_level, numericality: {only_integer: true} #may change this since it's a dropdown
   has_secure_password
   mount_uploader :image, AvatarUploader
-  has_many :initiated_chats, :foreign_key => :sender_id, class_name: 'Chat', dependent: :destroy
-  has_many :received_chats, :foreign_key => :recipient_id, class_name: 'Chat', dependent: :destroy
   has_many :notifications, :foreign_key => :notified_id, dependent: :destroy
   has_many :created_notifications, :foreign_key => :notifier_id, class_name: 'Notification', dependent: :destroy
+  has_many :initiated_chat_rooms, :foreign_key => :initiator_id, class_name: 'ChatRoom', dependent: :destroy
+  has_many :received_chat_rooms, :foreign_key => :recipient_id, class_name: 'ChatRoom', dependent: :destroy
+  has_many :sent_messages, :foreign_key => :sender_id, class_name: 'Message', dependent: :destroy
+
 
   attr_reader :password
   after_initialize :ensure_session_token
@@ -53,6 +55,18 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
+  def appear
+    p "appear called in user"
+    self.active = true
+    self.save!
+  end
+
+  def disappear
+    p "disappear called in user"
+    self.active = false
+    self.save!
+  end
+
   def reset_token!
     self.session_token = SecureRandom.urlsafe_base64(16)
     self.save!
@@ -64,5 +78,6 @@ class User < ActiveRecord::Base
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64(16)
   end
+
 
 end

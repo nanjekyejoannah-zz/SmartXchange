@@ -11,11 +11,10 @@ Rails.application.routes.draw do
   resource :session
 
   resources :user
+  resources :chat_rooms, only: [:new, :create, :show, :index]
+  resources :messages, only: [:create]
 
-  resources :chats  do
-    resources :messages
-  end
-
+  mount ActionCable.server => '/cable'
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

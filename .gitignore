@@ -23,3 +23,6 @@
 
 #Ingnore byebug history
 .byebug_history
+
+#Ignore deleted files
+/deleted

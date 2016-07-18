@@ -2,12 +2,13 @@
 #
 # Table name: messages
 #
-#  id         :integer          not null, primary key
-#  body       :text
-#  chat_id    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  sender_id  :integer
+#  id           :integer          not null, primary key
+#  body         :text
+#  chat_id      :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  sender_id    :integer
+#  chat_room_id :integer
 #
 
 require 'test_helper'

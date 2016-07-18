@@ -1,8 +1,7 @@
 class UserController < ApplicationController
-
   #add location
 
-  before_action :require_signed_in!, only: [:destroy, :show, :index, :update]
+  skip_before_action :require_signed_in!, only: [:new, :create]
   before_action :correct_user,   only: [:update]
 
   def new
@@ -23,12 +22,13 @@ class UserController < ApplicationController
 
   def index
     #will implement matching algorithm here or someone else
-    @users = User.paginate(page: params[:page], per_page: 12)
+    @users = User.where(language: current_user.language).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   def show
     @user = User.find(params[:id])
+    @chat_room = ChatRoom.new
     render :show
   end
 
