@@ -1,6 +1,13 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # allow origins can subscribe to the channels
+  config.action_cable.allowed_request_origins = ['https://smartxchange.herokuapp.com',
+                                               'http://smartxchange.herokuapp.com']
+
+  # action cable url provided
+  config.action_cable.url = "wss://sitepoint-actioncable.herokuapp.com/cable"
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
