@@ -2,7 +2,7 @@
 <!-- Could refactor this, would like to get rid of to_a and put in a for loop -->
 <!-- Projects Row -->
     <div class="row">
-      <h2 style="display: inline; text-transform: capitalize;">SmartFact of the week: </h2>
+      <h2 style="display: inline; text-transform: capitalize;">Smart fact of the week: </h2>
       <h4 style="display: inline; text-transform: none; color:#fec503;">There are 4 official languages in Spain</h4>
       <h4>Total Users: <span style="font-weight: 300;"> <%= User.all.count %> </span>,
         Total Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span>,
