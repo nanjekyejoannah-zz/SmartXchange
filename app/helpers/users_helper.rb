@@ -1,4 +1,4 @@
-module UserHelper
+module UsersHelper
 
   #false in quotations works on heroku but not local server
   def user_count_unread(user)

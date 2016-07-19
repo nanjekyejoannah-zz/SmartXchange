@@ -1,11 +1,11 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
   #add location
 
   skip_before_action :require_signed_in!, only: [:new, :create]
   before_action :correct_user,   only: [:update]
 
   def new
-    redirect_to user_index_url if signed_in?
+    redirect_to users_url if signed_in?
   end
 
   def create
@@ -13,7 +13,7 @@ class UserController < ApplicationController
     if @user.save
       sign_in!(@user)
       flash[:success] = "Welcome to the smartXchange!"
-      redirect_to user_index_url
+      redirect_to users_url
     else
       flash[:error] = @user.errors.full_messages.to_sentence
       render :new
@@ -43,6 +43,43 @@ class UserController < ApplicationController
     end
   end
 
+  # maybe refactor these two to be in a frontend framework or move to protected
+  def all_users
+    @users = User.all.paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
+  def active_users
+    @users = User.where(active: true).paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
+  # may get rid of these
+  def spanish
+    @users = User.where(language: 'Spanish').paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
+  def italian
+    @users = User.where(language: 'Italian').paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
+  def english
+    @users = User.where(language: 'English').paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
+  def french
+    @users = User.where(language: 'French').paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
+  def german
+    @users = User.where(language: 'German').paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
   private
 
   def user_params
@@ -51,7 +88,7 @@ class UserController < ApplicationController
 
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(user_index_url) unless @user == current_user
+    redirect_to(users_url) unless @user == current_user
   end
 
 end

@@ -10,12 +10,21 @@ Rails.application.routes.draw do
 
   resource :session
 
-  resources :user
+  resources :users do
+    get 'all_users', on: :collection
+    get 'active_users', on: :collection
+    get 'spanish', on: :collection
+    get 'italian', on: :collection
+    get 'french', on: :collection
+    get 'german', on: :collection
+    get 'english', on: :collection
+  end
+
   resources :chat_rooms, only: [:new, :create, :show, :index]
   resources :messages, only: [:create]
 
   mount ActionCable.server => '/cable'
-  
+
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 

@@ -8,7 +8,8 @@ module ApplicationCable
       self.current_user = User.find_by_session_token(session["token"])
       # using devise
       # self.current_user = find_verified_user
-      logger.add_tags 'ActionCable', current_user.email
+      # may need to refactor later, using try to avoid getting error if user isn't logged in
+      logger.add_tags 'ActionCable', current_user.try(:email)
     end
 
     # using devise

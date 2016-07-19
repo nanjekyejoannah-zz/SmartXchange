@@ -1,0 +1,34 @@
+<!-- Header Row -->
+    <!-- maybe refactor this a little -->
+    <div class="row">
+      <h4><a href="<%= all_users_users_url %>">Total Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
+        <a href="<%= active_users_users_url %>">Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span></a>,
+        Practicing:
+        <a href="<%= spanish_users_url %>"><%= user_convert_title_to_img('Spanish') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Spanish').count %> </span></a>,
+        <a href="<%= italian_users_url %>"><%= user_convert_title_to_img('Italian') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Italian').count %> </span></a>,
+        <a href="<%= german_users_url %>"><%= user_convert_title_to_img('German') %> : <span style="font-weight: 300;"> <%= User.where(language: 'German').count %> </span></a>,
+        <a href="<%= french_users_url %>"><%= user_convert_title_to_img('French') %> : <span style="font-weight: 300;"> <%= User.where(language: 'French').count %> </span></a>,
+        <a href="<%= english_users_url %>"><%= user_convert_title_to_img('English') %> : <span style="font-weight: 300;"> <%= User.where(language: 'English').count %> </span></a>
+      </h4>
+
+    </div>
+<% unless @users.empty? %>
+    <!-- rows of users -->
+    <% columns = 3  %>
+    <% rows = 4 %>
+    <% i = 0  %>
+    <% while i < rows %>
+      <% current_slice = i * columns  %>
+      <% if @users.length > current_slice %>
+        <!-- /.row -->
+        <div class="row">
+          <% @users.to_a.slice(current_slice, columns).each do |user| %>
+            <%=  render 'users/user', user: user %>
+          <% end  %>
+        </div>
+      <% end %>
+      <% i += 1   %>
+    <% end %>
+
+  <%= will_paginate @users%>
+<% end %>

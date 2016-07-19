@@ -19,9 +19,7 @@
 @import "bootstrap";
 
 body {
-  // overflow-x:hidden;
   font-family:"Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
-
 }
 .text-muted {
   color:#777
@@ -280,20 +278,19 @@ header .intro-text .intro-heading {
   max-height: 292px;
 }
 
-
-
 //over-riding underlining which is occurring, needs to be refactored
 a:-webkit-any-link {
   text-decoration: none;
 }
 
-// /* user/new and session/new, may put this in session.scss or user.scss and refactor later */
+// /* users/new and session/new, may put this in session.scss or users.scss and refactor later */
 body.new {
    background-image: image-url("chatting_people_bar_0_exposure.jpg"), image-url("Friends-having-a-drinks-on-a-sunny-evening-in-a-cozy-house.jpg");
    background-repeat: no-repeat, repeat-y;;
    background-position: center top, center top;
 }
-//so that text on session/new and user/new shows up white with image background
+
+//so that text on session/new and users/new shows up white with image background, maybe refactor later
 h2.new, h3.new {
   color: white;
 }
@@ -310,29 +307,6 @@ form.new select {
   color: black;
 }
 
-// html, body {
-//  height: 100%;
-//  width: 100%;
-//  margin: 0;
-//  padding: 0;
-// }
-//
-// body {
-//   font-family:Ubuntu, sans-serif;
-//   margin:0
-// }
-//
-// body {
-//   overflow-x:hidden;
-//   font-family:"Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
-//   // background-color: #8fb8e2;
-// }
-
-
-//
-
-
-
 // for situating brand in top left corner
 .navbar-brand {
   padding: 0;
@@ -340,26 +314,11 @@ form.new select {
   padding-top: -10px;
 }
 
-
 //for chat show page
 ul {
  list-style: none;
 }
 //
-
-
-//
-// /* about page may need to refactor later */
-// body.about  {
-//   background-color: #f8f8f8;
-// }
-//
-// // to clear footer may need to refactor
-// .text-center {
-//   padding-bottom: 15px;
-// }
-//
-
 
 /* sidebar not using at moment may take out*/
 
