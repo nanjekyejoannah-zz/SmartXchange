@@ -3,7 +3,7 @@ Rails.application.configure do
 
   # allow origins can subscribe to the channels
   config.action_cable.allowed_request_origins = ['https://smartxchange.herokuapp.com',
-                                               'http://smartxchange.herokuapp.com']
+                                               'http://www.smartxchange.es']
 
   # action cable url provided
   config.action_cable.url = "wss://sitepoint-actioncable.herokuapp.com/cable"
