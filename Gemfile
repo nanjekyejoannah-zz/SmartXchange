@@ -71,4 +71,5 @@ group :production do
   ruby '2.3.0'
   gem 'pg'
   gem 'rails_12factor'
+  gem 'redis', '~> 3.0'
 end
