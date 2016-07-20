@@ -47,7 +47,11 @@
 </div>
 <script>
   function translateText(response) {
-    document.getElementById("translation").innerHTML += "<br>" + response.data.translations[0].translatedText;
+    if (response.error) {
+      document.getElementById("translation").innerHTML += "<br>"+response.error.errors[0].message;
+    } else {
+      document.getElementById("translation").innerHTML += "<br>" + response.data.translations[0].translatedText;
+    }
   }
   function getTranslation() {
     var newScript = document.createElement('script');
