@@ -64,6 +64,18 @@
     color: #ccc;
 }
 
-#message_body {
-  width: 100%;
+// kept underscore due to form_for automatic class and id creation
+#new_message {
+  overflow: auto;
+}
+
+#message-body {
+  width: 90%;
+  float:left;
+}
+
+.send-message {
+  width: 10%;
+  height: 100%;
+  float: right
 }

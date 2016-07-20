@@ -13,6 +13,54 @@
 </div>
 
 <br/><br/>
-<%= form_for @message, url: '#', id: "new_message" do |f| %>
-<%= f.text_area :body, id: 'message_body' %>
+<!-- class and id are new_message -->
+<%= form_for @message, url: '#' do |f| %>
+<%= f.text_area :body, id: 'message-body' %>
+<input class="btn btn-primary send-message"  value="Send">
 <% end %>
+
+<div id="translation-section">
+  <div id="select-languages">
+    From:
+    <select id="from-language">
+      <!-- our target customers are english speakers and spanish speakers, hence the following defaults -->
+       <option value="es" <%= 'selected' if current_user.language=='English'%> >Spanish</option>
+       <option value="en" <%= 'selected' if current_user.language!='English'%> >English</option>
+       <option value="de" >German</option>
+       <option value="fr" >French</option>
+       <option value="it" >Italian</option>
+     </select>
+     To:
+     <select id="to-language">
+        <option value="es" <%= 'selected' if @chat_room.title=='Spanish'%> >Spanish</option>
+        <option value="en" <%= 'selected' if @chat_room.title=='English'%> >English</option>
+        <option value="de" <%= 'selected' if @chat_room.title=='German'%> >German</option>
+        <option value="fr" <%= 'selected' if @chat_room.title=='French'%> >French</option>
+        <option value="it" <%= 'selected' if @chat_room.title=='Italian'%> >Italian</option>
+      </select>
+  </div>
+  <!-- may want to refactor this styling and place somewhere else -->
+  <div id="translate-button" onclick="getTranslation()" onmouseover="this.style.color='#fec503';" onmouseout="this.style.color='#000000';">
+    Translate
+  </div>
+  <div id="translation"></div>
+</div>
+<script>
+  function translateText(response) {
+    document.getElementById("translation").innerHTML += "<br>" + response.data.translations[0].translatedText;
+  }
+  function getTranslation() {
+    var newScript = document.createElement('script');
+    newScript.type = 'text/javascript';
+    var sourceText = escape($('#message-body').val());
+    var fromLang = $("select#from-language option:selected").val()
+    var toLang = $("select#to-language option:selected").val()
+    // WARNING: Your API key will be visible in the page source.
+    // To prevent misuse, restrict your key to designated domains or use a
+    // proxy to hide your key.
+    var source = 'https://www.googleapis.com/language/translate/v2?key=AIzaSyD9Ntk7YeNFXaOC7vLIsw8Sq2XaJ1HUnLg&source='+fromLang+'&target='+toLang+'&callback=translateText&q=' + sourceText;
+    newScript.src = source;
+    $('#translation').empty()
+    document.getElementById('translation-section').appendChild(newScript);
+  }
+</script>

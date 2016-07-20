@@ -39,7 +39,7 @@ jQuery(document).on 'turbolinks:load', ->
 
     $('#new_message').submit (e) ->
       $this = $(this)
-      textarea = $this.find('#message_body')
+      textarea = $this.find('#message-body')
       if $.trim(textarea.val()).length > 1
         App.chat.send_message textarea.val(), messages.data('chat-room-id')
         textarea.val('')
@@ -50,3 +50,6 @@ jQuery(document).on 'turbolinks:load', ->
       if event.keyCode is 13
         $('#new_message').submit()
         event.preventDefault()
+    $('.send-message').on 'click', (event) ->
+      $('#new_message').submit()
+      event.preventDefault()
