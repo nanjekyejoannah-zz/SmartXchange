@@ -14,6 +14,8 @@ class ChatRoomsController < ApplicationController
     @chat_room ||= ChatRoom.includes(:messages, {messages: :sender}).find_by(id: params[:id])
     @message = Message.new
     @receiver = chat_room_interlocutor(@chat_room, current_user)
+    # updating notifications for user as they visit chat room
+    chat_room_mark_read(@chat_room.id, current_user.id)
     render :show
   end
 

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%= favicon_link_tag 'favicon.ico' %>
-  <title>smartXchange</title>
+  <!-- favicon code -->
+    <%= favicon_link_tag 'favicon.ico' %>
   <!-- Custom Fonts -->
     <!-- <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -30,9 +30,12 @@
   <meta name="google-site-verification" content="NQxtKzoA5KKmVzYABRTFgfE901qd6F3z1F2-44DfQls" />
 </head>
 <body>
-    <!-- need to refactor this -->
     <% if signed_in? %>
-      <%= render partial: '/layouts/header', :locals => { :count_unread => user_count_unread(current_user) }  %>
+      <!-- maybe refactor later  -->
+      <% count = user_count_unread(current_user) %>
+      <% title = count > 0 ? "(#{count}) smartXchange" : "smartXchange"   %>
+      <title><%= title %></title>
+      <%= render partial: '/layouts/header', :locals => { :count_unread => count }  %>
     <% else %>
       <%= render partial: '/layouts/header'  %>
     <% end %>
