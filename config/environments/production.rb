@@ -87,7 +87,7 @@ Rails.application.configure do
     port:                 587,
     domain:               'www.smartxchange.es',
     user_name:            'speterlin12',
-    password:             'cheva0417',
+    password:             'sxc_2016',
     authentication:       'plain',
     enable_starttls_auto: true  }
 
