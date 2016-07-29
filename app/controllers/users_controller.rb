@@ -87,15 +87,14 @@ class UsersController < ApplicationController
     render :index
   end
 
-  def notify_all
-    redirect_to :back unless current_user.id == 1
-    # @users = User.all
-    @user = User.where(id: 1)[0]
-    # @users = User.all
-    # @users.each do |user|
-      UserMailer.notify_email(@user).deliver_now
-    # end
-  end
+  # Call this in rails console to email everyone without redirect_to
+  # def notify_all
+  #   redirect_to :back unless current_user.id == 1
+  #   @users = User.all
+  #   @users.each do |user|
+  #     UserMailer.notify_email(user).deliver_now
+  #   end
+  # end
 
   private
 
