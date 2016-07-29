@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     get 'french', on: :collection
     get 'german', on: :collection
     get 'english', on: :collection
+    get 'notify_all', on: :collection
   end
 
   resources :chat_rooms, only: [:new, :create, :show, :index]

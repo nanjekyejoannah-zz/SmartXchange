@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     if @user.save
       sign_in!(@user)
       flash[:success] = "Welcome to the smartXchange!"
+      UserMailer.welcome_email(@user).deliver_later
       redirect_to users_url
     else
       flash[:error] = @user.errors.full_messages.to_sentence
@@ -84,6 +85,16 @@ class UsersController < ApplicationController
   def german
     @users = User.where(language: 'German').paginate(page: params[:page], per_page: 12)
     render :index
+  end
+
+  def notify_all
+    redirect_to :back unless current_user.id == 1
+    # @users = User.all
+    @user = User.where(id: 1)[0]
+    # @users = User.all
+    # @users.each do |user|
+      UserMailer.notify_email(@user).deliver_now
+    # end
   end
 
   private

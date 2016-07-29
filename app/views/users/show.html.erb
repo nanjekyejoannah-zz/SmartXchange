@@ -40,6 +40,11 @@
               </label><br>
               <input class="btn btn-primary" type="submit" value="Update">
             </form>
+            <!-- temporary button for notifying users -->
+            <% if @user.id == 1 %>
+              <br>
+              <%= button_to 'Notify all', notify_all_users_path, :method => :get, :remote => true, :class => "btn btn-primary" %>
+            <% end %>
         <% else %>
           <!-- need to refactor this -->
           <h1> <%= @user.name %></h1>
@@ -61,5 +66,6 @@
           <% end %>
 
         <% end %>
+
       </div>
 </div>

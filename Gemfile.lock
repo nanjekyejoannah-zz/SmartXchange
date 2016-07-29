@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/speterlin/pb-ruby.git
-  revision: 3546db1042d4e32ec4d2423ff8fa39758e61b6e9
+  revision: b39715a05f60f2612635853d255cd53be2cbbdb9
   specs:
     pandorabots_api (0.0.1)
 

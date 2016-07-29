@@ -72,7 +72,24 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+
+  # So that you can use _url in email layouts
+  config.action_mailer.default_url_options = { host: 'www.smartxchange.es' }
+
+  # To access assets like images in email layouts
+  config.action_mailer.asset_host = 'www.smartxchange.es'
+
+  # sending from speterlin12 gmail account
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'www.smartxchange.es',
+    user_name:            'speterlin12',
+    password:             'cheva0417',
+    authentication:       'plain',
+    enable_starttls_auto: true  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
