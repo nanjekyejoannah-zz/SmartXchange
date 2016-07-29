@@ -44,6 +44,9 @@ gem 'bootstrap-will_paginate'
 # new gems for chat
 gem 'puma', '~> 3.0'
 
+# for chatbot,  modified repo
+gem 'pandorabots_api', :git => "https://github.com/speterlin/pb-ruby.git"
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   before_action :correct_user,   only: [:update]
 
   def new
+    @user_count = User.all.count
     redirect_to users_url if signed_in?
   end
 

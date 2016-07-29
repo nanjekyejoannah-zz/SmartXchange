@@ -31,7 +31,6 @@ jQuery(document).on 'turbolinks:load', ->
               $new_message.removeClass("self").addClass("other")
               # may need to refactor this
               @count = if /[1-9]/.test($title.innerHTML) then (parseInt($title.innerHTML.match(/[1-9]/)[0]) + 1) else 1;
-              debugger
               $('title')[0].innerHTML = "(#{@count}) smartXchange"
               $('.chats-header a')[0].innerHTML = "Chat Rooms (#{@count})"
             $messages.append($new_message)
