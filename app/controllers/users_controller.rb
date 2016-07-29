@@ -55,6 +55,11 @@ class UsersController < ApplicationController
     render :index
   end
 
+  def chat_bots
+    @users = User.where(id: 6).paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
   # may get rid of these
   def spanish
     @users = User.where(language: 'Spanish').paginate(page: params[:page], per_page: 12)

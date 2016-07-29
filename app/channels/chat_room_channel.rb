@@ -20,9 +20,9 @@ class ChatRoomChannel < ApplicationCable::Channel
                                    message: render_message(message)
     end
 
-    # for chatbot response, assuming chat bot is always recipient, and chat bot id = 2,
+    # for chatbot response, assuming chat bot is always recipient, and chat bot id = 6,
     chat_room = ChatRoom.find_by(id: data['chat_room_id'])
-    if chat_room.recipient.id == 2
+    if chat_room.recipient.id == 6
       p "chat bot response"
       response = Pandorabots::API.talk(1409612860083, "uktrivia", CGI.escape(message.body), "chatroom#{chat_room.id}", user_key: "22838106ec021d169fa3cc0bc7f8983a")
       # responds even if error (error is produced in output), may refactor later, and see if its faster to do Message.create!

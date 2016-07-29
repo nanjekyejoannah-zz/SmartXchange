@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :users do
     get 'all_users', on: :collection
     get 'active_users', on: :collection
+    get 'chat_bots', on: :collection
     get 'spanish', on: :collection
     get 'italian', on: :collection
     get 'french', on: :collection
