@@ -20,7 +20,7 @@ class Message < ApplicationRecord
   default_scope -> { order(created_at: :asc) } #may take this out
 
   validates_presence_of :chat_room_id, :sender_id
-  validates :body, presence: true, length: {minimum: 2, maximum: 1000}
+  validates :body, presence: true, length: {minimum: 1, maximum: 1000}
 
   # after_create_commit { MessageBroadcastJob.perform_later(self) }
   after_create_commit { create_notification }
