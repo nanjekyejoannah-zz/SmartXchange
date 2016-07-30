@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714190341) do
+ActiveRecord::Schema.define(version: 20160730220456) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -79,14 +79,12 @@ ActiveRecord::Schema.define(version: 20160714190341) do
 
   create_table "messages", force: :cascade do |t|
     t.text     "body"
-    t.integer  "chat_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "sender_id"
     t.integer  "chat_room_id"
-    t.index ["chat_id", "created_at"], name: "index_messages_on_chat_id_and_created_at"
-    t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
+    t.index ["created_at"], name: "index_messages_on_chat_id_and_created_at"
     t.index ["created_at"], name: "index_messages_on_created_at"
   end
 
