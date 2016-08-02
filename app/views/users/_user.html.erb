@@ -4,6 +4,9 @@
           <!-- kind of hack with paragraph to align image may need to refactor -->
         <p><%= image_tag(user.image.small_thumb.url, alt: user.name) %></p>
         </div>
+        <% if user.linkedin %>
+          <%=  image_tag('linkedin-button-small.png', class: 'linkedin-button')  %>
+        <% end %>
         <div class="user-content">
           <div class="name">
             <h3><%= user.name %> <%= image_tag('green-dot.png', class:'active', alt: 'Active') if user.active %></h3>

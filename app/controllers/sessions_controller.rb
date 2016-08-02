@@ -75,7 +75,7 @@ class SessionsController < ApplicationController
     @user = User.where(:provider => auth_hash['provider'],
                       :uid => auth_hash['uid'].to_s).first
     # need to refactor later
-    if !@user && User.where(:email => auth_hash['info']['email']).first # register with Linkedin and email taken
+    if !@user && User.where(:email => auth_hash['info']['email']).first # register or sign in with Linkedin and email taken without Linkedin integration
       flash[:error] = "User with this email already exists, please log in and add Linkedin to your profile"
       redirect_to :back and return
     elsif !@user && !@@existing # register with linkedin and no linkedin account
