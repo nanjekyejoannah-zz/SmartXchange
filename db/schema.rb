@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160730220456) do
+ActiveRecord::Schema.define(version: 20160801212557) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -77,6 +77,16 @@ ActiveRecord::Schema.define(version: 20160730220456) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "linkedins", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.string   "public_url"
+    t.string   "industry"
+    t.string   "summary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_linkedins_on_user_id", unique: true
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text     "body"
     t.datetime "created_at",   null: false
@@ -125,6 +135,9 @@ ActiveRecord::Schema.define(version: 20160730220456) do
     t.datetime "created_at",                                                 null: false
     t.datetime "updated_at",                                                 null: false
     t.string   "title",           default: "Please fill in your profession", null: false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "location"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["session_token"], name: "index_users_on_session_token"
   end

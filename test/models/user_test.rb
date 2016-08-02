@@ -15,6 +15,9 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  title           :string           default("Please fill in your profession"), not null
+#  provider        :string
+#  uid             :string
+#  location        :string
 #
 
 require 'test_helper'

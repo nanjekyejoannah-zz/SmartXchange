@@ -13,8 +13,12 @@
     <!-- need to refactor this -->
     <br>
     <br>
-    <br>
 
+
+    <!-- Sign in with Linkedin -->
+    <%= button_to "Sign in with Linkedin", existing_linkedin_session_url, method: 'get', class: 'btn btn-primary linkedin' %>
+
+    <h4 class="new subheading">OR</h4>
 
     <!-- Form -->
     <form action="/session" method="post" class="new">

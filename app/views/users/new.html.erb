@@ -10,8 +10,13 @@
 
   <br>
   <br>
-  <br>
 
+  <!-- Register with Linkedin -->
+  <%= button_to "Register with Linkedin", new_linkedin_session_url, method: 'get', data: {confirm: "smartXchange will have access to your basic Linkedin profile and Linkedin email, are you sure?"}, class: 'btn btn-primary linkedin' %>
+
+  <h4 class="new subheading">OR</h4>
+
+  <!-- Sign up form -->
   <form action="/users" method="post" class="new">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <label>Email<br>

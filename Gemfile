@@ -47,6 +47,10 @@ gem 'puma', '~> 3.0'
 # for chatbot,  modified repo
 gem 'pandorabots_api', :git => "https://github.com/speterlin/pb-ruby.git"
 
+# for linkedin integration
+gem 'omniauth-oauth2', '~> 1.3.1' # fix for redirect_uri issue after logging in with linkedin, would like to get rid of it refactor
+gem 'omniauth-linkedin-oauth2' # could have used regular omniauth works the same
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

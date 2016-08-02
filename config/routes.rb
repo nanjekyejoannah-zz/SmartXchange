@@ -3,16 +3,24 @@ Rails.application.routes.draw do
   get 'contact' => 'static_pages#contact'
   get 'login'   => 'sessions#new'
   get 'signup'  => 'users#new'
+  get 'auth/linkedin/callback' => 'sessions#create_linkedin'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   root to: 'users#new'
 
-  resource :session
+  # since there is only one session everything is on collection, there are no session/1...session/2 for example
+  resource :session do
+    get 'new_linkedin', on: :collection
+    get 'existing_linkedin', on: :collection
+    get 'add_linkedin', on: :collection
+    get 'update_linkedin', on: :collection
+    delete 'delete_linkedin', on: :collection
+  end
 
   resources :users do
-    get 'all_users', on: :collection
-    get 'active_users', on: :collection
+    get 'all', on: :collection
+    get 'active', on: :collection
     get 'chat_bots', on: :collection
     get 'spanish', on: :collection
     get 'italian', on: :collection

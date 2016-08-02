@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   #add location
 
   skip_before_action :require_signed_in!, only: [:new, :create]
-  before_action :correct_user,   only: [:update]
+  before_action :correct_user,   only: [:update, :destroy]
 
   def new
     @user_count = User.all.count
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       sign_in!(@user)
-      flash[:success] = "Welcome to the smartXchange!"
+      flash[:success] = "Welcome to smartXchange!"
       UserMailer.welcome_email(@user).deliver_later
       redirect_to users_url
     else
@@ -46,12 +46,12 @@ class UsersController < ApplicationController
   end
 
   # maybe refactor these two to be in a frontend framework or move to protected
-  def all_users
+  def all
     @users = User.all.paginate(page: params[:page], per_page: 12)
     render :index
   end
 
-  def active_users
+  def active
     @users = User.where(active: true).paginate(page: params[:page], per_page: 12)
     render :index
   end
@@ -96,15 +96,16 @@ class UsersController < ApplicationController
   #   end
   # end
 
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted."
+    redirect_to '/users/new'
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image)
-  end
-
-  def correct_user
-    @user = User.find(params[:id])
-    redirect_to(users_url) unless @user == current_user
   end
 
 end

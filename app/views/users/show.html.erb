@@ -1,8 +1,10 @@
 <div class="row">
       <%= image_tag(@user.image.thumb.url, alt: @user.name, class: "profile-image") %>
-      <div class="user-content">
+      <div class="user-content profile">
         <!-- maybe move this later -->
-        <%= image_tag('green-dot.png', class:'active', alt: 'Active') if @user.active %> <br>
+        <% if @user.active  %>
+          <%= image_tag('green-dot.png', class:'active', alt: 'Active') %> <br>
+        <% end  %>
         <% if current_user == @user %>
             <form action="<%= user_url(@user) %>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="_method" value="patch">
@@ -14,7 +16,8 @@
                 <input id="user-age" name="user[age]" type="text" value="<%= @user.age %>"><br>
               </label><br>
               <label>Profession<br>
-                <textarea id="user-title" name="user[title]" rows="3" cols="25"><%= @user.title %></textarea><br>
+                <!-- Textarea cols (width) is 23 to align with name input width and because of course Jordan -->
+                <textarea id="user-title" name="user[title]" rows="3" cols="23"><%= @user.title %></textarea><br>
               </label><br>
               <label>Language (to practice)<br>
                 <select name="user[language]">
@@ -40,6 +43,8 @@
               </label><br>
               <input class="btn btn-primary" type="submit" value="Update">
             </form>
+            <br>
+            <%= button_to "Delete Account", user_url(@user), method: :delete, data: {confirm: "Are you sure you want to delete your account? All chat rooms and associated messages will be destroyed."}, class: 'btn btn-primary delete'  %>
         <% else %>
           <!-- need to refactor this -->
           <h1> <%= @user.name %></h1>
@@ -48,7 +53,7 @@
               </span>
           </h4>
           <h4> <%= @user.title %></h4>
-          <h4> <b><%= "#{@user.language}, "%>
+          <h4> <b><%= "#{@user.language}, "%></b>
             <span style="font-weight:normal"><%= user_convert_language_level(@user.language_level) %>
             </span>
           </h4>
@@ -62,5 +67,23 @@
 
         <% end %>
 
+      </div>
+
+      <!-- Display linkedin information -->
+      <div class="linkedin-content">
+        <% if @user.linkedin %>
+           <br> <!-- refactor later just for appearances now -->
+          <a href="<%= @user.linkedin.public_url %>"><%= image_tag('linkedin-button.png', alt: 'Linkedin') %></a>
+          <h4> <%= @user.linkedin.industry %></h4>
+          <h4> <span style="font-weight:normal"><%= @user.location %> </span> </h4>
+          <p><span style="font-weight:normal"><%= @user.linkedin.summary %></span></p>
+          <% if @user == current_user  %>
+            <%= button_to "Update Linkedin", update_linkedin_session_url, method: :get, class: 'btn btn-primary linkedin' %>
+            <br>
+            <%= button_to "Delete Linkedin", delete_linkedin_session_url, method: :delete, data: {confirm: "Are you sure you want to delete the Linkedin information associated with your account? Warning: If you registered with Linkedin you will not be able to sign back in to this account."}, class: 'btn btn-primary delete' %>
+          <% end  %>
+        <% elsif @user == current_user %>
+          <%= button_to "Add Linkedin", add_linkedin_session_url, method: :get, data: {confirm: "smartXchange will have access to your basic Linkedin profile and Linkedin email, are you sure?"}, class: 'btn btn-primary linkedin' %>
+        <% end %>
       </div>
 </div>
