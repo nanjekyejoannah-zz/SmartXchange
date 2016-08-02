@@ -59,9 +59,9 @@ class User < ApplicationRecord
       name: auth['info']['name'],
       title: auth['info']['description'],
       image: auth['extra']['raw_info']['pictureUrls'].values.second[0],
-      location: auth['info']['location']['name'],
       provider: auth['provider'],
-      uid: auth['uid']
+      uid: auth['uid'],
+      location: auth['info']['location']['name']
     )
     # may implement positions, specialties and more once these start working
     Linkedin.create!(
@@ -104,9 +104,9 @@ class User < ApplicationRecord
   def add_with_omniauth(auth)
     # doesn't need error messages because fields can be blank (except Linkedin user_id which should not throw error unless there is no current_user in which case there would be an error earlier on)
     self.update(
-      location: auth['info']['location']['name'],
       provider: auth['provider'],
-      uid: auth['uid']
+      uid: auth['uid'],
+      location: auth['info']['location']['name']
     )
     Linkedin.create!(
       user_id: self.id,
@@ -121,9 +121,9 @@ class User < ApplicationRecord
     # keeping provider and uid there because maybe the person has a new linkedin account
     # not updating password if uid changes because user might have sign in without linkedin
     self.update(
-      location: auth['info']['location']['name'],
       provider: auth['provider'],
-      uid: auth['uid']
+      uid: auth['uid'],
+      location: auth['info']['location']['name']
     )
     self.linkedin.update(
       public_url: auth['info']['urls'].public_profile,
