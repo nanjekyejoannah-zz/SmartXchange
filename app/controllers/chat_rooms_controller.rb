@@ -1,6 +1,6 @@
 class ChatRoomsController < ApplicationController
 
-  before_action :correct_chat_room, only: [:show]  
+  before_action :correct_chat_room, only: [:show]
 
   include ChatRoomsHelper
 
@@ -31,6 +31,12 @@ class ChatRoomsController < ApplicationController
       @chat_room = ChatRoom.create!(initiator_id: initiator.id, recipient_id: chat_room_params[:recipient_id], title: initiator.language)
     end
     show
+  end
+
+  def destroy
+    @chat_room = ChatRoom.find(params[:id])
+    @chat_room.destroy
+    redirect_to :back
   end
 
   private

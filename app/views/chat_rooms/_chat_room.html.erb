@@ -7,7 +7,7 @@
         <p><%= user_convert_title_to_img(chat_room.title) %></p>
       </div>
       <div class="user-content">
-        <%= "#{user.name} #{unread}" %> <%= image_tag('green-dot.png', class:'active', alt: 'Active') if user.active %>
+        <%= "#{user.name} #{unread}" %> <%= image_tag('green-dot.png', class:'active', alt: 'Active') if user.active %> <%= link_to image_tag('red-x-delete.png', alt:  'Delete'), chat_room_url(chat_room), method: 'delete', data: {confirm: "Are you sure you want to delete this chat room? All associated messages and notifications will be deleted along with it."}, class: 'delete-chat'  %>
       </div>
       <!-- need to add css to chat_room.css instead of double br -->
       <br>

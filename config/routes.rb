@@ -33,7 +33,7 @@ Rails.application.routes.draw do
     patch 'update_password',  on: :member
   end
 
-  resources :chat_rooms, only: [:new, :create, :show, :index]
+  resources :chat_rooms, only: [:new, :create, :show, :index, :destroy]
   resources :messages, only: [:create]
 
   mount ActionCable.server => '/cable'
