@@ -1,4 +1,7 @@
 class ChatRoomsController < ApplicationController
+
+  before_action :correct_chat_room, only: [:show]  
+
   include ChatRoomsHelper
 
   def index

@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   #add location
 
-  skip_before_action :require_signed_in!, only: [:new, :create]
-  before_action :correct_user,   only: [:update, :destroy]
+  skip_before_action :require_signed_in!, only: [:new, :create, :reset_password, :create_password]
+  before_action :correct_user,   only: [:update, :destroy, :change_password, :update_password]
 
   def new
     @user_count = User.all.count
@@ -102,10 +102,55 @@ class UsersController < ApplicationController
     redirect_to '/users/new'
   end
 
+  def reset_password
+  end
+
+  def create_password
+    @user = User.find_by(email: user_params[:email])
+    if @user
+      # 6 results in a string length of 8, string length is 4/3 * n
+      @new_password = SecureRandom.urlsafe_base64(6)
+      @user.update(password: @new_password)
+      UserMailer.reset_password(@user, @new_password).deliver_later
+      flash[:success] = "Email sent with password reset instructions"
+      redirect_to :back
+    # maybe make this a pop up in the future
+    else
+      flash[:error] = "No user found with this email address"
+      redirect_to :back
+    end
+  end
+
+  def change_password
+    @user = User.find(params[:id])
+  end
+
+  def update_password
+    # probably need to refactor this, maybe add timer
+    @user = User.find(params[:id])
+    if @user.try(:is_password?, user_params[:temp_password])
+      if user_params[:password] == user_params[:password_confirmation]
+        if @user.update(password: user_params[:password])
+          flash[:success] = "Password updated"
+          redirect_to user_url(@user)
+        else
+          flash[:error] = @user.errors.full_messages.to_sentence
+          redirect_to :back
+        end
+      else
+        flash[:error] = "New password does not match password confirmation"
+        redirect_to :back
+      end
+    else
+      flash[:error] = "Password does not match existing password"
+      redirect_to :back
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image)
+    params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image, :temp_password, :password_confirmation)
   end
 
 end

@@ -7,4 +7,8 @@ class UserMailerPreview < ActionMailer::Preview
   def notify_email
     UserMailer.notify_email(User.first)
   end
+
+  def reset_password
+    UserMailer.reset_password(User.first, SecureRandom.urlsafe_base64(6))
+  end
 end

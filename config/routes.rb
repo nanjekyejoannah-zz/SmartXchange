@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     get 'french', on: :collection
     get 'german', on: :collection
     get 'english', on: :collection
+    get 'reset_password', on: :collection
+    post 'create_password', on: :collection
+    get 'change_password', on: :member
+    patch 'update_password',  on: :member
   end
 
   resources :chat_rooms, only: [:new, :create, :show, :index]

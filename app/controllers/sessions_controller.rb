@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       redirect_to users_url
     else
       flash[:error] = "Invalid email and/or password"
-      render :new
+      redirect_to login_url
     end
   end
 
@@ -83,11 +83,11 @@ class SessionsController < ApplicationController
       flash[:success] = "Welcome to smartXchange"
     elsif @user && !@@existing # register with linkedin and linkedin account
       flash[:error] = "Linkedin account already registered with smartXchange"
-      redirect_to :back and return
+      redirect_to login_url and return
     elsif !@user && @@existing # sign in with Linkedin and no Linkedin account
       flash[:error] = "No Linkedin account registered with smartXchange, please register"
       @@existing = false
-      redirect_to '/users/new' and return
+      redirect_to signup_url and return
     end # @user && @@existing, sign in with linkedin and account exists
     @@existing = false
     sign_in!(@user)
@@ -100,6 +100,5 @@ class SessionsController < ApplicationController
     # maybe add something here about returning if no auth_hash
     request.env['omniauth.auth']
   end
-
 
 end

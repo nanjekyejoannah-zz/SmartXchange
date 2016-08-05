@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  helper_method :current_user, :signed_in?, :correct_user
+  helper_method :current_user, :signed_in?, :correct_user, :correct_chat_room
 
   before_action :require_signed_in!
 
@@ -35,7 +35,13 @@ class ApplicationController < ActionController::Base
 
   def correct_user
     @user = User.find(params[:id])
-    redirect_to :back unless @user == current_user
+    redirect_to users_url unless @user == current_user
+  end
+
+  def correct_chat_room
+    @chat_room = ChatRoom.find(params[:id])
+    # maybe move the end of this method into chat_room.rb
+    redirect_to users_url unless (@chat_room.initiator == current_user || @chat_room.recipient == current_user)
   end
 
 end
