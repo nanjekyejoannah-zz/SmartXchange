@@ -1,3 +1,4 @@
+require 'will_paginate/array'
 class UsersController < ApplicationController
   #add location
 
@@ -24,8 +25,15 @@ class UsersController < ApplicationController
 
   def index
     #will implement matching algorithm here or someone else
-    @users = User.where(language: current_user.language).paginate(page: params[:page], per_page: 12)
+    @users = User.where(language: current_user.language).includes(:linkedin).sort {|u1, u2| sort_method(u2) <=> sort_method(u1) }.paginate(page: params[:page], per_page: 12)
     render :index
+  end
+
+  def sort_method(user)
+    denominator = user.language_level > current_user.language_level ? (user.language_level.to_f * 2) : (current_user.language_level.to_f * 2)
+    value = (user.language_level.to_f + current_user.language_level.to_f) / denominator
+    p "#{user.name}: #{value}"
+    value
   end
 
   def show
@@ -47,43 +55,43 @@ class UsersController < ApplicationController
 
   # maybe refactor these two to be in a frontend framework or move to protected
   def all
-    @users = User.all.paginate(page: params[:page], per_page: 12)
+    @users = User.all.includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   def active
-    @users = User.where(active: true).paginate(page: params[:page], per_page: 12)
+    @users = User.where(active: true).includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   def chat_bots
-    @users = User.where(id: 6).paginate(page: params[:page], per_page: 12)
+    @users = User.where(id: 6).includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   # may get rid of these
   def spanish
-    @users = User.where(language: 'Spanish').paginate(page: params[:page], per_page: 12)
+    @users = User.where(language: 'Spanish').includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   def italian
-    @users = User.where(language: 'Italian').paginate(page: params[:page], per_page: 12)
+    @users = User.where(language: 'Italian').includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   def english
-    @users = User.where(language: 'English').paginate(page: params[:page], per_page: 12)
+    @users = User.where(language: 'English').includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   def french
-    @users = User.where(language: 'French').paginate(page: params[:page], per_page: 12)
+    @users = User.where(language: 'French').includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
   def german
-    @users = User.where(language: 'German').paginate(page: params[:page], per_page: 12)
+    @users = User.where(language: 'German').includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
