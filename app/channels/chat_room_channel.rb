@@ -3,6 +3,7 @@
 require 'cgi'
 class ChatRoomChannel < ApplicationCable::Channel
   include ChatRoomsHelper
+  include UsersHelper
 
   def subscribed
     stream_from "chat_rooms_#{params['chat_room_id']}_channel"
@@ -18,12 +19,12 @@ class ChatRoomChannel < ApplicationCable::Channel
     if message
       ActionCable.server.broadcast "chat_rooms_#{message.chat_room.id}_channel",
                                    message: render_message(message)
+      broadcast_notification(message)
     end
 
-    # for chatbot response, assuming chat bot is always recipient, and chat bot id = 6,
+    # for chatbot response, assuming chat bot is always recipient, and chat bot id = 6, refactor and maybe change check about current_user's message getting through
     chat_room = ChatRoom.find_by(id: data['chat_room_id'])
-    if chat_room.recipient.id == 6
-      p "chat bot response"
+    if chat_room.recipient.id == 6 && message
       response = Pandorabots::API.talk(1409612860083, "uktrivia", CGI.escape(message.body), "chatroom#{chat_room.id}", user_key: "22838106ec021d169fa3cc0bc7f8983a")
       # responds even if error (error is produced in output), may refactor later, and see if its faster to do Message.create!
       response_message = chat_room.recipient.sent_messages.create!(body: response["responses"][0], chat_room_id: chat_room.id)
@@ -31,13 +32,41 @@ class ChatRoomChannel < ApplicationCable::Channel
       if response_message
         ActionCable.server.broadcast "chat_rooms_#{chat_room.id}_channel",
                                      message: render_message(response_message)
+        broadcast_notification(response_message)
       end
     end
 
   end
 
-  def update_notification(data)
-    chat_room_mark_read(data['chat_room_id'], data['notified_id'])
+  def broadcast_notification(message)
+    # maybe refactor and implement a better method than this instance variable in the future
+    @notification = nil
+    # chat room notifications check
+    if chat_room_notification_check(message.chat_room, chat_room_interlocutor(message.chat_room, message.sender))
+      @notification = Notification.create!(
+        notified_id: chat_room_interlocutor(message.chat_room, message.sender).id,
+        notifier_id: message.sender.id,
+        chat_room_id: message.chat_room.id,
+        message_id: message.id
+      )
+    end
+    # using message.sender in code below because of potential conflict if chatbot is responding
+    # broadcast to notifications channel
+    if !@notification.nil?
+      @recipient = chat_room_interlocutor(message.chat_room, message.sender)
+      WebNotificationsChannel.broadcast_to(
+        @recipient,
+        notifications: user_count_unread(@recipient),
+        sound: true
+      )
+      # if sending from this chat room mark last notification from sender as read
+      chat_room_mark_read(message.chat_room.id, message.sender.id)
+      WebNotificationsChannel.broadcast_to(
+        message.sender,
+        notifications: user_count_unread(message.sender),
+        sound: false
+      )
+    end
   end
 
   private

@@ -11,12 +11,6 @@ App.appearance = App.cable.subscriptions.create "AppearanceChannel",
     @disappear()
 
 
-    # @uninstall()
-
-  # Called when the subscription is rejected by the server
-  # rejected: ->
-  #   @uninstall()
-
   appear: ->
     # Calls `AppearanceChannel#appear(data)` on the server
     console.log('appear')
@@ -27,22 +21,3 @@ App.appearance = App.cable.subscriptions.create "AppearanceChannel",
     # Calls `AppearanceChannel#disappear` on the server
     console.log('disappear')
     @perform("disappear")
-  # install: ->
-  #
-  #
-  # uninstall: ->
-    # $(document).off(".appearance")
-    # $(buttonSelector).hide()
-
-  # buttonSelector = "[data-behavior~=appear_away]"
-
-# $(document).on "page:change.appearance", =>
-#   console.log('install')
-#   App.appearance.appear()
-  # @appear()
-
-# $(document).on "click.appearance", buttonSelector, =>
-#   @disappear()
-#   false
-#
-# $(buttonSelector).show()

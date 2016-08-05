@@ -3,6 +3,14 @@
 <head>
   <!-- favicon code -->
     <%= favicon_link_tag 'favicon.ico' %>
+
+  <!-- title code -->
+    <!-- maybe refactor and move this into an application controller helper method -->
+    <% count = user_count_unread(current_user) if signed_in? %>
+    <% @unread = count > 0 ? "(#{count})" : "" if signed_in?%>
+    <% title = signed_in? ? "#{@unread} smartXchange" : "smartXchange" %>
+    <title><%= title %></title>
+
   <!-- Custom Fonts -->
     <!-- <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -32,16 +40,7 @@
   <!-- <meta name="google-site-verification" content="NQxtKzoA5KKmVzYABRTFgfE901qd6F3z1F2-44DfQls" /> -->
 </head>
 <body>
-    <% if signed_in? %>
-      <!-- maybe refactor later  -->
-      <% count = user_count_unread(current_user) %>
-      <% title = count > 0 ? "(#{count}) smartXchange" : "smartXchange"   %>
-      <title><%= title %></title>
-      <%= render partial: '/layouts/header', :locals => { :count_unread => count }  %>
-    <% else %>
-      <%= render partial: '/layouts/header'  %>
-    <% end %>
-
+    <%= render partial: '/layouts/header'  %>
     <div class="container">
       <% if flash %>
         <%= flash_messages %>

@@ -32,7 +32,6 @@ class UsersController < ApplicationController
   def sort_method(user)
     denominator = user.language_level > current_user.language_level ? (user.language_level.to_f * 2) : (current_user.language_level.to_f * 2)
     value = (user.language_level.to_f + current_user.language_level.to_f) / denominator
-    p "#{user.name}: #{value}"
     value
   end
 

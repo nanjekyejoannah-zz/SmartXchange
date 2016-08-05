@@ -10,7 +10,7 @@ module ChatRoomsHelper
   end
 
   # Ensures only 1 notification is created per new message(s) created
-  def chat_room_check (chat_room, receiver)
+  def chat_room_notification_check(chat_room, receiver)
     if chat_room.notifications.where(read: false, notified_id: receiver.id).count > 0
       return false
     end
