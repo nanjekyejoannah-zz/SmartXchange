@@ -5,7 +5,7 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def notify_email
-    UserMailer.notify_email(User.first)
+    UserMailer.notify_email(User.first, 1)
   end
 
   def reset_password

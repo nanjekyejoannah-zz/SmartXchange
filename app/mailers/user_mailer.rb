@@ -8,13 +8,14 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: 'Welcome to smartXchange')
   end
 
-  def notify_email(user)
+  def notify_email(user, notifications)
     # change this to users who want notifications eventually
     @user = user
+    @notifications = notifications
     @url  = 'http://www.smartxchange.es/login'
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo square.png")
-    mail(to: email_with_name, subject: 'Latest updates to smartXchange')
+    mail(to: email_with_name, subject: 'smartXchange Notifications')
   end
 
   def reset_password(user, password)

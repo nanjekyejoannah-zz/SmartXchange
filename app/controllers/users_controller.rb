@@ -96,10 +96,12 @@ class UsersController < ApplicationController
 
   # Call this in rails console to email everyone without redirect_to
   # def notify_all
-  #   redirect_to :back unless current_user.id == 1
+  #   # redirect_to :back unless current_user.id == 1
   #   @users = User.all
   #   @users.each do |user|
-  #     UserMailer.notify_email(user).deliver_now
+  #     if user_count_unread(user) > 0
+  #       UserMailer.notify_email(user, user_count_unread(user)).deliver_now
+  #     end
   #   end
   # end
 
