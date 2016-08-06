@@ -1,7 +1,7 @@
 <!-- Header Row -->
     <!-- maybe refactor this a little -->
     <div class="row">
-      <h4><a href="<%= all_users_url %>">Total Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
+      <h4><a href="<%= all_users_url %>">All Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
         <a href="<%= active_users_url %>">Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span></a>,
         <a href="<%= chat_bots_users_url %>">Chat Bots: <span style="font-weight: 300;"> <%= User.where(id: 6).count %> </span></a>,
         Practicing:
