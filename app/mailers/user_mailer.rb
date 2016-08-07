@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @url  = 'http://www.smartxchange.es/login'
     email_with_name = %("#{@user.name}" <#{@user.email}>)
-    attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo square.png")
+    attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo-square.png")
     mail(to: email_with_name, subject: 'Welcome to smartXchange')
   end
 
@@ -14,7 +14,7 @@ class UserMailer < ApplicationMailer
     @notifications = notifications
     @url  = 'http://www.smartxchange.es/login'
     email_with_name = %("#{@user.name}" <#{@user.email}>)
-    attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo square.png")
+    attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo-square.png")
     mail(to: email_with_name, subject: 'smartXchange Notifications')
   end
 
