@@ -86,8 +86,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'www.smartxchange.es',
-    user_name:            'speterlin12',
-    password:             'sxc_2016',
+    user_name:            'support@smartxchange.es',
+    password:             'sxc_admin',
     authentication:       'plain',
     enable_starttls_auto: true  }
 
