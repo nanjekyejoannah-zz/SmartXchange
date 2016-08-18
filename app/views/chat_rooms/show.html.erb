@@ -32,11 +32,12 @@
      </select>
      To:
      <select id="to-language">
-        <option value="es" <%= 'selected' if @chat_room.title=='Spanish'%> >Spanish</option>
-        <option value="en" <%= 'selected' if @chat_room.title=='English'%> >English</option>
-        <option value="de" <%= 'selected' if @chat_room.title=='German'%> >German</option>
-        <option value="fr" <%= 'selected' if @chat_room.title=='French'%> >French</option>
-        <option value="it" <%= 'selected' if @chat_room.title=='Italian'%> >Italian</option>
+       <!-- assuming the user is always converting into the language they want to practice -->
+        <option value="es" <%= 'selected' if current_user.language=='Spanish'%> >Spanish</option>
+        <option value="en" <%= 'selected' if current_user.language=='English'%> >English</option>
+        <option value="de" <%= 'selected' if current_user.language=='German'%> >German</option>
+        <option value="fr" <%= 'selected' if current_user.language=='French'%> >French</option>
+        <option value="it" <%= 'selected' if current_user.language=='Italian'%> >Italian</option>
       </select>
   </div>
   <!-- may want to refactor this styling and place somewhere else -->
