@@ -1,18 +1,16 @@
-<a href="<%= chat_room_path(chat_room) %>">
-  <div class="chat-room">
+<div class="chat-room">
+<a href="<%= chat_room_path(chat_room) %>" class="chat-room">
     <% unread = chat_room_count_unread(chat_room, current_user) > 0 ? "(#{chat_room_count_unread(chat_room, current_user)})" : "" %>
     <% user = chat_room_interlocutor(chat_room, current_user) %>
       <!-- using user scss here may change to chat css later -->
-        <div class="user-image">
-          <p><%= user_convert_title_to_img(chat_room.title) %></p>
+        <div class="chat-room-image">
+          <%= chat_room_convert_title_to_img(chat_room.title) %>
         </div>
-        <div class="user-content">
-          <%= "#{user.name} #{unread}" %> <%= image_tag('green-dot.png', class:'active', alt: 'Active') if user.active %>
+        <div class="chat-room-content">
+          <p><%= "#{user.name} #{unread}" %> <%= image_tag('green-dot.png', class:'active', alt: 'Active') if user.active %></p>
         </div>
-        <!-- need to add css to chat_room.css instead of double br -->
-        <br>
-        <br>
-  </div>
 </a>
+<!-- may want to center this at a later time, using br tag for now and  comes in fine as is -->
 <br>
 <%= link_to image_tag('red-x-delete.png', alt:  'Delete'), chat_room_url(chat_room), method: 'delete', data: {confirm: "Are you sure you want to delete this chat room? All associated messages and notifications will be deleted along with it."}, class: 'delete-chat-room'  %>
+</div>

@@ -1,6 +1,6 @@
 <!-- this class has no styling at the moment may want to maybe refactor later -->
 <h2 class="chat-room-header"><a href="<%=user_url(@receiver)%>">
-  <%= user_convert_title_to_img(@chat_room.title) %>
+  <%= chat_room_convert_title_to_img(@chat_room.title) %>
   <%= " #{@receiver.name}," %>
   <span style="font-weight:normal">
     <%= " #{user_convert_language_level(@receiver.language_level)}" %>

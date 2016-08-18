@@ -22,4 +22,18 @@ module ChatRoomsHelper
     Notification.where(chat_room_id: chat_room_id, notified_id: notified_id, read: false).update(read: true)
   end
 
+  def chat_room_convert_title_to_img(title)
+    if title == "Spanish"
+      image_tag('spain-flag-circular.png', alt: 'Spanish')
+    elsif title == "Italian"
+      image_tag('italy-flag-circular.png', alt: 'Italian')
+    elsif title == "German"
+      image_tag('germany-flag-circular.png', alt: 'German')
+    elsif title == "English"
+      image_tag('united-kingdom-flag-circular.png', alt: 'English')
+    elsif title == "French"
+      image_tag('france-flag-circular.png', alt: 'French')
+    end
+  end
+
 end

@@ -2,19 +2,45 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-// div
 .chat-room {
-  width: 90%;
-  float: left
+  clear: both;
+  height: 60px;
 }
 
-.chat-room:hover {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+a.chat-room {
+  // bit of a hack until I figure out how to make anchor tag fill entire height of div
+  height: 50px;
+  display: block;
+  width: 80%;
+  // float so that display block doesn't take up the whole width
+  float: left;
+}
+
+.chat-room-image {
+  float: left;
+}
+
+// div
+.chat-room-content {
+  float: left;
+  height: inherit;
+  display: table;
+}
+
+//for aligning image vertically
+.chat-room-content p {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 5px;
 }
 
 // a href tag to delete chat room
 .delete-chat-room {
-  float: right;
+  float: left;
+}
+
+div.chat-room:hover {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #messages {
@@ -34,11 +60,11 @@
 }
 
 .self .message-content {
-    border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .self .message-image {
-    float: right;
+  float: right;
 }
 .self .message-content {
   float: right;

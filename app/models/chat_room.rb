@@ -16,6 +16,8 @@ class ChatRoom < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
+  default_scope -> { order(created_at: :desc) } #may take this out
+
   #to check for any existing chats initiated by you or with you
   scope :involving, -> (user) do
     where("chat_rooms.initiator_id =? OR chat_rooms.recipient_id =?",user.id,user.id)

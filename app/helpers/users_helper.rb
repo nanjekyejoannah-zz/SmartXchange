@@ -21,18 +21,4 @@ module UsersHelper
     end
   end
 
-  def user_convert_title_to_img(title)
-    if title == "Spanish"
-      image_tag('spain-flag.gif', alt: 'Spanish')
-    elsif title == "Italian"
-      image_tag('italy-flag.gif', alt: 'Italian')
-    elsif title == "German"
-      image_tag('germany-flag.gif', alt: 'German')
-    elsif title == "English"
-      image_tag('united-kingdom-flag.jpg', alt: 'English')
-    elsif title == "French"
-      image_tag('france-flag.gif', alt: 'French')
-    end
-  end
-
 end
