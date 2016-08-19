@@ -6,7 +6,7 @@ class ChatRoomsController < ApplicationController
 
   def index
     # Need to refactor and make sql query faster with includes or some other solution
-    @chat_rooms = ChatRoom.involving(current_user).sort {|c1,c2| sort_method(c1) <=> sort_method(c2) }
+    @chat_rooms = ChatRoom.includes(:messages, :notifications, :recipient, :initiator).involving(current_user).sort {|c1,c2| sort_method(c1) <=> sort_method(c2) }
   end
 
   def sort_method(chat_room)
