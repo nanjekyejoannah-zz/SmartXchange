@@ -7,12 +7,15 @@
     <h4>Dear <%= @user.name %>,</h4>
     <p>
       You have <%= @notifications %> new <%= @notifications > 1 ? "notifications" : "notification" %>. <a href="<%= @url %>">Log in</a> to see your unread messages!
-      <br>
     </p>
     <p>
-      Don't forget to follow the latest posts on our <a href="https://twitter.com/smart_xchange">twitter</a> page.
-      Thank you all for your support and keep using the site in your free time at work
-      or at home! <br><br> Sebastian Peterlin <br> Co-founder of smartXchange </p>
+      Make sure to check out the new <a href="<%= @url_tutorial %>">smartxchange website video tutorial</a>, and
+      don't forget to follow the latest posts on our <a href="https://twitter.com/smart_xchange">twitter</a> page.
+    </p>
+    <p>
+      Keep practicing and networking in your free time at work
+      or at home!<br> Sebastian Peterlin <br> Co-founder of smartXchange
+    </p>
 
   </body>
 </html>

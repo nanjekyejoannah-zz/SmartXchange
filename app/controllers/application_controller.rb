@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   def correct_chat_room
     @chat_room = ChatRoom.find(params[:id])
     # maybe move the end of this method into chat_room.rb
-    redirect_to users_url unless (@chat_room.initiator == current_user || @chat_room.recipient == current_user)
+    redirect_to :back unless (@chat_room.initiator == current_user || @chat_room.recipient == current_user)
   end
 
 end

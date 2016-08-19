@@ -13,6 +13,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @notifications = notifications
     @url  = 'http://www.smartxchange.es/login'
+    @url_tutorial = 'http://www.smartxchange.es/about#video'
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo-square.png")
     mail(to: email_with_name, subject: 'smartXchange Notifications')
