@@ -3,13 +3,13 @@
     <div class="container-header">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header page-scroll">
-        <% if signed_in? %>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#smartxchange">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+        <% if signed_in? %>
             <div id="div-item-data" data-item-id="<%= current_user.id %>"></div>
         <% end  %>
         <a class="navbar-brand" href="<%= root_url %>"><%= image_tag('logo.png', alt: 'SmartXchange') %></a>
