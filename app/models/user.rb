@@ -91,13 +91,13 @@ class User < ApplicationRecord
   end
 
   def appear
-    p "appear called in user"
+    # p "appear called in user"
     self.active = true
     self.save!
   end
 
   def disappear
-    p "disappear called in user"
+    # p "disappear called in user"
     self.active = false
     self.save!
   end

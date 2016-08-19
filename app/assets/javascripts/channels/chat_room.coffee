@@ -12,14 +12,14 @@ jQuery(document).on 'turbolinks:load', ->
       },
 
       connected: ->
-        console.log('chatroom - connected')
+        # console.log('chatroom - connected')
         messages_to_bottom()
 
       disconnected: ->
-        console.log('chatroom - disconnected')
+        # console.log('chatroom - disconnected')
 
       received: (data) ->
-          console.log('chatroom - received')
+          # console.log('chatroom - received')
           $last_message = $("#messages .message").last()
           $new_message = $(data['message'])
           # to prevent repeat messages broadcasted may need to refactor later
@@ -32,7 +32,7 @@ jQuery(document).on 'turbolinks:load', ->
           messages_to_bottom()
 
       send_message: (message,chat_room_id) ->
-        console.log('chatroom - send_message')
+        # console.log('chatroom - send_message')
         @perform 'send_message', message: message, chat_room_id: chat_room_id
 
     $('#new_message').submit (e) ->
