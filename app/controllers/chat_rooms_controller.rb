@@ -6,7 +6,12 @@ class ChatRoomsController < ApplicationController
 
   def index
     # Need to refactor and make sql query faster with includes or some other solution
-    @chat_rooms = ChatRoom.involving(current_user)
+    @chat_rooms = ChatRoom.involving(current_user).sort {|c1,c2| sort_method(c1) <=> sort_method(c2) }
+  end
+
+  def sort_method(chat_room)
+    last_modified = chat_room.messages.last ? chat_room.messages.last.created_at : chat_room.created_at
+    Time.now - last_modified
   end
 
   def new

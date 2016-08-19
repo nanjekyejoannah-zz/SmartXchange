@@ -36,6 +36,7 @@ class User < ApplicationRecord
   mount_uploader :image, AvatarUploader
   has_many :notifications, :foreign_key => :notified_id, dependent: :destroy
   has_many :created_notifications, :foreign_key => :notifier_id, class_name: 'Notification', dependent: :destroy
+  # may want to refactor these into one so you can call .chat_rooms for each user
   has_many :initiated_chat_rooms, :foreign_key => :initiator_id, class_name: 'ChatRoom', dependent: :destroy
   has_many :received_chat_rooms, :foreign_key => :recipient_id, class_name: 'ChatRoom', dependent: :destroy
   has_many :sent_messages, :foreign_key => :sender_id, class_name: 'Message', dependent: :destroy
