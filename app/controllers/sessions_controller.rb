@@ -74,13 +74,16 @@ class SessionsController < ApplicationController
 
     @user = User.where(:provider => auth_hash['provider'],
                       :uid => auth_hash['uid'].to_s).first
-    # need to refactor later
+    # need to refactor later, some repeat code
     if !@user && User.where(:email => auth_hash['info']['email']).first # register or sign in with Linkedin and email taken without Linkedin integration
       flash[:error] = "User with this email already exists, please log in and add Linkedin to your profile"
       redirect_to :back and return
     elsif !@user && !@@existing # register with linkedin and no linkedin account
       @user = User.create_with_omniauth(auth_hash)
-      flash[:success] = "Welcome to smartXchange"
+      flash[:success] = "Welcome to smartXchange. Please complete your profile!"
+      @@existing = false
+      sign_in!(@user)
+      redirect_to user_url(@user) and return
     elsif @user && !@@existing # register with linkedin and linkedin account
       flash[:error] = "Linkedin account already registered with smartXchange"
       redirect_to login_url and return

@@ -71,7 +71,6 @@ class User < ApplicationRecord
       industry: auth['extra']['raw_info']['industry'],
       summary: auth['extra']['raw_info']['summary']
     )
-    # flast[:success] = "Welcome to smartXchange!"
     user
   end
 

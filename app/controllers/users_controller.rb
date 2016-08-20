@@ -19,7 +19,7 @@ class UsersController < ApplicationController
       redirect_to users_url
     else
       flash[:error] = @user.errors.full_messages.to_sentence
-      render :new
+      redirect_to signup_url
     end
   end
 
