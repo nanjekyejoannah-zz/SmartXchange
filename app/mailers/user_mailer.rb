@@ -3,6 +3,7 @@ class UserMailer < ApplicationMailer
   def welcome_email(user)
     @user = user
     @url  = 'http://www.smartxchange.es/login'
+    @url_tutorial = 'http://www.smartxchange.es/about#video'
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo-square.png")
     mail(to: email_with_name, subject: 'Welcome to smartXchange')
@@ -17,6 +18,16 @@ class UserMailer < ApplicationMailer
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo-square.png")
     mail(to: email_with_name, subject: 'smartXchange Notifications')
+  end
+
+  def monthly_update(user, notifications)
+    @user = user
+    @notifications = notifications
+    @url  = 'http://www.smartxchange.es/login'
+    @url_tutorial = 'http://www.smartxchange.es/about#video'
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo-square.png")
+    mail(to: email_with_name, subject: 'smartXchange Update')
   end
 
   def reset_password(user, password)

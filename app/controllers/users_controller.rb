@@ -98,9 +98,7 @@ class UsersController < ApplicationController
   #   # redirect_to :back unless current_user.id == 1
   #   @users = User.all
   #   @users.each do |user|
-  #     if user_count_unread(user) > 0
-  #       UserMailer.notify_email(user, user_count_unread(user)).deliver_now
-  #     end
+  #     UserMailer.monthly_update(user, user_count_unread(user)).deliver_now
   #   end
   # end
 

@@ -8,6 +8,10 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.notify_email(User.first, 1)
   end
 
+  def monthly_update
+    UserMailer.monthly_update(User.first, 0)
+  end
+
   def reset_password
     UserMailer.reset_password(User.first, SecureRandom.urlsafe_base64(6))
   end
