@@ -11,8 +11,91 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
 //= require cable
-//= require_tree .
+
+function set_time_zone_offset() {
+    var current_time = new Date();
+    // gets timezone offset in minutes, offset off of GMT
+    document.cookie = 'time_zone='+current_time.getTimezoneOffset();
+}
+set_time_zone_offset()
+
+function translateText(response) {
+  if (response.error) {
+    document.getElementById("translation").innerHTML += "<br>"+response.error.errors[0].message;
+  } else {
+    document.getElementById("translation").innerHTML += "<br>" + response.data.translations[0].translatedText;
+  }
+}
+function getTranslation() {
+  console.log('getTranslation')
+  var newScript = document.createElement('script');
+  newScript.type = 'text/javascript';
+  var sourceText = escape($('#message-body').val());
+  var fromLang = $("select#from-language option:selected").val()
+  var toLang = $("select#to-language option:selected").val()
+  // WARNING: Your API key will be visible in the page source.
+  // To prevent misuse, restrict your key to designated domains or use a
+  // proxy to hide your key.
+  var source = 'https://www.googleapis.com/language/translate/v2?key=AIzaSyD9Ntk7YeNFXaOC7vLIsw8Sq2XaJ1HUnLg&source='+fromLang+'&target='+toLang+'&callback=translateText&q=' + sourceText;
+  newScript.src = source;
+  $('#translation').empty()
+  document.getElementById('translation-section').appendChild(newScript);
+}
+
+function addEventEditPost (edit_post) {
+  $(edit_post).on('click', function(event) {
+    var board_id = $('#board-description').data('board-id');
+    var post_id = $(this).data('post-id');
+    if (!$(this).data('clicked')) {
+      var post_content = $('#post-'+post_id+' .post-text').text();
+      $('#post-'+post_id+' .post-text').remove();
+      // hack job until I find a better solution, can't render js variable in rendered ruby code, server side vs. client side
+      var form = "<div class='post-form edit'><form action='/posts/"+post_id+"' method='post' data-remote='true'>";
+      form += "<input type='hidden' name='_method' value='patch'>";
+      form += "<input type='hidden' name='authenticity_token' value='"+$('meta[name="csrf-token"]')[0].content+"'>";
+      form += "<textarea name='post[content]'>"+post_content+"</textarea>";
+      form += "<input type='hidden' name='post[board_id]' value='"+board_id+"'>"
+      form += "<input type='submit' class='btn btn-primary send-post'  value='Edit'>";
+      form += "</form></div>";
+      $('#post-'+post_id+' .post-votes').after(form);
+      $(this).data('clicked', true);
+    } else {
+      var post_content = $('.post-form.edit textarea').val();
+      $('#post-'+post_id+' .post-form.edit').remove();
+      $('#post-'+post_id+' .post-votes').after("<div class='post-text'>"+post_content+"</div>");
+      $(this).data('clicked', false);
+    }
+    event.preventDefault();
+  })
+}
+function addEventEditComment (edit_comment, post_id) {
+  $(edit_comment).on('click', function(event) {
+    var comment_id = $(this).data('comment-id');
+    if (!$(this).data('clicked')) {
+      var comment_content = $('#comment-'+comment_id+' .comment-text').text();
+      $('#comment-'+comment_id+' .comment-text').remove();
+      // hack job until I find a better solution, can't render js variable in rendered ruby code, server side vs. client side
+      var form = "<div class='comment-form edit'><form action='/comments/"+comment_id+"' method='post' data-remote='true'>";
+      form += "<input type='hidden' name='_method' value='patch'>";
+      form += "<input type='hidden' name='authenticity_token' value='"+$('meta[name="csrf-token"]')[0].content+"'>";
+      form += "<textarea name='comment[content]'>"+comment_content+"</textarea>";
+      form += "<input type='hidden' name='comment[commentable_type]' value='Post'>"
+      form += "<input type='hidden' name='comment[commentable_id]' value='"+post_id+"'>"
+      form += "<input type='submit' class='btn btn-primary send-comment'  value='Edit'>";
+      form += "</form></div>";
+      $('#comment-'+comment_id+' time').before(form);
+      $(this).data('clicked', true);
+    } else {
+      var comment_content = $('.comment-form.edit textarea').val();
+      $('#comment-'+comment_id+' .comment-form.edit').remove();
+      $('#comment-'+comment_id+' time').before("<div class='comment-text'>"+comment_content+"</div>");
+      $(this).data('clicked', false);
+    }
+    event.preventDefault();
+  })
+}

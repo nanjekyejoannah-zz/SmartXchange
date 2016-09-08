@@ -11,15 +11,13 @@
 #
 
 class Message < ApplicationRecord
-  include ChatRoomsHelper
-  # belongs_to :chat
-  belongs_to :sender, class_name: 'User'
-  belongs_to :chat_room
-  has_many :notifications, dependent: :destroy
-  default_scope -> { order(created_at: :asc) } #may take this out
+  validates_presence_of :chat_room_id, :sender_id, :body
+  validates :body, length: {minimum: 1, maximum: 500}
 
-  validates_presence_of :chat_room_id, :sender_id
-  validates :body, presence: true, length: {minimum: 1, maximum: 1000}
+  belongs_to :sender, class_name: 'User'
+  belongs_to :chat_room, touch: true
+
+  default_scope -> { order(created_at: :asc) } 
 
   # after_create_commit { MessageBroadcastJob.perform_later(self) }
 

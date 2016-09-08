@@ -1,4 +1,11 @@
 class UserMailer < ApplicationMailer
+  # Call this in rails console to email everyone without redirect_to, make sure to do <9 every 10min after initial batch due to smtp settings
+  # @users = User.all
+  # @users.each do |user|
+  #   if user_count_unread(user) > 0
+  #     UserMailer.notify_email(user, user_count_unread(user)).deliver_now
+  #   end
+  # end
 
   def welcome_email(user)
     @user = user

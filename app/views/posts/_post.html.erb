@@ -1,0 +1,24 @@
+<li id="post-<%= post.id %>" class="post">
+  <div class="post-content">
+    <div class="post-votes">
+      <%= link_to image_tag("small-plus-sign.png", alt: "Plus Sign"), upvote_post_url(post), remote: true, method: :post %>
+      <%= link_to image_tag("small-minus-sign.png", alt: "Minus Sign"), downvote_post_url(post), remote: true, method: :post %>
+      <!-- bit of a hack job to deal with sql generated column values, maybe refactor -->
+      <div class="vote-numbers"><%= post.respond_to?(:votes_value_sum) ? (post.votes_value_sum != nil ? post.votes_value_sum : 0) : 0 %> (<%= post.respond_to?(:votes_sum) ? (post.votes_sum != nil ? post.votes_sum : 0) : 0 %>)</div>
+    </div>
+    <!-- refactor this later, get rid of p tag, maybe float this div left, change padding -->
+    <div class="post-text"><%= auto_link(post.content) %></div>
+    </p>
+    <time datetime="<%= post.created_at %>">
+      <%= link_to post.author.name, user_url(post.author) %> • <%= post.timestamp %>  <%= link_to "• Edit", "#", class: "edit-post", :data => { :'post-id' => post.id, :clicked => "false" }  if post.author == current_user %>  <%= link_to "• Delete", post_url(post), remote: true, method: :delete, data: {confirm: "Are you sure you want to delete this post? All associated comments and votes will be destroyed as well"} if post.author == current_user %>
+    </time>
+  </div>
+  <% if post.comments.any? %>
+    <div class="post-comments">
+      <ul>
+        <%= render :partial => 'comments/comment', :collection => post.comments %>
+      </ul>
+    </div>
+  <% end %>
+  <%= render :partial => 'comments/form', :locals => {post: post } %>
+</li>

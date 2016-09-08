@@ -5,6 +5,18 @@ module UsersHelper
     user.notifications.where(read: false).count
   end
 
+  def user_count_unread_chat_rooms(user)
+    user.notifications.where(read: false, notifiable_type: 'ChatRoom').count
+  end
+
+  def user_count_unread_posts(user)
+    user.notifications.where(read: false, notifiable_type: 'Post').count
+  end
+
+  def user_first_unread_post(user)
+    user.notifications.where(read: false, notifiable_type: 'Post').last
+  end
+
   def user_convert_language_level(level)
     if level == 1
       return "A1 - beginner"

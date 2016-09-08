@@ -1,0 +1,93 @@
+// Place all the styles related to the boards controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+//doing a padding and margin of 105 here since header occupies 85 and don't want title of post to be at edge of header
+.post {
+  overflow: auto;
+  padding-top: 120px;
+  margin-top: -105px;
+}
+
+.post-content p {
+  font-size: 18px;
+}
+
+.post-votes {
+  float: left;
+}
+
+.vote-numbers {
+  display: inline;
+  vertical-align:middle;
+}
+
+//110px looks pretty good on display
+.post-text {
+  font-weight: 600;
+  font-size: 16px;
+  padding-left: 110px;
+}
+
+.comment-content p {
+  padding: 0;
+  margin: 0;
+}
+
+.post-form {
+  overflow: auto;
+  padding-left: 5px;
+}
+
+.post-form form {
+  display: inline;
+}
+
+.post-form form textarea {
+  height: 50px;
+  width:70%;
+  float:left;
+}
+
+.send-post {
+  float: left;
+  width: 10%;
+  height: 50px;
+}
+
+.comment-form {
+  overflow:auto;
+}
+
+.comment-form form textarea {
+  height: 40px;
+  width: 40%;
+  float: left;
+  margin-left: 35px;
+}
+
+//maybe refactor
+.comment-form.edit form textarea {
+  margin-left: 0px;
+}
+
+.send-comment {
+  float: left;
+  width: 15%;
+  height: 40px;
+}
+
+//800px for tablets and phones.
+@media all and (max-width:800px)
+{
+    .comment-form form textarea {
+      width: 50%;
+    }
+    .send-comment {
+      width: 30%;
+    }
+    .send-post {
+        width: 20%;
+    }
+}

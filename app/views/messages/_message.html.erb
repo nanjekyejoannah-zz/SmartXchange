@@ -3,8 +3,8 @@
     <%= message_convert_level_to_img(message) %>
   </div>
   <div class="message-content">
-    <p><%= message.body %> </p>
-    <time datetime="<%= message.created_at %>" title="<%= message.timestamp %>">
+    <p><%= auto_link(message.body) %> </p>
+    <time datetime="<%= message.created_at %>">
       <%= message.sender.name %> • <%= message.timestamp %>
     </time>
   </div>

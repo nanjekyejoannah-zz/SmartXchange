@@ -101,13 +101,8 @@ div.chat-room:hover {
     hyphens: auto;
 }
 
-.message-content time {
-    font-size: 9px;
-    color: #ccc;
-}
-
 // kept underscore due to form_for automatic class and id creation
-#new_message {
+#message-form {
   overflow: auto;
 }
 
@@ -117,12 +112,11 @@ div.chat-room:hover {
 }
 
 #message-body {
-  width: 90%;
+  width: 80%;
   float:left;
 }
-
 .send-message {
-  width: 10%;
+  width: 20%;
   height: 50px;
-  float: right
+  float: left;
 }

@@ -1,0 +1,8 @@
+if ($('#post-<%= @post.id %> .post-comments').length) {
+  $('#post-<%= @post.id %> .post-comments ul').append("<%= j(render(@comment)) %>")
+} else {
+  $('#post-<%= @post.id %> .post-content').after("<div class='post-comments'><ul><%= j(render(@comment)) %></ul></div>")
+}
+$('#post-<%= @post.id %> .comment-form.new textarea').val("");
+
+addEventEditComment($('#comment-<%= @comment.id %> .edit-comment'), <%= @post.id %>)

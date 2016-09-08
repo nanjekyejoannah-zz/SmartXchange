@@ -1,0 +1,46 @@
+<h1><%= @board.title %></h1>
+<div id="board-description" data-board-id="<%= @board.id %>">
+  <%= @board.description %>
+</div>
+<br>
+
+<% if @posts.any?  %>
+  <div id="posts">
+      <ul>
+        <%= render @posts %>
+      </ul>
+  </div>
+<% end %>
+<br>
+
+<div class="post-form new">
+  <form action="<%= posts_url %>" method="post" data-remote="true">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <textarea name="post[content]"></textarea>
+    <input type="hidden" name="post[board_id]" value="<%= @board.id %>">
+    <input type="submit" class="btn btn-primary send-post"  value="Post">
+  </form>
+</div>
+
+<%= render 'layouts/translate' %>
+
+<script type="text/javascript">
+  $('.edit-post').each(function(index, value) {
+    addEventEditPost(value);
+  })
+  $('.edit-comment').each(function(index, value) {
+    // regex and parents() hack to get post parent may need to change later
+    var post_id = $(value).parents().eq(5)[0].id.match(/[0-9]+/i)[0];
+    addEventEditComment(value, post_id);
+  })
+  // probably need to refactor, location.reload(true) clears cache, currently every time page is loaded cached items are loaded and new, essentially script tag is being called twice
+  <% if @notification %>
+    console.log("notified<%=@notification%>");
+    window.location.href = "<%= board_url %>#post-<%= @notification.notifiable_id %>";
+    <% if @notification.sourceable_type == "Comment" %>
+      $('#comment-<%= @notification.sourceable_id %>').css("background-color", "yellow").width("50%");
+    <% elsif @notification.sourceable_type == "Vote" %>
+      $('#post-<%= @notification.notifiable_id %> .post-content .vote-numbers').css("background-color", "yellow");
+    <% end %>
+  <% end %>
+</script>

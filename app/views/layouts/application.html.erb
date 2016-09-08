@@ -6,13 +6,18 @@
 
   <!-- title code -->
     <!-- maybe refactor and move this into an application controller helper method -->
-    <% count = user_count_unread(current_user) if signed_in? %>
-    <% @unread = count > 0 ? "(#{count})" : "" if signed_in?%>
-    <% title = signed_in? ? "#{@unread} smartXchange" : "smartXchange" %>
+    <% if signed_in? %>
+      <% count_unread_chat_rooms = user_count_unread_chat_rooms(current_user)  %>
+      <% count_unread_posts = user_count_unread_posts(current_user)  %>
+      <% @unread_chat_rooms = count_unread_chat_rooms > 0 ? " (#{count_unread_chat_rooms})" : ""  %>
+      <% @unread_posts = count_unread_posts > 0 ? " (#{count_unread_posts})" : "" %>
+      <% title = (count_unread_chat_rooms + count_unread_posts > 0) ? "(#{count_unread_chat_rooms + count_unread_posts}) smartXchange" : "smartXchange" %>
+    <% else %>
+      <% title = "smartXchange" %>
+    <% end %>
     <title><%= title %></title>
 
-  <!-- Custom Fonts -->
-    <!-- <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+  <!-- Custom Fonts maybe refactor (would like to get rid of them, startbootstrap-agency says I need them)-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -34,10 +39,8 @@
 
   <meta content='<%= signed_in? ? current_user.id : "" %>' name='user-id'/>
   <%= csrf_meta_tags %>
-  <!-- For google search console -->
+  <!-- For google search console (to verify smartxchange gmail account creation)-->
   <meta name="google-site-verification" content="4JWatk4KhWB1Hk0g2IWSL3DErLnLsRU2wM7rio8FGRU" />
-  <!-- old meta tag commented out, new one above is to verify for smartxchange gmail account creation -->
-  <!-- <meta name="google-site-verification" content="NQxtKzoA5KKmVzYABRTFgfE901qd6F3z1F2-44DfQls" /> -->
 
   <!-- for web link display -->
   <meta property="og:type" content="website" />

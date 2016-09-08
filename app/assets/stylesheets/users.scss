@@ -16,11 +16,12 @@
   background-color: #f8f8f8;
   border-radius: 10px;
 }
+// hack job setting width to 250px so that I can position delete button correctly for everyone
 .profile-image {
   float: left;
   overflow: hidden;
-  padding-top: 5px;
-  padding-left: 5px;
+  padding: 5px;
+  width: 250px;
 }
 // need to refactor the black part, overriding something else at the moment
 .user-content {
@@ -32,6 +33,7 @@
 .user-content.profile {
   width: 30%;
   float: left;
+  padding-top: 5px;
 }
 .user-content h1 {
   text-transform: uppercase;
@@ -71,17 +73,20 @@
   vertical-align: middle;
 }
 
-#user-name {
-  width: 200px;
-}
 #user-email {
   width: 200px;
 }
 #user-password {
   width: 200px;
 }
+#user-name {
+  width: 200px;
+}
 #user-age {
   width: 50px;
+}
+#user-title {
+  width: 200px;
 }
 .filter-image {
   // for chrome safari opera
@@ -112,4 +117,26 @@
 .linkedin-button {
   float: left;
   clear: both;
+}
+
+//padding-left of 265 because standard for all images of width 250px and about 15px of padding between image and user-content.profile
+.user-delete {
+  padding-top: 50px;
+  padding-left: 265px;
+  clear: both;
+}
+
+//800px for tablets and phones.
+@media all and (max-width:800px)
+{
+    .user-content.profile, .linkedin-content
+    {
+        display: block;
+        float: none;
+        width: 100%;
+
+    }
+    .user-delete {
+        padding-left: 15px;
+    }
 }

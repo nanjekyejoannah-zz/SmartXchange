@@ -46,8 +46,10 @@ class ChatRoomChannel < ApplicationCable::Channel
       @notification = Notification.create!(
         notified_id: chat_room_interlocutor(message.chat_room, message.sender).id,
         notifier_id: message.sender.id,
-        chat_room_id: message.chat_room.id,
-        message_id: message.id
+        notifiable_type: 'ChatRoom',
+        notifiable_id: message.chat_room.id,
+        sourceable_type: 'Message',
+        sourceable_id: message.id
       )
     end
     # using message.sender in code below because of potential conflict if chatbot is responding
@@ -56,14 +58,16 @@ class ChatRoomChannel < ApplicationCable::Channel
       @recipient = chat_room_interlocutor(message.chat_room, message.sender)
       WebNotificationsChannel.broadcast_to(
         @recipient,
-        notifications: user_count_unread(@recipient),
+        chat_room_notifications: user_count_unread_chat_rooms(@recipient),
+        total_notifications: user_count_unread(@recipient),
         sound: true
       )
       # if sending from this chat room mark last notification from sender as read
-      chat_room_mark_read(message.chat_room.id, message.sender.id)
+      chat_room_mark_read(message.chat_room, message.sender.id)
       WebNotificationsChannel.broadcast_to(
         message.sender,
-        notifications: user_count_unread(message.sender),
+        chat_room_notifications: user_count_unread_chat_rooms(message.sender),
+        total_notifications: user_count_unread(message.sender),
         sound: false
       )
     end

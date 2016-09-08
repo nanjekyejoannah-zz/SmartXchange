@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801212557) do
+ActiveRecord::Schema.define(version: 20160908001615) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -29,6 +29,13 @@ ActiveRecord::Schema.define(version: 20160801212557) do
     t.datetime "updated_at",         null: false
   end
 
+  create_table "boards", force: :cascade do |t|
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "chat_rooms", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at",   null: false
@@ -45,6 +52,18 @@ ActiveRecord::Schema.define(version: 20160801212557) do
     t.index ["created_at"], name: "index_chats_on_created_at"
     t.index ["recipient_id"], name: "index_chats_on_recipient_id"
     t.index ["sender_id"], name: "index_chats_on_sender_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "content",          null: false
+    t.integer  "author_id",        null: false
+    t.string   "commentable_type", null: false
+    t.integer  "commentable_id",   null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["author_id"], name: "index_comments_on_author_id"
+    t.index ["commentable_id"], name: "index_comments_on_commentable_id"
+    t.index ["commentable_type"], name: "index_comments_on_commentable_type"
   end
 
   create_table "educations", force: :cascade do |t|
@@ -94,18 +113,19 @@ ActiveRecord::Schema.define(version: 20160801212557) do
     t.integer  "sender_id"
     t.integer  "chat_room_id"
     t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
-    t.index ["created_at"], name: "index_messages_on_chat_id_and_created_at"
     t.index ["created_at"], name: "index_messages_on_created_at"
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.boolean  "read",         default: false, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.boolean  "read",            default: false, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "notified_id"
     t.integer  "notifier_id"
-    t.integer  "message_id"
-    t.integer  "chat_room_id"
+    t.string   "notifiable_type"
+    t.integer  "notifiable_id"
+    t.string   "sourceable_type"
+    t.integer  "sourceable_id"
     t.index ["notified_id"], name: "index_notifications_on_notified_id"
     t.index ["notifier_id"], name: "index_notifications_on_notifier_id"
   end
@@ -120,6 +140,15 @@ ActiveRecord::Schema.define(version: 20160801212557) do
     t.integer  "full_profile_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.text     "content",    null: false
+    t.integer  "author_id",  null: false
+    t.integer  "board_id",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_posts_on_author_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -140,6 +169,17 @@ ActiveRecord::Schema.define(version: 20160801212557) do
     t.string   "location"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["session_token"], name: "index_users_on_session_token"
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.integer  "value",        limit: 1, null: false
+    t.string   "votable_type",           null: false
+    t.integer  "votable_id",             null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "owner_id"
+    t.index ["votable_id"], name: "index_votes_on_votable_id"
+    t.index ["votable_type"], name: "index_votes_on_votable_type"
   end
 
 end

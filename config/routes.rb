@@ -36,6 +36,13 @@ Rails.application.routes.draw do
   resources :chat_rooms, only: [:new, :create, :show, :index, :destroy]
   resources :messages, only: [:create]
 
+  resource :board, only: [:show]
+  resources :posts, only: [:create, :update, :destroy] do
+    post "upvote", on: :member
+    post "downvote", on: :member
+  end
+  resources :comments, only: [:create, :update, :destroy]
+
   mount ActionCable.server => '/cable'
 
   # You can have the root of your site routed with "root"

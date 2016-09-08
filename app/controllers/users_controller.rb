@@ -14,9 +14,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       sign_in!(@user)
-      flash[:success] = "Welcome to smartXchange!"
-      UserMailer.welcome_email(@user).deliver_later
-      redirect_to users_url
+      welcome_new_user(@user)
     else
       flash[:error] = @user.errors.full_messages.to_sentence
       redirect_to signup_url
@@ -43,7 +41,9 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      flash[:success] = "Profile updated"
+      # maybe refactor so array isn't generated everytime
+      messages = ["Profile updated! Now it's time for some networking", "Profile updated! Bored? Post something to the Board and see how many votes it can get :)"]
+      flash[:success] = messages.sample
       redirect_to user_url(@user)
     else
       flash[:error] = @user.errors.full_messages.to_sentence
@@ -93,15 +93,6 @@ class UsersController < ApplicationController
     render :index
   end
 
-  # Call this in rails console to email everyone without redirect_to
-  # def notify_all
-  #   # redirect_to :back unless current_user.id == 1
-  #   @users = User.all
-  #   @users.each do |user|
-  #     UserMailer.monthly_update(user, user_count_unread(user)).deliver_now
-  #   end
-  # end
-
   def destroy
     User.find(params[:id]).destroy
     flash[:success] = "User deleted."
@@ -112,7 +103,7 @@ class UsersController < ApplicationController
   end
 
   def create_password
-    @user = User.find_by(email: user_params[:email])
+    @user = User.find_by(email: user_params[:email].downcase)
     if @user
       # 6 results in a string length of 8, string length is 4/3 * n
       @new_password = SecureRandom.urlsafe_base64(6)

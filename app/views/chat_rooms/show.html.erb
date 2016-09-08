@@ -1,71 +1,21 @@
 <!-- this class has no styling at the moment may want to maybe refactor later -->
-<h2 class="chat-room-header"><a href="<%=user_url(@receiver)%>">
+<h2><a href="<%=user_url(@receiver)%>">
   <%= chat_room_convert_title_to_img(@chat_room.title) %>
-  <%= " #{@receiver.name}," %>
-  <span style="font-weight:normal">
-    <%= " #{user_convert_language_level(@receiver.language_level)}" %>
-  </span>
+  <%= " #{@receiver.name}" %>
   <%= image_tag('green-dot.png', class:'active', alt: 'Active') if @receiver.active %>
 </a></h2>
 
 <div id="messages" data-chat-room-id="<%= @chat_room.id %>">
-  <%= render @chat_room.messages %>
+  <%= render @messages %>
 </div>
 
 <br/><br/>
 <!-- class and id are new_message -->
-<%= form_for @message, url: '#' do |f| %>
-<%= f.text_area :body, id: 'message-body' %>
-<input class="btn btn-primary send-message"  value="Send">
-<% end %>
-
-<div id="translation-section">
-  <div id="select-languages">
-    From:
-    <select id="from-language">
-      <!-- our target customers are english speakers and spanish speakers, hence the following defaults -->
-       <option value="es" <%= 'selected' if current_user.language=='English'%> >Spanish</option>
-       <option value="en" <%= 'selected' if current_user.language!='English'%> >English</option>
-       <option value="de" >German</option>
-       <option value="fr" >French</option>
-       <option value="it" >Italian</option>
-     </select>
-     To:
-     <select id="to-language">
-       <!-- assuming the user is always converting into the language they want to practice -->
-        <option value="es" <%= 'selected' if current_user.language=='Spanish'%> >Spanish</option>
-        <option value="en" <%= 'selected' if current_user.language=='English'%> >English</option>
-        <option value="de" <%= 'selected' if current_user.language=='German'%> >German</option>
-        <option value="fr" <%= 'selected' if current_user.language=='French'%> >French</option>
-        <option value="it" <%= 'selected' if current_user.language=='Italian'%> >Italian</option>
-      </select>
-  </div>
-  <!-- may want to refactor this styling and place somewhere else -->
-  <div id="translate-button" onclick="getTranslation()" onmouseover="this.style.color='#fec503';" onmouseout="this.style.color='#000000';">
-    Translate
-  </div>
-  <div id="translation"></div>
+<div id="message-form">
+  <%= form_for @message, url: '#' do |f| %>
+  <%= f.text_area :body, id: 'message-body' %>
+  <%= f.submit 'Send', class: 'btn btn-primary send-message' %>
+  <% end %>
 </div>
-<script>
-  function translateText(response) {
-    if (response.error) {
-      document.getElementById("translation").innerHTML += "<br>"+response.error.errors[0].message;
-    } else {
-      document.getElementById("translation").innerHTML += "<br>" + response.data.translations[0].translatedText;
-    }
-  }
-  function getTranslation() {
-    var newScript = document.createElement('script');
-    newScript.type = 'text/javascript';
-    var sourceText = escape($('#message-body').val());
-    var fromLang = $("select#from-language option:selected").val()
-    var toLang = $("select#to-language option:selected").val()
-    // WARNING: Your API key will be visible in the page source.
-    // To prevent misuse, restrict your key to designated domains or use a
-    // proxy to hide your key.
-    var source = 'https://www.googleapis.com/language/translate/v2?key=AIzaSyD9Ntk7YeNFXaOC7vLIsw8Sq2XaJ1HUnLg&source='+fromLang+'&target='+toLang+'&callback=translateText&q=' + sourceText;
-    newScript.src = source;
-    $('#translation').empty()
-    document.getElementById('translation-section').appendChild(newScript);
-  }
-</script>
+
+<%= render 'layouts/translate' %>

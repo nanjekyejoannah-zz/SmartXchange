@@ -17,9 +17,9 @@ module ChatRoomsHelper
     true
   end
 
-  def chat_room_mark_read(chat_room_id, notified_id)
+  def chat_room_mark_read(chat_room, notified_id)
     # assuming only one notification is created per new message(s) in chat room, by above method
-    Notification.where(chat_room_id: chat_room_id, notified_id: notified_id, read: false).update(read: true)
+    chat_room.notifications.where(read: false, notified_id: notified_id).update(read: true)
   end
 
   def chat_room_convert_title_to_img(title)

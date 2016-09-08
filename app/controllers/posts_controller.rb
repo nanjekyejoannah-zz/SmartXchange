@@ -1,0 +1,118 @@
+class PostsController < ApplicationController
+  include UsersHelper
+  include PostsHelper
+
+  before_action :vote_limit, only: [:upvote, :downvote]
+  before_action :post_limit, only: [:create]
+
+  def create
+    @post = current_user.posts.new(post_params)
+    if @post.save
+      # in future may use js along with json to assign values to post.votes_sum and post.votes_value_sum
+      respond_to do |format|
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.js {render "errors"}
+      end
+    end
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      respond_to do |format|
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.js {render "errors"}
+      end
+    end
+  end
+
+  def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def upvote
+    @post = Post.find(params[:id])
+    @vote = Vote.new(value: 1, owner_id: current_user.id)
+    @post.votes << @vote
+    @up_votes = @post.votes.sum(:value)
+    @total_votes = @post.votes.count
+    create_notification(@vote, @post)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def downvote
+    @post = Post.find(params[:id])
+    @vote = Vote.new(value: -1, owner_id: current_user.id)
+    @post.votes << @vote
+    @up_votes = @post.votes.sum(:value)
+    @total_votes = @post.votes.count
+    create_notification(@vote, @post)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:content, :board_id)
+  end
+
+  def vote_limit
+    # limit to 10 votes per 24 hour time period
+    @limit = 10
+    if (current_user.votes.count >= @limit) && ((Time.now - current_user.votes.order(created_at: :desc).limit(@limit).last.created_at)/60/60/24 <= 1)
+      respond_to do |format|
+        format.js {render "vote_limit"}
+      end
+      return false
+    end
+    true
+  end
+
+  def post_limit
+    @limit = 5
+    if (current_user.posts.count >= @limit) && ((Time.now - current_user.posts.order(created_at: :desc).limit(@limit).last.created_at)/60/60/24 <= 1)
+      respond_to do |format|
+        format.js {render "post_limit"}
+      end
+      return false
+    end
+    true
+  end
+
+  def create_notification(vote, post)
+    @notification = nil
+    if post_notification_check(post, vote)
+      @notification = Notification.create!(
+        notified_id: post.author.id,
+        notifier_id: vote.owner.id,
+        notifiable_type: 'Post',
+        notifiable_id: post.id,
+        sourceable_type: 'Vote',
+        sourceable_id: vote.id
+      )
+    end
+    if !@notification.nil?
+      WebNotificationsChannel.broadcast_to(
+        post.author,
+        post_notifications: user_count_unread_posts(post.author),
+        total_notifications: user_count_unread(post.author),
+        sound: true
+      )
+    end
+  end
+
+end

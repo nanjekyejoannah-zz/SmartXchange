@@ -11,12 +11,14 @@
 #
 
 class ChatRoom < ApplicationRecord
+  validates_presence_of :initiator_id, :recipient_id, :title
+
   belongs_to :initiator, class_name: 'User'
   belongs_to :recipient, class_name: 'User'
   has_many :messages, dependent: :destroy
-  has_many :notifications, dependent: :destroy
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
-  default_scope -> { order(created_at: :desc) } #may take this out
+  default_scope -> { order(created_at: :desc) } 
 
   #to check for any existing chats initiated by you or with you
   scope :involving, -> (user) do

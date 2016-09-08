@@ -23,10 +23,8 @@
 #active is for instantaneous feature Tati talked about
 
 class User < ApplicationRecord
-  validates :email, :session_token, :age, :language, presence: true
-  validates :email, uniqueness: true
-  validates :email, length: {maximum: 255}
-  validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
+  validates_presence_of :email, :name, :age, :language, :language_level, :title, :password_digest, :session_token
+  validates :email, uniqueness: true, length: {maximum: 255}, format: {:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/i, on: :create}
   validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates :title, length: {minimum: 5, maximum: 255}
   validates :name, length: {minimum: 2, maximum: 255}
@@ -41,19 +39,26 @@ class User < ApplicationRecord
   has_many :received_chat_rooms, :foreign_key => :recipient_id, class_name: 'ChatRoom', dependent: :destroy
   has_many :sent_messages, :foreign_key => :sender_id, class_name: 'Message', dependent: :destroy
   has_one :linkedin, dependent: :destroy
+  has_many :posts, :foreign_key => :author_id, class_name: 'Post', dependent: :destroy
+  has_many :comments, :foreign_key => :author_id, class_name: 'Comment', dependent: :destroy
+  has_many :votes, :foreign_key => :owner_id, class_name: 'Vote', dependent: :destroy
+
+  before_save :downcase_email
+
+  default_scope -> { order(created_at: :asc) } #may refactor take this out, asc want longest users around first
 
   attr_reader :password
   after_initialize :ensure_session_token
 
   def self.find_by_credentials(user_params)
-    user = User.find_by_email(user_params[:email])
+    user = User.find_by_email(user_params[:email].downcase)
     user.try(:is_password?, user_params[:password]) ? user : nil
   end
 
   def self.create_with_omniauth(auth)
     # ensures email uniqueness validation through if statement in previous method
     # will set password as uid, hack job need to refactor
-    # taking the first public Url image, assuming this is the most recent
+    # taking the first public Url image, assuming this is the most recent, not working at moment refactor
     user = User.create!(
       email: auth['info']['email'],
       password: auth['uid'],
@@ -90,13 +95,13 @@ class User < ApplicationRecord
   end
 
   def appear
-    # p "appear called in user"
+    p "appear called in user"
     self.active = true
     self.save!
   end
 
   def disappear
-    # p "disappear called in user"
+    p "disappear called in user"
     self.active = false
     self.save!
   end
@@ -132,10 +137,16 @@ class User < ApplicationRecord
     )
   end
 
+
+
   protected
 
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64(16)
+  end
+
+  def downcase_email
+    self.email = self.email.downcase
   end
 
 

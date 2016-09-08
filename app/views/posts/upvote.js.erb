@@ -1,0 +1,15 @@
+$('#post-<%= @post.id %> .vote-numbers').text("<%= @up_votes %> (<%= @total_votes %>)");
+
+var prev_numbers = $('#post-<%= @post.id %>').prev().find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
+var prev_up_votes = parseInt(prev_numbers[0]);
+
+var moved = false;
+while (<%= @up_votes%> >= prev_up_votes) {
+  $('#post-<%= @post.id %>').insertBefore($('#post-<%= @post.id %>').prev())
+  var prev_numbers = $('#post-<%= @post.id %>').prev().find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
+  var prev_up_votes = parseInt(prev_numbers[0]);
+  moved = true;
+}
+
+// to track post if it moves up, refactor so moved is not continually assigned valued true
+if (moved) {window.location.href = "<%= board_url %>#post-<%= @post.id %>"};

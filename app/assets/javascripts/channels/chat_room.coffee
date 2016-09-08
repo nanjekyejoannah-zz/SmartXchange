@@ -43,6 +43,7 @@ jQuery(document).on 'turbolinks:load', ->
         textarea.val('')
       e.preventDefault()
       return false
+    # refactor maybe can combine these two in 'keypress click method'
     $(document).on 'keypress', (event) ->
       if event.keyCode is 13
         $('#new_message').submit()

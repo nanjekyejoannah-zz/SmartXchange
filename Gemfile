@@ -19,6 +19,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 5'
+gem 'jquery-turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # don't think I use sdoc
@@ -50,6 +51,9 @@ gem 'pandorabots_api', :git => "https://github.com/speterlin/pb-ruby.git"
 # for linkedin integration
 gem 'omniauth-oauth2', '~> 1.3.1' # fix for redirect_uri issue after logging in with linkedin, would like to get rid of it refactor
 gem 'omniauth-linkedin-oauth2' # could have used regular omniauth works the same
+
+# for recognizing text as links for ruby
+gem 'rails_autolink'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

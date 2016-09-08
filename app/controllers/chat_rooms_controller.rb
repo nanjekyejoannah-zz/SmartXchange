@@ -5,13 +5,12 @@ class ChatRoomsController < ApplicationController
   include ChatRoomsHelper
 
   def index
-    # Need to refactor and make sql query faster with includes or some other solution
-    @chat_rooms = ChatRoom.includes(:messages, :notifications, :recipient, :initiator).involving(current_user).sort {|c1,c2| sort_method(c1) <=> sort_method(c2) }
+    # includes is for chat room helper methods called when listing a chat room
+    @chat_rooms = ChatRoom.includes(:notifications, :recipient, :initiator).involving(current_user).sort {|c1,c2| sort_method(c1) <=> sort_method(c2) }
   end
 
   def sort_method(chat_room)
-    last_modified = chat_room.messages.last ? chat_room.messages.last.created_at : chat_room.created_at
-    Time.now - last_modified
+    Time.now - chat_room.updated_at
   end
 
   def new
@@ -19,20 +18,20 @@ class ChatRoomsController < ApplicationController
   end
 
   def show
-    @chat_room ||= ChatRoom.includes(:messages).find_by(id: params[:id])
+    @chat_room ||= ChatRoom.find_by(id: params[:id])
+    @messages = @chat_room.messages.includes(:sender)
     @message = Message.new
     @receiver = chat_room_interlocutor(@chat_room, current_user)
     # updating notifications for user as they visit chat room
-    chat_room_mark_read(@chat_room.id, current_user.id)
-    render :show
+    chat_room_mark_read(@chat_room, current_user.id)
+    render :show #needed since create action redirects here, needs to know what template to show
   end
 
   def create
     initiator = current_user
-    if ChatRoom.between(initiator,chat_room_params[:recipient_id]).present?
-      @chat_room = ChatRoom.between(initiator,chat_room_params[:recipient_id]).first
-    else
-      # set right now that the title of the chat room is the initiator's
+    @chat_room = ChatRoom.between(initiator,chat_room_params[:recipient_id]).first
+    if !@chat_room
+      # set up right now so that the title of the chat room is the initiator's
       @chat_room = ChatRoom.create!(initiator_id: initiator.id, recipient_id: chat_room_params[:recipient_id], title: initiator.language)
     end
     show
