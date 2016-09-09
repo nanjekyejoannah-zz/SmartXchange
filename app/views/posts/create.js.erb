@@ -1,4 +1,4 @@
-$('.new_post textarea').val("")
+$('.post-form.new textarea').val("")
 $('#posts ul').first().append("<%= j(render(:partial => 'post', :locals => {post: @post})) %>")
 
 addEventEditPost($('#post-<%= @post.id %> .edit-post'));

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   #add location
 
   skip_before_action :require_signed_in!, only: [:new, :create, :reset_password, :create_password]
-  before_action :correct_user,   only: [:update, :destroy, :change_password, :update_password]
+  before_action :correct_user, only: [:update, :destroy, :change_password, :update_password]
 
   def new
     @user_count = User.all.count

@@ -6,11 +6,7 @@ class ChatRoomsController < ApplicationController
 
   def index
     # includes is for chat room helper methods called when listing a chat room
-    @chat_rooms = ChatRoom.includes(:notifications, :recipient, :initiator).involving(current_user).sort {|c1,c2| sort_method(c1) <=> sort_method(c2) }
-  end
-
-  def sort_method(chat_room)
-    Time.now - chat_room.updated_at
+    @chat_rooms = ChatRoom.includes(:notifications, :recipient, :initiator).involving(current_user)
   end
 
   def new

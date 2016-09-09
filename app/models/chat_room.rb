@@ -18,7 +18,7 @@ class ChatRoom < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :notifications, as: :notifiable, dependent: :destroy
 
-  default_scope -> { order(created_at: :desc) } 
+  default_scope -> { order(updated_at: :desc) }
 
   #to check for any existing chats initiated by you or with you
   scope :involving, -> (user) do

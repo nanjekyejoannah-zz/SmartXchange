@@ -20,7 +20,7 @@ class Post < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
   has_many :notifications, as: :notifiable, dependent: :destroy
 
-  default_scope -> { order(created_at: :desc) } 
+  default_scope -> { order(updated_at: :desc) } 
 
 
   def timestamp
