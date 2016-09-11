@@ -1,13 +1,13 @@
 # == Schema Information
 #
-# Table name: posts
+# Table name: follows
 #
-#  id         :integer          not null, primary key
-#  content    :text             not null
-#  owner_id   :integer          not null
-#  board_id   :integer          not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :integer          not null, primary key
+#  follower_id     :integer
+#  followable_type :string
+#  followable_id   :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

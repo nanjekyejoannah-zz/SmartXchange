@@ -12,10 +12,10 @@ App.web_notifications = App.cable.subscriptions.create "WebNotificationsChannel"
     # Client-side which assumes you've already requested
     console.log('web_notifications - received')
     # may need to refactor this, if variable is not defined, don't change otherwise change
-    if (data['chat_room_notifications'])
-      $('#chat-rooms-header a')[0].innerHTML = if data['chat_room_notifications'] > 0 then "Chat Rooms (#{data['chat_room_notifications']})" else "Chat Rooms"
-    if (data['post_notifications'])
-      $('#board-header a')[0].innerHTML = if data['post_notifications'] > 0 then "Board (#{data['post_notifications']})" else "Board"
+    if (data['chat_rooms_notifications'])
+      $('#chat-rooms-header a')[0].innerHTML = if data['chat_rooms_notifications'] > 0 then "Chat Rooms (#{data['chat_rooms_notifications']})" else "Chat Rooms"
+    if (data['posts_notifications'])
+      $('#board-header a')[0].innerHTML = if data['posts_notifications'] > 0 then "Board (#{data['posts_notifications']})" else "Board"
     if (data['total_notifications'])
       $('title')[0].innerHTML = if data['total_notifications'] > 0 then "(#{data['total_notifications']}) smartXchange" else "smartXchange"
     $('#chatAudio')[0].play() if data['sound']

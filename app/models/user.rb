@@ -30,18 +30,21 @@ class User < ApplicationRecord
   validates :name, length: {minimum: 2, maximum: 255}
   validates :age, numericality: { only_integer: true }
   validates :language_level, numericality: {only_integer: true} #may change this since it's a dropdown
-  has_secure_password
   mount_uploader :image, AvatarUploader
   has_many :notifications, :foreign_key => :notified_id, dependent: :destroy
   has_many :created_notifications, :foreign_key => :notifier_id, class_name: 'Notification', dependent: :destroy
+  has_many :posts_notifications, -> { where read: false, notifiable_type: 'Post'}, :foreign_key => :notified_id, class_name: 'Notification'
+  has_many :chat_rooms_notifications, -> { where read: false, notifiable_type: 'ChatRoom'}, :foreign_key => :notified_id, class_name: 'Notification'
   # may want to refactor these into one so you can call .chat_rooms for each user
   has_many :initiated_chat_rooms, :foreign_key => :initiator_id, class_name: 'ChatRoom', dependent: :destroy
   has_many :received_chat_rooms, :foreign_key => :recipient_id, class_name: 'ChatRoom', dependent: :destroy
   has_many :sent_messages, :foreign_key => :sender_id, class_name: 'Message', dependent: :destroy
   has_one :linkedin, dependent: :destroy
-  has_many :posts, :foreign_key => :author_id, class_name: 'Post', dependent: :destroy
-  has_many :comments, :foreign_key => :author_id, class_name: 'Comment', dependent: :destroy
+  has_many :posts, :foreign_key => :owner_id, class_name: 'Post', dependent: :destroy
+  has_many :comments, :foreign_key => :owner_id, class_name: 'Comment', dependent: :destroy
   has_many :votes, :foreign_key => :owner_id, class_name: 'Vote', dependent: :destroy
+  has_many :follows, :foreign_key => :follower_id, class_name: 'Follow', dependent: :destroy
+  has_many :followed_posts, through: :follows, source: :followable, source_type: 'Post'
 
   before_save :downcase_email
 

@@ -6,15 +6,15 @@ module UsersHelper
   end
 
   def user_count_unread_chat_rooms(user)
-    user.notifications.where(read: false, notifiable_type: 'ChatRoom').count
+    user.chat_rooms_notifications.count
   end
 
   def user_count_unread_posts(user)
-    user.notifications.where(read: false, notifiable_type: 'Post').count
+    user.posts_notifications.count
   end
 
   def user_first_unread_post(user)
-    user.notifications.where(read: false, notifiable_type: 'Post').last
+    user.posts_notifications.first
   end
 
   def user_convert_language_level(level)

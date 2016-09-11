@@ -57,4 +57,44 @@ class ApplicationController < ActionController::Base
     redirect_to user_url(user)
   end
 
+  def create_post_notifications(vote_or_comment_or_follow, post)
+    # first notification for post owner then for followers
+    create_post_notification(vote_or_comment_or_follow, post) unless post.owner == vote_or_comment_or_follow.owner
+    if post.followers.any?
+      post.followers.each do |follower|
+        next if vote_or_comment_or_follow.owner == follower
+        create_post_notification(vote_or_comment_or_follow, post, follower)
+      end
+    end
+  end
+
+  def create_post_notification(vote_or_comment_or_follow, post, follower = nil)
+    @notification = nil
+    # maybe refactor, notified only placed here so don't have to declare as an instance variable
+    notified = follower ? follower : post.owner
+    if post_notification_check(vote_or_comment_or_follow, post, follower)
+      @notification = Notification.create!(
+        notified_id: notified.id,
+        notifier_id: vote_or_comment_or_follow.owner.id,
+        notifiable_type: 'Post',
+        notifiable_id: post.id,
+        sourceable_type: vote_or_comment_or_follow.class.name,
+        sourceable_id: vote_or_comment_or_follow.id
+      )
+    end
+    if !@notification.nil?
+      WebNotificationsChannel.broadcast_to(
+        notified,
+        posts_notifications: user_count_unread_posts(notified),
+        total_notifications: user_count_unread(notified),
+        sound: true
+      )
+    end
+  end
+
+  def destroy_post_notifications(follow, post)
+    # destroy all post notifications for the follower if it exists, maybe refactor, doesn't matter if its read or not
+    post.notifications.where(sourceable_type: 'Follow', sourceable_id: follow.id).destroy_all
+  end
+
 end

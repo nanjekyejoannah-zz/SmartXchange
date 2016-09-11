@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
     if @comment.save
       # assuming that the comment is for a post, will have to add code if add comment on a comment
       @post = @comment.commentable
-      create_notification(@comment, @post)
+      create_post_notifications(@comment, @post)
       respond_to do |format|
         format.js
       end
@@ -58,26 +58,5 @@ class CommentsController < ApplicationController
     true
   end
 
-  def create_notification(comment, post)
-    @notification = nil
-    if post_notification_check(post, comment)
-      @notification = Notification.create!(
-        notified_id: post.author.id,
-        notifier_id: comment.author.id,
-        notifiable_type: 'Post',
-        notifiable_id: post.id,
-        sourceable_type: 'Comment',
-        sourceable_id: comment.id
-      )
-    end
-    if !@notification.nil?
-      WebNotificationsChannel.broadcast_to(
-        post.author,
-        post_notifications: user_count_unread_posts(post.author),
-        total_notifications: user_count_unread(post.author),
-        sound: true
-      )
-    end
-  end
 
 end

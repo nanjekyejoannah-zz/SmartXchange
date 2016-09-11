@@ -4,7 +4,7 @@
 #
 #  id               :integer          not null, primary key
 #  content          :text             not null
-#  author_id        :integer          not null
+#  owner_id         :integer          not null
 #  commentable_type :string           not null
 #  commentable_id   :integer          not null
 #  created_at       :datetime         not null
@@ -12,15 +12,15 @@
 #
 
 class Comment < ApplicationRecord
-  validates_presence_of :content, :author_id, :commentable
+  validates_presence_of :content, :owner_id, :commentable
   validates :content, length: {minimum: 5, maximum: 255}
 
-  belongs_to :author, class_name: 'User'
+  belongs_to :owner, class_name: 'User'
   belongs_to :commentable, polymorphic: true, touch: true
   # only doing has_one notification here because can't delete vote or message
   has_one :notification, as: :sourceable, dependent: :destroy
 
-  default_scope -> { order(created_at: :asc) } 
+  default_scope -> { order(created_at: :asc) }
 
   def timestamp
     created_at.strftime('%H:%M:%S %d %B %Y')

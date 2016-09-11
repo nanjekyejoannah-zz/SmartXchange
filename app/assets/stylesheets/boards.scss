@@ -30,30 +30,22 @@
   padding-left: 110px;
 }
 
-.comment-content p {
-  padding: 0;
-  margin: 0;
-}
-
-.post-form {
-  overflow: auto;
-  padding-left: 5px;
-}
-
-.post-form form {
+.post-list-followers {
   display: inline;
 }
 
-.post-form form textarea {
-  height: 50px;
-  width:70%;
-  float:left;
+.post-list-followers ul {
+  display: inline;
+  padding: 0px;
 }
 
-.send-post {
-  float: left;
-  width: 10%;
-  height: 50px;
+.post-list-followers li {
+  display: inline;
+}
+
+.comment-content p {
+  padding: 0;
+  margin: 0;
 }
 
 .comment-form {
@@ -76,6 +68,27 @@
   float: left;
   width: 15%;
   height: 40px;
+}
+
+.post-form {
+  overflow: auto;
+  padding-left: 5px;
+}
+
+.post-form form {
+  display: inline;
+}
+
+.post-form form textarea {
+  height: 50px;
+  width:70%;
+  float:left;
+}
+
+.send-post {
+  float: left;
+  width: 10%;
+  height: 50px;
 }
 
 //800px for tablets and phones.

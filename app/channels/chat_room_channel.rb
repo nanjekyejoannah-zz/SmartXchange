@@ -58,7 +58,7 @@ class ChatRoomChannel < ApplicationCable::Channel
       @recipient = chat_room_interlocutor(message.chat_room, message.sender)
       WebNotificationsChannel.broadcast_to(
         @recipient,
-        chat_room_notifications: user_count_unread_chat_rooms(@recipient),
+        chat_rooms_notifications: user_count_unread_chat_rooms(@recipient),
         total_notifications: user_count_unread(@recipient),
         sound: true
       )
@@ -66,7 +66,7 @@ class ChatRoomChannel < ApplicationCable::Channel
       chat_room_mark_read(message.chat_room, message.sender.id)
       WebNotificationsChannel.broadcast_to(
         message.sender,
-        chat_room_notifications: user_count_unread_chat_rooms(message.sender),
+        chat_rooms_notifications: user_count_unread_chat_rooms(message.sender),
         total_notifications: user_count_unread(message.sender),
         sound: false
       )

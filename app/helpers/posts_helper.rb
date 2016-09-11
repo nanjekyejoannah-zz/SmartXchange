@@ -5,14 +5,14 @@ module PostsHelper
     notification.update(read: true)
   end
 
-  # Ensures only 1 notification is created per new message(s) created and won't be notified if you comment / vote on your own post
-  def post_notification_check(post, vote_or_comment)
-    notifier = vote_or_comment.is_a?(Comment) ? vote_or_comment.author : vote_or_comment.owner
-    return false if post.author ==  notifier
-    # always create notification for comment, but only 1 new notification if it's a vote
-    return true if vote_or_comment.is_a?(Comment)
-    return false if post.notifications.where(read: false, notified_id: post.author.id).count > 0
+  def post_notification_check(vote_or_comment_or_follow, post, follower =  nil)
+    # always create notification for comment, but only 1 new notification if it's a vote or a follow
+    return true if vote_or_comment_or_follow.is_a?(Comment)
+    notified = follower ? follower : post.owner
+    return false if vote_or_comment_or_follow.is_a?(Vote) && post.notifications.where(read: false, notified_id: notified.id, sourceable_type: 'Vote').count > 0
+    return false if vote_or_comment_or_follow.is_a?(Follow) && post.notifications.where(read: false, notified_id: notified.id, sourceable_type: 'Follow').count > 0
     true
   end
+
 
 end

@@ -16,11 +16,11 @@ class BoardsController < ApplicationController
       ) as sums on
       posts.id = sums.votable_id
       order by sums.votes_value_sum, posts.updated_at").reverse
-      # only way to get includes to work on the array returned from the sql statement above
-      ActiveRecord::Associations::Preloader.new.preload(@posts, [:author, :comments, {comments: :author}])
+      # only way to get includes to work on the array returned from the sql statement above, maybe refactor don't need all followers information
+      ActiveRecord::Associations::Preloader.new.preload(@posts, [:owner, :comments, {comments: :owner}, :followers])
     if user_count_unread_posts(current_user) > 0
       @notification = user_first_unread_post(current_user)
-      # maybe change this and chat_room_mark_read to notification_mark_read
+      # maybe refactor this and chat_room_mark_read to notification_mark_read, and delete notification
       post_mark_read(@notification)
     end
   end

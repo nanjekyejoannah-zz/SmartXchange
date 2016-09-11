@@ -46,7 +46,7 @@ class PostsController < ApplicationController
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
     @total_votes = @post.votes.count
-    create_notification(@vote, @post)
+    create_post_notifications(@vote, @post)
     respond_to do |format|
       format.js
     end
@@ -58,7 +58,37 @@ class PostsController < ApplicationController
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
     @total_votes = @post.votes.count
-    create_notification(@vote, @post)
+    create_post_notifications(@vote, @post)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def follow
+    @post = Post.find(params[:id])
+    @follow = Follow.new(follower_id: current_user.id)
+    @post.follows << @follow
+    create_post_notifications(@follow, @post)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def unfollow
+    @post = Post.find(params[:id])
+    # should be only 1 follows per person per post, may need to refactor
+    @follow = @post.follows.where(follower_id: current_user.id).first
+    @follow.destroy
+    # if had one notification per follow could just call this as dependent destroy in follow model, wouldn't need it if didn't have unfollow
+    destroy_post_notifications(@follow, @post)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def followers
+    @post = Post.find(params[:id])
+    @followers = @post.followers
     respond_to do |format|
       format.js
     end
@@ -91,28 +121,6 @@ class PostsController < ApplicationController
       return false
     end
     true
-  end
-
-  def create_notification(vote, post)
-    @notification = nil
-    if post_notification_check(post, vote)
-      @notification = Notification.create!(
-        notified_id: post.author.id,
-        notifier_id: vote.owner.id,
-        notifiable_type: 'Post',
-        notifiable_id: post.id,
-        sourceable_type: 'Vote',
-        sourceable_id: vote.id
-      )
-    end
-    if !@notification.nil?
-      WebNotificationsChannel.broadcast_to(
-        post.author,
-        post_notifications: user_count_unread_posts(post.author),
-        total_notifications: user_count_unread(post.author),
-        sound: true
-      )
-    end
   end
 
 end

@@ -40,6 +40,9 @@ Rails.application.routes.draw do
   resources :posts, only: [:create, :update, :destroy] do
     post "upvote", on: :member
     post "downvote", on: :member
+    post "follow", on: :member
+    post "unfollow", on: :member
+    get "followers", on: :member
   end
   resources :comments, only: [:create, :update, :destroy]
 

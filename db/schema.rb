@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908001615) do
+ActiveRecord::Schema.define(version: 20160910143201) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -56,14 +56,14 @@ ActiveRecord::Schema.define(version: 20160908001615) do
 
   create_table "comments", force: :cascade do |t|
     t.text     "content",          null: false
-    t.integer  "author_id",        null: false
+    t.integer  "owner_id",         null: false
     t.string   "commentable_type", null: false
     t.integer  "commentable_id",   null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
     t.index ["commentable_type"], name: "index_comments_on_commentable_type"
+    t.index ["owner_id"], name: "index_comments_on_owner_id"
   end
 
   create_table "educations", force: :cascade do |t|
@@ -77,6 +77,17 @@ ActiveRecord::Schema.define(version: 20160908001615) do
     t.integer  "full_profile_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer  "follower_id"
+    t.string   "followable_type"
+    t.integer  "followable_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["followable_id"], name: "index_follows_on_followable_id"
+    t.index ["followable_type"], name: "index_follows_on_followable_type"
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "full_profiles", force: :cascade do |t|
@@ -144,11 +155,11 @@ ActiveRecord::Schema.define(version: 20160908001615) do
 
   create_table "posts", force: :cascade do |t|
     t.text     "content",    null: false
-    t.integer  "author_id",  null: false
+    t.integer  "owner_id",   null: false
     t.integer  "board_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["author_id"], name: "index_posts_on_author_id"
+    t.index ["owner_id"], name: "index_posts_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|

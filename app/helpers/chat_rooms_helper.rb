@@ -18,7 +18,7 @@ module ChatRoomsHelper
   end
 
   def chat_room_mark_read(chat_room, notified_id)
-    # assuming only one notification is created per new message(s) in chat room, by above method
+    # assuming only one notification is created per new message(s) in chat room, by above method, maybe refactor to delete notification
     chat_room.notifications.where(read: false, notified_id: notified_id).update(read: true)
   end
 

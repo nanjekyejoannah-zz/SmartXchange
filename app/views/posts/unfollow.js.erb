@@ -1,0 +1,9 @@
+$('#post-<%= @post.id %> .post-content time .post-unfollow').remove()
+$('#post-<%= @post.id %> .post-content time .post-followers').remove()
+if ($('#post-<%= @post.id %> .post-content time .post-list-followers').length) {
+  $('#post-<%= @post.id %> .post-content time .post-list-followers').remove()
+}
+$('#post-<%= @post.id %> .post-content time').append(
+  '<%= link_to "• Follow", follow_post_url(@post), remote: true, method: :post, class: "post-follow" %>'
+  + (<%= @post.followers.any? %> ? '<%= link_to "• " + pluralize(@post.followers.count, "Follower"), followers_post_url(@post), remote: true, class: "post-followers"  %>' : '')
+)

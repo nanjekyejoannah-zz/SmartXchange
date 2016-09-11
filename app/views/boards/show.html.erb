@@ -1,6 +1,6 @@
 <h1><%= @board.title %></h1>
 <div id="board-description" data-board-id="<%= @board.id %>">
-  <%= @board.description %>
+  A board where you can post about potential language exchange meetups, your projects (such as kickstarter projects), links to your work (such as art, design, development), and potential jobs / work you have to offer. You can also upvote, downvote, or comment on posts, making someone's (or your own) post more popular. You are limited to 5 posts, 10 votes, and 10 comments per 24 hour period :).
 </div>
 <br>
 
@@ -41,6 +41,8 @@
       $('#comment-<%= @notification.sourceable_id %>').css("background-color", "yellow").width("50%");
     <% elsif @notification.sourceable_type == "Vote" %>
       $('#post-<%= @notification.notifiable_id %> .post-content .vote-numbers').css("background-color", "yellow");
+    <% elsif @notification.sourceable_type == "Follow" %>
+      $('#post-<%= @notification.notifiable_id %> .post-content time .post-followers').css("background-color", "yellow")
     <% end %>
   <% end %>
 </script>

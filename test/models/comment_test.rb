@@ -4,7 +4,7 @@
 #
 #  id               :integer          not null, primary key
 #  content          :text             not null
-#  author_id        :integer          not null
+#  owner_id         :integer          not null
 #  commentable_type :string           not null
 #  commentable_id   :integer          not null
 #  created_at       :datetime         not null
