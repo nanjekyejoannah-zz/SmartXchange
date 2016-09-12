@@ -41,11 +41,11 @@ class PostsController < ApplicationController
   end
 
   def upvote
-    @post = Post.find(params[:id])
+    @post = Post.includes(:votes).find(params[:id])
     @vote = Vote.new(value: 1, owner_id: current_user.id)
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
-    @total_votes = @post.votes.count
+    @total_votes = @post.votes.size
     create_post_notifications(@vote, @post)
     respond_to do |format|
       format.js
@@ -53,11 +53,11 @@ class PostsController < ApplicationController
   end
 
   def downvote
-    @post = Post.find(params[:id])
+    @post = Post.includes(:votes).find(params[:id])
     @vote = Vote.new(value: -1, owner_id: current_user.id)
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
-    @total_votes = @post.votes.count
+    @total_votes = @post.votes.size
     create_post_notifications(@vote, @post)
     respond_to do |format|
       format.js

@@ -29,9 +29,4 @@ class Post < ApplicationRecord
     created_at.strftime('%H:%M:%S %d %B %Y')
   end
 
-  def add_attributes
-    @votes_sum = self.votes.count
-    @votes_value_sum = self.votes.sum(:value)
-  end
-
 end
