@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910143201) do
+ActiveRecord::Schema.define(version: 20160912033322) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -42,6 +42,9 @@ ActiveRecord::Schema.define(version: 20160910143201) do
     t.datetime "updated_at",   null: false
     t.integer  "initiator_id"
     t.integer  "recipient_id"
+    t.index ["initiator_id"], name: "index_chat_rooms_on_initiator_id"
+    t.index ["recipient_id"], name: "index_chat_rooms_on_recipient_id"
+    t.index ["updated_at"], name: "index_chat_rooms_on_updated_at"
   end
 
   create_table "chats", force: :cascade do |t|
@@ -61,8 +64,8 @@ ActiveRecord::Schema.define(version: 20160910143201) do
     t.integer  "commentable_id",   null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.index ["commentable_id"], name: "index_comments_on_commentable_id"
-    t.index ["commentable_type"], name: "index_comments_on_commentable_type"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["created_at"], name: "index_comments_on_created_at"
     t.index ["owner_id"], name: "index_comments_on_owner_id"
   end
 
@@ -85,8 +88,7 @@ ActiveRecord::Schema.define(version: 20160910143201) do
     t.integer  "followable_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["followable_id"], name: "index_follows_on_followable_id"
-    t.index ["followable_type"], name: "index_follows_on_followable_type"
+    t.index ["followable_type", "followable_id"], name: "index_follows_on_followable_type_and_followable_id"
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
@@ -137,8 +139,10 @@ ActiveRecord::Schema.define(version: 20160910143201) do
     t.integer  "notifiable_id"
     t.string   "sourceable_type"
     t.integer  "sourceable_id"
+    t.index ["created_at"], name: "index_notifications_on_created_at"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["notifiable_type"], name: "index_notifications_on_notifiable_type"
     t.index ["notified_id"], name: "index_notifications_on_notified_id"
-    t.index ["notifier_id"], name: "index_notifications_on_notifier_id"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -160,6 +164,7 @@ ActiveRecord::Schema.define(version: 20160910143201) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_posts_on_owner_id"
+    t.index ["updated_at"], name: "index_posts_on_updated_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -189,8 +194,8 @@ ActiveRecord::Schema.define(version: 20160910143201) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "owner_id"
-    t.index ["votable_id"], name: "index_votes_on_votable_id"
-    t.index ["votable_type"], name: "index_votes_on_votable_type"
+    t.index ["owner_id"], name: "index_votes_on_owner_id"
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable_type_and_votable_id"
   end
 
 end

@@ -17,7 +17,7 @@ class Message < ApplicationRecord
   belongs_to :sender, class_name: 'User'
   belongs_to :chat_room, touch: true
 
-  default_scope -> { order(created_at: :asc) } 
+  default_scope -> { order(created_at: :asc) }
 
   # after_create_commit { MessageBroadcastJob.perform_later(self) }
 
