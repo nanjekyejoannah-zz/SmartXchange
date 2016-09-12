@@ -13,7 +13,7 @@ App.web_notifications = App.cable.subscriptions.create "WebNotificationsChannel"
     console.log('web_notifications - received')
     # may need to refactor this, if variable is not defined, don't change otherwise change
     if (data['chat_rooms_notifications'])
-      $('#chat-rooms-header a')[0].innerHTML = if data['chat_rooms_notifications'] > 0 then "Chat Rooms (#{data['chat_rooms_notifications']})" else "Chat Rooms"
+      $('#chat-rooms-header a')[0].innerHTML = if data['chat_rooms_notifications'] > 0 then "Messages (#{data['chat_rooms_notifications']})" else "Messages"
     if (data['posts_notifications'])
       $('#board-header a')[0].innerHTML = if data['posts_notifications'] > 0 then "Board (#{data['posts_notifications']})" else "Board"
     if (data['total_notifications'])
