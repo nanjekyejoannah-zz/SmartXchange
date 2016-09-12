@@ -9,7 +9,7 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def monthly_update
-    UserMailer.monthly_update(User.first, 0)
+    UserMailer.monthly_update(User.first, 1)
   end
 
   def reset_password

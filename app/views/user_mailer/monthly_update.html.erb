@@ -7,29 +7,23 @@
     <h4>Dear <%= @user.name %>,</h4>
     <% if @notifications > 0  %>
       <p>
-        You have <%= @notifications %> new <%= @notifications > 1 ? "notifications" : "notification" %>. <a href="<%= @url %>">Log in</a> to see your unread messages!
+        You have <%= pluralize(@notifications, "new notification") %>. <a href="<%= @url %>">Log in</a> to see your unread messages and track your posts!
       </p>
     <% end %>
     <p>
-      After launching 2 months ago, we have more than doubled our user base from 29 to 68 users!
-      Since last month, we have: <br>
-      -added Linkedin integration, allowing you to share and view others' basic Linkedin profile information. <br>
-      -improved the design of the landing (Network) page and the chat rooms page.<br>
-      -made the website more mobile friendly, with an improved look and feel for when you're not on your desktop or labtop.<br>
-      -added a support email: support@smartxchange.es which potential and existing users can email at any time with inquiries.<br>
-      -greatly improved notifications so that you are notified of incoming messages no matter what page you are on while navigating the site. These notifications will alert you via sound and by changing the header and title of the website.<br>
-      -implemented the beta version of the matching algorithm, now showing you your best potential language practice partners (on the Network page) in order based on their closeness in language level.<br>
-      -added delete buttons for chat rooms, users, and linkedin information, allowing you to delete chat rooms (and associated messages and notifications), your account (and associated chat rooms, messages, and notifications), and your Linkedin information. Please note that deleting Linkedin information will prevent you from being able to sign in if you registered with Linkedin.<br>
-      -and lastly, added the ability for you to reset your password if you have forgotten your password or wish to change your password.
+      I am very excited to introduce smartXchange's newest feature: Board. Board is a place where everyone in the smartXchange community can
+      post and view posts about potential language exchange meetups, your projects (such as Kickstarter projects), links to your work (such as art, design, development),
+      and potential jobs / work you have to offer. You can also upvote or downvote a post (making someone's or your own post more popular), comment on a post,
+      and follow a post so that you receive all notifications for that post. You are limited to 5 posts, 10 votes, and 10 comments per 24 hour period :).
+      If you have doubts on how to use the Board, check out the 5min <a href="<%= @url_board_tutorial %>">smartXchange board tutorial</a>
     </p>
     <p>
-      In the coming month, we are working on making the site more mobile friendly, adding more features to the landing (Network) page, and implementing a chat room for all active users to participate in and where you can share links to kickstarter projects or applications you are working on to gain awareness and (potential) funding.
+      Other new features: A much improved mobile feel, every page is now mobile friendly so the website can be easily used on a smartphone or tablet. A smartXchange mobile tutorial
+      will be coming soon :). We also improved speed and security by making database queries (searches) faster and safer, with less queries performed for the same action and more security checks.
+      Lastly, we added the ability to display links on your profile (in the title/profession section) and added time zone localization with time now displayed in your local time zone.
     </p>
     <p>
-      Finally, and what I am very excited about, is our chatbot competition. We will be allowing users to upload chatbots to the platform that can tell jokes, play trivia, and help users learn a particular language in an innovative and fun way using artificial intelligence and algorithms. If anyone is interested please respond to this email with the title "chatbot Interest" and I will explain the guidelines and more information regarding making a chatbot.
-    </p>
-    <p>
-      Make sure to check out the new <a href="<%= @url_tutorial %>">smartxchange website video tutorial</a>, and
+      If you haven't already, make sure to check out the <a href="<%= @url_tutorial %>">smartXchange website video tutorial</a>, and
       don't forget to follow the latest posts on our <a href="https://twitter.com/smart_xchange">twitter</a> page.
     </p>
     <p>

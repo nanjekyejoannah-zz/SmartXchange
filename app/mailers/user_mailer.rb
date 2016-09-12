@@ -1,10 +1,8 @@
 class UserMailer < ApplicationMailer
   # Call this in rails console to email everyone without redirect_to, make sure to do <9 every 10min after initial batch due to smtp settings
   # @users = User.all
-  # @users.each do |user|
-  #   if user_count_unread(user) > 0
-  #     UserMailer.notify_email(user, user_count_unread(user)).deliver_now
-  #   end
+  # @users[0..48].each do |user|
+  #     UserMailer.monthly_update(user, user_count_unread(user)).deliver_now
   # end
 
   def welcome_email(user)
@@ -32,9 +30,10 @@ class UserMailer < ApplicationMailer
     @notifications = notifications
     @url  = 'http://www.smartxchange.es/login'
     @url_tutorial = 'http://www.smartxchange.es/about#video'
+    @url_board_tutorial = 'http://www.smartxchange.es/about#video-board'
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     attachments['logo.jpg'] = File.read("#{Rails.root}/app/assets/images/logo-square.png")
-    mail(to: email_with_name, subject: 'smartXchange Update')
+    mail(to: email_with_name, subject: 'smartXchange introduces Board')
   end
 
   def reset_password(user, password)
