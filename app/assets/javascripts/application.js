@@ -32,7 +32,6 @@ function translateText(response) {
   }
 }
 function getTranslation() {
-  console.log('getTranslation')
   var newScript = document.createElement('script');
   newScript.type = 'text/javascript';
   var sourceText = escape($('#message-body').val());

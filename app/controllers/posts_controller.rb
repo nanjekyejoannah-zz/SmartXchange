@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.new(post_params)
     if @post.save
-      # in future may use js along with json to assign values to post.votes_sum and post.votes_value_sum
+      # in future may use js along with json to assign values to post.votes_count and post.votes_value_sum
       respond_to do |format|
         format.js
       end

@@ -16,7 +16,7 @@
 <div class="post-form new">
   <form action="<%= posts_url %>" method="post" data-remote="true">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <textarea name="post[content]"></textarea>
+    <textarea id="message-body" name="post[content]"></textarea>
     <input type="hidden" name="post[board_id]" value="<%= @board.id %>">
     <input type="submit" class="btn btn-primary send-post"  value="Post">
   </form>

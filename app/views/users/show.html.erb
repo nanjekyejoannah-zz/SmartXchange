@@ -61,7 +61,7 @@
           <br>
           <%= form_for @chat_room do |f| %>
             <%= f.hidden_field :recipient_id, :value => @user.id %>
-            <%= f.submit "Enter Chatroom", class: 'btn btn-primary' %>
+            <%= f.submit "Message", class: 'btn btn-primary' %>
           <% end %>
 
         <% end %>
