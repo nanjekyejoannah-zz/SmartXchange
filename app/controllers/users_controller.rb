@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:update, :destroy, :change_password, :update_password]
 
   def new
-    @user_count = User.all.count
+    @user_count = User.all.count - (User.all.count % 10)
     redirect_to users_url if signed_in?
   end
 
