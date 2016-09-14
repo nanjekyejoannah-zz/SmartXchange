@@ -1,7 +1,7 @@
 $('#post-<%= @post.id %> .post-content time .post-followers').remove()
 $('#post-<%= @post.id %> .post-content time').append(
   '<div class="post-list-followers">'+
-    '<a href="#" class="hide-post-list-followers"> Hide </a>' +
+    '<a href="#" class="hide-post-list-followers">• Hide • </a>' +
     '<ul>' +
       <% @followers.each do |follower| %>
         '<li><%= link_to follower.name, user_url(follower) %>, </li>' +

@@ -2,3 +2,19 @@ $('.post-form.new textarea').val("")
 $('#posts ul').first().append("<%= j(render(:partial => 'post', :locals => {post: @post})) %>")
 
 addEventEditPost($('#post-<%= @post.id %> .edit-post'));
+
+// Upvotes will always be 0 for new post
+var up_votes = 0;
+var prev_numbers = $('#post-<%= @post.id %>').prev().find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
+var prev_up_votes = parseInt(prev_numbers[0]);
+
+var moved = false;
+while (up_votes >= prev_up_votes) {
+  $('#post-<%= @post.id %>').insertBefore($('#post-<%= @post.id %>').prev())
+  var prev_numbers = $('#post-<%= @post.id %>').prev().find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
+  var prev_up_votes = parseInt(prev_numbers[0]);
+  if (!moved) {moved = true};
+}
+
+// to track post if it moves up, refactor so moved is not continually assigned valued true
+if (moved) {window.location.href = "<%= board_url %>#post-<%= @post.id %>"};
