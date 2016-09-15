@@ -10,8 +10,8 @@ class BoardsController < ApplicationController
     @posts = Post.find_by_sql("
       select *
       from posts
-      left join ( 
-        select votable_id, count(votable_id) as votes_count, ifnull(sum(value),0) as votes_value_sum
+      left join (
+        select votable_id, count(votable_id) as votes_count, COALESCE(sum(value),0) as votes_value_sum
         from votes
         group by votable_id
       ) as sums on
