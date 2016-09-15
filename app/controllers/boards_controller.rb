@@ -13,7 +13,6 @@ class BoardsController < ApplicationController
       left join (
         select votable_id, count(votable_id) as votes_count, coalesce(sum(value),0) as votes_value_sum
         from votes
-        where null is not null
         group by votable_id
       ) as sums on
       posts.id = sums.votable_id
