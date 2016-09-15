@@ -36,7 +36,9 @@ class ChatRoomsController < ApplicationController
   def destroy
     @chat_room = ChatRoom.find(params[:id])
     @chat_room.destroy
-    redirect_to :back
+    respond_to  do |format|
+      format.js
+    end
   end
 
   private

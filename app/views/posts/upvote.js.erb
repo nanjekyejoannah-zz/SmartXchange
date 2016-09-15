@@ -1,5 +1,6 @@
 $('#post-<%= @post.id %> .vote-numbers').text("<%= @up_votes %> (<%= @total_votes %>)");
 
+// refactor both this and create.js.erb use the same code
 var prev_numbers = $('#post-<%= @post.id %>').prev().find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
 var prev_up_votes = parseInt(prev_numbers[0]);
 

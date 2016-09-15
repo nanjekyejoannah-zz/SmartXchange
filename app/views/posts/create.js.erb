@@ -3,7 +3,7 @@ $('#posts ul').first().append("<%= j(render(:partial => 'post', :locals => {post
 
 addEventEditPost($('#post-<%= @post.id %> .edit-post'));
 
-// Upvotes will always be 0 for new post
+// Upvotes will always be 0 for new post, refactor both this and upvote use the same code, maybe sync with downvote as well
 var up_votes = 0;
 var prev_numbers = $('#post-<%= @post.id %>').prev().find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
 var prev_up_votes = parseInt(prev_numbers[0]);
