@@ -17,7 +17,8 @@ class UsersController < ApplicationController
       welcome_new_user(@user)
     else
       flash[:error] = @user.errors.full_messages.to_sentence
-      redirect_to signup_url
+      render :new
+      # redirect_to signup_url
     end
   end
 
@@ -29,7 +30,9 @@ class UsersController < ApplicationController
 
   def sort_method(user)
     denominator = user.language_level > current_user.language_level ? (user.language_level.to_f * 2) : (current_user.language_level.to_f * 2)
-    (user.language_level.to_f + current_user.language_level.to_f) / denominator
+    sort = (user.language_level.to_f + current_user.language_level.to_f) / denominator
+    sort *= 1.5 if current_user.location && user.location && current_user.distance_from(user) < 50
+    sort
   end
 
   def show

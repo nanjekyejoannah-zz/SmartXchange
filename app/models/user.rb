@@ -18,6 +18,8 @@
 #  provider        :string
 #  uid             :string
 #  location        :string
+#  latitude        :float
+#  longitude       :float
 #
 
 #active is for instantaneous feature Tati talked about
@@ -46,7 +48,10 @@ class User < ApplicationRecord
   has_many :follows, :foreign_key => :follower_id, class_name: 'Follow', dependent: :destroy
   has_many :followed_posts, through: :follows, source: :followable, source_type: 'Post'
 
+  geocoded_by :location
+
   before_save :downcase_email
+  after_validation :geocode, if: :location_present_and_changed
 
   default_scope -> { order(created_at: :asc) } #may refactor take this out, asc want longest users around first
 
@@ -150,6 +155,11 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = self.email.downcase
+  end
+
+  def location_present_and_changed
+    return true if (self.location.present? && self.location_changed?)
+    false
   end
 
 

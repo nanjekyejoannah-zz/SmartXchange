@@ -55,6 +55,9 @@ gem 'omniauth-linkedin-oauth2' # could have used regular omniauth works the same
 # for recognizing text as links for ruby
 gem 'rails_autolink'
 
+# for using location in algorithm
+gem 'geocoder'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

@@ -18,6 +18,8 @@
 #  provider        :string
 #  uid             :string
 #  location        :string
+#  latitude        :float
+#  longitude       :float
 #
 
 require 'test_helper'
