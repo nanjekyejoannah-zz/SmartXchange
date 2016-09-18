@@ -4,14 +4,14 @@ class BoardsController < ApplicationController
 
   def show
     @board = Board.first
-    # refactor sql query, right now orders by sum(value) then updated_at, also assuming all posts are associated with the first board, and all comments are for post
+    # refactor sql query, right now orders by sum(value) then updated_at, also assuming all posts are associated with the first board, and all comments are for post, group by p.id is a bit slower than group by v.votable_id
     # @posts = Post.includes().joins(:votes).select('votable_id, count(votable_id) as votes_count, sum(value) as votes_value_sum').group(:votable_id).order('sum(value) desc')
     # coalesce because postgres does not return sum of empty column
     @posts = Post.find_by_sql("
       select p.*, v.votable_id, count(v.votable_id) as votes_count, coalesce(sum(v.value),0) as votes_value_sum
       from posts p
       left join votes v on p.id = v.votable_id
-      group by v.votable_id
+      group by p.id
       order by votes_value_sum desc, p.updated_at desc")
       # only way to get includes to work on the array returned from the sql statement above, maybe refactor don't need all followers information
       ActiveRecord::Associations::Preloader.new.preload(@posts, [:owner, :comments, {comments: :owner}, :followers])
