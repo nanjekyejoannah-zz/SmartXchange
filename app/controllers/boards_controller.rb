@@ -1,6 +1,7 @@
 class BoardsController < ApplicationController
   include UsersHelper
   include PostsHelper
+  include BoardsHelper
 
   def show
     @board = Board.first
@@ -19,6 +20,10 @@ class BoardsController < ApplicationController
       @notification = user_first_unread_post(current_user)
       # maybe refactor this and chat_room_mark_read to notification_mark_read, and delete notification
       post_mark_read(@notification)
+    end
+    # maybe refactor later, only update user if he/she is viewing unread posts
+    if @board.updated_at > current_user.updated_at
+      board_mark_read
     end
   end
 

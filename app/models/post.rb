@@ -15,7 +15,7 @@ class Post < ApplicationRecord
   validates :content, length: {minimum: 5, maximum: 255}
 
   belongs_to :owner, class_name: 'User'
-  belongs_to :board
+  belongs_to :board, touch: true
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :votes, as: :votable, dependent: :destroy
   has_many :notifications, as: :notifiable, dependent: :destroy

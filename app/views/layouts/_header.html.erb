@@ -16,7 +16,12 @@
       <div class="collapse navbar-collapse" id="smartxchange">
         <ul class="nav navbar-nav navbar-right">
           <% if signed_in? %>
-            <li id="board-header"><%= link_to "Board#{@unread_posts}", board_url %> </li>
+            <!-- maybe refactor later, especially yellow class  part -->
+            <% if board_has_unread? %>
+                <li id="board-header"><%= link_to "Board#{@unread_posts}", board_url + "#post-#{Post.first.id}", style: "color:yellow" %> </li>
+            <% else %>
+              <li id="board-header"><%= link_to "Board#{@unread_posts}", board_url %> </li>
+            <% end %>
             <li><%= link_to "Network", users_url %></li>
             <li id="chat-rooms-header"><%= link_to "Conversations#{@unread_chat_rooms}", chat_rooms_url %></li>
             <li><%= link_to "My profile", user_url(current_user) %></li>
