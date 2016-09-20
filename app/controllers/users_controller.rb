@@ -23,8 +23,13 @@ class UsersController < ApplicationController
   end
 
   def index
-    #will implement matching algorithm here or someone else
-    @users = User.where(language: current_user.language).includes(:linkedin).sort {|u1, u2| sort_method(u2) <=> sort_method(u1) }.paginate(page: params[:page], per_page: 12)
+    if params[:search]
+      search = params[:search].downcase
+      # need references to make it work, maybe refactor later
+      @users = User.includes(:linkedin).where('lower(name) LIKE :search OR lower(title) LIKE :search OR lower(language) LIKE :search OR lower(location) LIKE :search OR cast(age as text) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
+    else
+      @users = User.where(language: current_user.language).includes(:linkedin).sort {|u1, u2| sort_method(u2) <=> sort_method(u1) }.paginate(page: params[:page], per_page: 12)
+    end
     render :index
   end
 
@@ -147,17 +152,10 @@ class UsersController < ApplicationController
     end
   end
 
-  def search
-    search = user_params[:search]
-    # need references to make it work, maybe refactor later
-    @users = User.includes(:linkedin).where('lower(name) LIKE :search OR lower(title) LIKE :search OR lower(language) LIKE :search OR lower(location) LIKE :search OR cast(age as text) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
-    render :index
-  end
-
   private
 
   def user_params
-    params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image, :temp_password, :password_confirmation, :search)
+    params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image, :temp_password, :password_confirmation)
   end
 
 end

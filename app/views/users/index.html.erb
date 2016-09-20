@@ -1,14 +1,15 @@
-<!-- Header Row -->
-      <br>
-  <div id="search">
-    <form action="<%= search_users_path %>" method="post">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-      <input type="text" name="user[search]" class="search-field" placeholder="Search Users">
-      <input type="submit" value="Search" class="btn btn-primary">
-    </form>
-  </div>
+<!-- Search row -->
+<!-- need to refactor this layout -->
+<br>
+<div id="search">
+  <form action="<%= users_path %>" method="get">
+    <input type="text" name="search" class="search-field" placeholder="Search Users">
+    <input type="submit" value="Search" class="btn btn-primary">
+  </form>
+</div>
 
-  <!-- maybe refactor this a little -->
+<!-- Header Row -->
+<!-- maybe refactor this a little -->
   <div class="row">
     <h4><a href="<%= all_users_url %>">All Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
       <a href="<%= active_users_url %>">Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span></a>,
@@ -21,8 +22,8 @@
     </h4>
   </div>
 
-
 <!-- Users Row -->
+<div id="users">
   <% unless @users.empty? %>
       <!-- rows of users -->
       <% columns = 3  %>
@@ -43,3 +44,4 @@
 
     <%= will_paginate @users%>
   <% end %>
+</div>
