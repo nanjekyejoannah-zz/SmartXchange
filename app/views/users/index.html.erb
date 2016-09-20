@@ -1,4 +1,13 @@
 <!-- Header Row -->
+      <br>
+  <div id="search">
+    <form action="<%= search_users_path %>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="text" name="user[search]" class="search-field" placeholder="Search Users">
+      <input type="submit" value="Search" class="btn btn-primary">
+    </form>
+  </div>
+
   <!-- maybe refactor this a little -->
   <div class="row">
     <h4><a href="<%= all_users_url %>">All Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
@@ -11,6 +20,7 @@
       <a href="<%= english_users_url %>"><%= chat_room_convert_title_to_img('English') %> : <span style="font-weight: 300;"> <%= User.where(language: 'English').count %> </span></a>
     </h4>
   </div>
+
 
 <!-- Users Row -->
   <% unless @users.empty? %>

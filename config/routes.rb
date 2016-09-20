@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     post 'create_password', on: :collection
     get 'change_password', on: :member
     patch 'update_password',  on: :member
+    post 'search', on: :collection
   end
 
   resources :chat_rooms, only: [:new, :create, :show, :index, :destroy]
