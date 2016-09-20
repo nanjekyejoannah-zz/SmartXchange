@@ -150,7 +150,7 @@ class UsersController < ApplicationController
   def search
     search = user_params[:search]
     # need references to make it work, maybe refactor later
-    @users = User.includes(:linkedin).where('users.name LIKE :search OR users.title LIKE :search OR users.language LIKE :search OR users.location LIKE :search OR users.age LIKE :search OR linkedins.industry LIKE :search OR linkedins.summary LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
+    @users = User.includes(:linkedin).where('name LIKE :search OR title LIKE :search OR language LIKE :search OR location LIKE :search OR cast(age as text) LIKE :search OR linkedins.industry LIKE :search OR linkedins.summary LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
