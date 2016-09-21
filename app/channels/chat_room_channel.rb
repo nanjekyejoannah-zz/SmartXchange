@@ -25,7 +25,7 @@ class ChatRoomChannel < ApplicationCable::Channel
     # for chatbot response, assuming chat bot is always recipient, and chat bot id = 6, refactor and maybe change check about current_user's message getting through
     chat_room = ChatRoom.find_by(id: data['chat_room_id'])
     if chat_room.recipient.id == 6 && message
-      response = Pandorabots::API.talk(1409612860083, "uktrivia", CGI.escape(message.body), "chatroom#{chat_room.id}", user_key: "22838106ec021d169fa3cc0bc7f8983a")
+      response = Pandorabots::API.talk(ENV['PANDORABOTS_APP_ID'], "uktrivia", CGI.escape(message.body), "chatroom#{chat_room.id}", user_key: ENV['PANDORABOTS_USER_KEY'])
       # responds even if error (error is produced in output), may refactor later, and see if its faster to do Message.create!
       response_message = chat_room.recipient.sent_messages.create!(body: response["responses"][0], chat_room_id: chat_room.id)
       # maybe implement code for if there is an error in message creation here, like above

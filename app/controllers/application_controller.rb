@@ -35,13 +35,14 @@ class ApplicationController < ActionController::Base
 
   def correct_user
     @user = User.find(params[:id])
-    redirect_to :back unless @user == current_user
+    # this and correct_chat_room are not set to redirect_to :back because they can only be accessed by typing them in the url and therefore no http_referer is set
+    redirect_to users_url unless @user == current_user
   end
 
   def correct_chat_room
     @chat_room = ChatRoom.find(params[:id])
     # maybe move the end of this method into chat_room.rb
-    redirect_to :back unless (@chat_room.initiator == current_user || @chat_room.recipient == current_user)
+    redirect_to users_url unless (@chat_room.initiator == current_user || @chat_room.recipient == current_user)
   end
 
   def set_timezone

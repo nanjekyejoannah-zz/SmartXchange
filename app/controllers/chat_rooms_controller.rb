@@ -1,6 +1,6 @@
 class ChatRoomsController < ApplicationController
 
-  before_action :correct_chat_room, only: [:show]
+  before_action :correct_chat_room, only: [:show, :destroy]
 
   include ChatRoomsHelper
 

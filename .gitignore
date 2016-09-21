@@ -26,3 +26,6 @@
 
 #Ignore deleted files
 /deleted
+
+#Ignore application.yml with secret variables
+/config/application.yml
