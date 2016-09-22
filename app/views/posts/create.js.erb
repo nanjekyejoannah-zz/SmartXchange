@@ -17,4 +17,4 @@ while (up_votes >= prev_up_votes) {
 }
 
 // to track post if it moves up, maybe refactor, used in upvote and downvote
-if (moved) {window.location.href = "<%= board_url %>#post-<%= @post.id %>"};
+if (moved) {document.getElementById('post-<%= @post.id %>').scrollIntoView()};

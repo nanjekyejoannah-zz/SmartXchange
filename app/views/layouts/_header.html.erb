@@ -17,7 +17,7 @@
         <ul class="nav navbar-nav navbar-right">
           <% if signed_in? %>
             <!-- maybe refactor later, especially yellow class  part -->
-            <% if board_has_unread? %>
+            <% if board_has_unread?(Board.first) %>
                 <li id="board-header"><%= link_to "Board#{@unread_posts}", board_url + "#post-#{Post.first.id}", style: "color:yellow" %> </li>
             <% else %>
               <li id="board-header"><%= link_to "Board#{@unread_posts}", board_url %> </li>

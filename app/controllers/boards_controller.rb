@@ -22,7 +22,7 @@ class BoardsController < ApplicationController
       post_mark_read(@notification)
     end
     # maybe refactor later, only update user if he/she is viewing unread posts, add +1 to current user due to delay in updating associations through touch
-    if @board.updated_at > current_user.updated_at + 1
+    if board_has_unread?(@board)
       board_mark_read
     end
   end

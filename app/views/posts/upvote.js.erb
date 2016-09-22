@@ -18,4 +18,4 @@ while (<%= @up_votes%> >= prev_up_votes) {
   if (!moved) {moved = true};
 }
 
-if (moved) {window.location.href = "<%= board_url %>#post-<%= @post.id %>"};
+if (moved) {document.getElementById('post-<%= @post.id %>').scrollIntoView()};
