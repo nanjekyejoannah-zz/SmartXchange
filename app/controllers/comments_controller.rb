@@ -9,6 +9,7 @@ class CommentsController < ApplicationController
     if @comment.save
       # assuming that the comment is for a post, will have to add code if add comment on a comment
       @post = @comment.commentable
+      create_follow(@post)
       create_post_notifications(@comment, @post)
       respond_to do |format|
         format.js
@@ -23,6 +24,7 @@ class CommentsController < ApplicationController
   def update
     @comment = Comment.find(params[:id])
     if @comment.update(comment_params)
+      create_post_notifications(@comment, @comment.commentable)
       respond_to do |format|
         format.js
       end

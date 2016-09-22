@@ -5,7 +5,7 @@
     <%= favicon_link_tag 'favicon.ico' %>
 
   <!-- title code -->
-    <!-- maybe refactor and move this into an application controller helper method -->
+    <!-- maybe refactor and move this into an application controller helper method, maybe do count_total notifications for title since may add notifications for other things -->
     <% if signed_in? %>
       <% count_unread_chat_rooms = user_count_unread_chat_rooms(current_user)  %>
       <% count_unread_posts = user_count_unread_posts(current_user)  %>
@@ -55,6 +55,7 @@
   <!-- to prevent zooming in in textarea on smartphone -->
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
+  <meta name="turbolinks-cache-control" content="no-cache">
 </head>
 <body>
     <%= render partial: '/layouts/header'  %>

@@ -3,8 +3,8 @@
     <div class="post-votes">
       <%= link_to image_tag("small-plus-sign.png", alt: "Plus Sign"), upvote_post_url(post), remote: true, method: :post %>
       <%= link_to image_tag("small-minus-sign.png", alt: "Minus Sign"), downvote_post_url(post), remote: true, method: :post %>
-      <!-- bit of a hack job to deal with sql generated column values, maybe refactor -->
-      <div class="vote-numbers"><%= post.respond_to?(:votes_value_sum) ? (post.votes_value_sum != nil ? post.votes_value_sum : 0) : 0 %> (<%= post.respond_to?(:votes_count) ? (post.votes_count != nil ? post.votes_count : 0) : 0 %>)</div>
+      <!-- before was like this - remove if works on heroku (post.votes_count != nil ? post.votes_count : 0) : 0  -->
+      <div class="vote-numbers"><%= post.respond_to?(:votes_value_sum) ? post.votes_value_sum : post.votes.sum(:value) %> (<%= post.respond_to?(:votes_count) ? post.votes_count : post.votes.size %>)</div>
     </div>
     <!-- refactor this later, get rid of p tag, maybe float this div left, change padding -->
     <div class="post-text"><%= auto_link(post.content) %></div>

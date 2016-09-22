@@ -15,7 +15,7 @@ class Comment < ApplicationRecord
   validates_presence_of :content, :owner_id, :commentable
   validates :content, length: {minimum: 5, maximum: 255}
 
-  belongs_to :owner, class_name: 'User'
+  belongs_to :owner, class_name: 'User', touch: true
   belongs_to :commentable, polymorphic: true, touch: true
   # only doing has_one notification here because can't delete vote or message, no index on sourceable since only called here which is very rare
   has_one :notification, as: :sourceable, dependent: :destroy

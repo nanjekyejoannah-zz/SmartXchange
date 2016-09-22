@@ -16,6 +16,6 @@ class Vote < ApplicationRecord
   validates :value, inclusion: { in: [1,-1] }
 
   belongs_to :votable, polymorphic: true, touch: true
-  belongs_to :owner, class_name: 'User'
+  belongs_to :owner, class_name: 'User', touch: true
 
 end

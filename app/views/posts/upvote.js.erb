@@ -1,7 +1,13 @@
-$('#post-<%= @post.id %> .vote-numbers').text("<%= @up_votes %> (<%= @total_votes %>)");
+var prev_post = $('#post-<%= @post.id %>').prev();
+$('#post-<%= @post.id %>').remove();
+if (prev_post.length) {
+  $("<%= j(render(:partial => 'post', :locals => {post: @post})) %>").insertAfter(prev_post);
+} else {
+  $('#posts ul').first().prepend($("<%= j(render(:partial => 'post', :locals => {post: @post})) %>"))
+}
 
 // refactor both this and create.js.erb use the same code
-var prev_numbers = $('#post-<%= @post.id %>').prev().find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
+var prev_numbers = prev_post.find('.vote-numbers').text().replace(/[(|)]/g,'').split(" ");
 var prev_up_votes = parseInt(prev_numbers[0]);
 
 var moved = false;
@@ -12,5 +18,4 @@ while (<%= @up_votes%> >= prev_up_votes) {
   if (!moved) {moved = true};
 }
 
-// to track post if it moves up, refactor so moved is not continually assigned valued true
 if (moved) {window.location.href = "<%= board_url %>#post-<%= @post.id %>"};

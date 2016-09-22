@@ -15,11 +15,11 @@
 #
 
 class Notification < ApplicationRecord
-  validates_presence_of :notified_id, :notifier_id, :notifiable, :sourceable
+  # can't have notifable and sourceable in case these objects were deleted and we need to update the notification
+  validates_presence_of :notified_id, :notifier_id, :notifiable_type, :notifiable_id, :sourceable_type, :sourceable_id
 
   belongs_to :notified, class_name: 'User'
   belongs_to :notifier, class_name: 'User'
-  # touch: true should update the associated post or chat room updated_at
   belongs_to :notifiable, polymorphic: true
   belongs_to :sourceable, polymorphic: true
 

@@ -22,6 +22,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
+      create_post_notifications(@post, @post)
       respond_to do |format|
         format.js
       end
@@ -46,6 +47,7 @@ class PostsController < ApplicationController
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
     @total_votes = @post.votes.size
+    create_follow(@post)
     create_post_notifications(@vote, @post)
     respond_to do |format|
       format.js
@@ -58,6 +60,7 @@ class PostsController < ApplicationController
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
     @total_votes = @post.votes.size
+    destroy_follow(@post)
     create_post_notifications(@vote, @post)
     respond_to do |format|
       format.js
@@ -66,8 +69,7 @@ class PostsController < ApplicationController
 
   def follow
     @post = Post.find(params[:id])
-    @follow = Follow.new(follower_id: current_user.id)
-    @post.follows << @follow
+    @follow = create_follow(@post)
     create_post_notifications(@follow, @post)
     respond_to do |format|
       format.js
@@ -76,9 +78,7 @@ class PostsController < ApplicationController
 
   def unfollow
     @post = Post.find(params[:id])
-    # should be only 1 follows per person per post, may need to refactor
-    @follow = @post.follows.where(follower_id: current_user.id).first
-    @follow.destroy
+    @follow = destroy_follow(@post)
     # if had one notification per follow could just call this as dependent destroy in follow model, wouldn't need it if didn't have unfollow
     destroy_post_notifications(@follow, @post)
     respond_to do |format|

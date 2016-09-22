@@ -3,7 +3,7 @@ module BoardsHelper
   def board_has_unread?
     @board = Board.first
     # hack job here and below method don't want to add another column to users maybe refactor
-    if @board.updated_at > current_user.updated_at
+    if @board.updated_at > current_user.updated_at + 1
       return true
     end
     false

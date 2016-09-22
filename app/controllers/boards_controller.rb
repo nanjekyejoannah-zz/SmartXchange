@@ -21,8 +21,8 @@ class BoardsController < ApplicationController
       # maybe refactor this and chat_room_mark_read to notification_mark_read, and delete notification
       post_mark_read(@notification)
     end
-    # maybe refactor later, only update user if he/she is viewing unread posts
-    if @board.updated_at > current_user.updated_at
+    # maybe refactor later, only update user if he/she is viewing unread posts, add +1 to current user due to delay in updating associations through touch
+    if @board.updated_at > current_user.updated_at + 1
       board_mark_read
     end
   end

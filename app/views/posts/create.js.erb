@@ -16,5 +16,5 @@ while (up_votes >= prev_up_votes) {
   if (!moved) {moved = true};
 }
 
-// to track post if it moves up, refactor so moved is not continually assigned valued true
+// to track post if it moves up, maybe refactor, used in upvote and downvote
 if (moved) {window.location.href = "<%= board_url %>#post-<%= @post.id %>"};
