@@ -120,3 +120,11 @@ div.chat-room:hover {
   height: 50px;
   float: left;
 }
+
+@media all and (max-width:400px)
+{
+  .chat-room-content p {
+    word-wrap: break-word;
+    width: 200px;
+  }
+}
