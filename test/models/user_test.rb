@@ -20,6 +20,7 @@
 #  location        :string
 #  latitude        :float
 #  longitude       :float
+#  nationality     :string
 #
 
 require 'test_helper'

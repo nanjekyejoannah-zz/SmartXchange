@@ -4,13 +4,13 @@
 </div>
 <br>
 
-<% if @posts.any?  %>
-  <div id="posts">
-      <ul>
+<div id="posts">
+    <ul>
+      <% if @posts.any?  %>
         <%= render @posts %>
-      </ul>
-  </div>
-<% end %>
+      <% end %>
+    </ul>
+</div>
 <br>
 
 <div class="post-form new">

@@ -20,6 +20,7 @@
 #  location        :string
 #  latitude        :float
 #  longitude       :float
+#  nationality     :string
 #
 
 #active is for instantaneous feature Tati talked about

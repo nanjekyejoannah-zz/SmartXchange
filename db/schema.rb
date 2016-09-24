@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916144131) do
+ActiveRecord::Schema.define(version: 20160923035630) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(version: 20160916144131) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "nationality"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["session_token"], name: "index_users_on_session_token"
   end

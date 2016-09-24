@@ -4,6 +4,11 @@ class UserMailer < ApplicationMailer
   # @users[0..48].each do |user|
   #     UserMailer.monthly_update(user, user_count_unread(user)).deliver_now
   # end
+  # @users.each do |user|
+  #   if user_count_unread(user) > 0
+  #     UserMailer.notify_email(user, user_count_unread(user)).deliver_now
+  #   end
+  # end
 
   def welcome_email(user)
     @user = user

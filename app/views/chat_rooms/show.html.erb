@@ -1,9 +1,11 @@
 <!-- this class has no styling at the moment may want to maybe refactor later -->
 <h2><a href="<%=user_url(@receiver)%>">
-  <%= chat_room_convert_title_to_img(@chat_room.title) %>
-  <%= " #{@receiver.name}" %>
+  <%= user_convert_nationality_to_img(@receiver.nationality) %>
+  <%= " #{@receiver.name} " %>
   <%= image_tag('green-dot.png', class:'active', alt: 'Active') if @receiver.active %>
-</a></h2>
+  </a>
+  <%= " - #{@chat_room.title} Conversation"%>
+</h2>
 
 <div id="messages" data-chat-room-id="<%= @chat_room.id %>">
   <%= render @messages %>

@@ -33,4 +33,8 @@ module UsersHelper
     end
   end
 
+  def user_convert_nationality_to_img(nationality)
+    image_tag("country-flags/#{nationality}-flag-circular.png", alt: "#{nationality}")
+  end
+
 end
