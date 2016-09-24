@@ -20,7 +20,7 @@
 #  location        :string
 #  latitude        :float
 #  longitude       :float
-#  nationality     :string
+#  nationality     :string           default("Spanish"), not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

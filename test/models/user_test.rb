@@ -20,7 +20,7 @@
 #  location        :string
 #  latitude        :float
 #  longitude       :float
-#  nationality     :string
+#  nationality     :string           default("Spanish"), not null
 #
 
 require 'test_helper'
