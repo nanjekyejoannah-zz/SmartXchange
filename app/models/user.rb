@@ -26,7 +26,7 @@
 #active is for instantaneous feature Tati talked about
 
 class User < ApplicationRecord
-  validates_presence_of :email, :name, :age, :language, :language_level, :title, :password_digest, :session_token
+  validates_presence_of :email, :name, :age, :language, :language_level, :title, :password_digest, :session_token, :nationality
   validates :email, uniqueness: true, length: {maximum: 255}, format: {:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/i, on: :create}
   validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates :title, length: {minimum: 5, maximum: 255}
