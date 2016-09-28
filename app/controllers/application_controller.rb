@@ -113,6 +113,7 @@ class ApplicationController < ActionController::Base
     # should be only 1 follows per person per post, may need to refactor
     follow = post.follows.where(follower_id: current_user.id).first
     follow.destroy
+    follow
   end
 
 end

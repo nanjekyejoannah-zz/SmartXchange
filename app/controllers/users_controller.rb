@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     if params[:search]
       search = params[:search].downcase
       # need references to make it work, maybe refactor later
-      @users = User.includes(:linkedin).where('lower(name) LIKE :search OR lower(title) LIKE :search OR lower(language) LIKE :search OR lower(location) LIKE :search OR cast(age as text) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
+      @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR lower(nationality) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
     else
       @users = User.where(language: current_user.language).includes(:linkedin).sort {|u1, u2| sort_method(u2) <=> sort_method(u1) }.paginate(page: params[:page], per_page: 12)
     end
