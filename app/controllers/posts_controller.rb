@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
   include UsersHelper
   include PostsHelper
+  include BoardsHelper
 
   before_action :vote_limit, only: [:upvote, :downvote]
   before_action :post_limit, only: [:create]
+  after_action -> { board_mark_read(@post.board) }, except: [:followers]
 
   def create
     @post = current_user.posts.new(post_params)
@@ -22,7 +24,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      create_post_notifications(@post, @post)
+      post_create_notifications(@post, @post)
       respond_to do |format|
         format.js
       end
@@ -47,8 +49,8 @@ class PostsController < ApplicationController
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
     @total_votes = @post.votes.size
-    create_follow(@post)
-    create_post_notifications(@vote, @post)
+    post_create_follow(@post)
+    post_create_notifications(@vote, @post)
     respond_to do |format|
       format.js
     end
@@ -60,8 +62,8 @@ class PostsController < ApplicationController
     @post.votes << @vote
     @up_votes = @post.votes.sum(:value)
     @total_votes = @post.votes.size
-    destroy_follow(@post)
-    create_post_notifications(@vote, @post)
+    post_destroy_follow(@post)
+    post_create_notifications(@vote, @post)
     respond_to do |format|
       format.js
     end
@@ -69,8 +71,8 @@ class PostsController < ApplicationController
 
   def follow
     @post = Post.find(params[:id])
-    @follow = create_follow(@post)
-    create_post_notifications(@follow, @post)
+    @follow = post_create_follow(@post)
+    post_create_notifications(@follow, @post)
     respond_to do |format|
       format.js
     end
@@ -78,9 +80,9 @@ class PostsController < ApplicationController
 
   def unfollow
     @post = Post.find(params[:id])
-    @follow = destroy_follow(@post)
+    @follow = post_destroy_follow(@post)
     # if had one notification per follow could just call this as dependent destroy in follow model, wouldn't need it if didn't have unfollow
-    destroy_post_notifications(@follow, @post)
+    post_destroy_notifications(@follow, @post)
     respond_to do |format|
       format.js
     end

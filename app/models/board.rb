@@ -15,4 +15,6 @@ class Board < ApplicationRecord
   validates :description, length: {minimum: 5, maximum: 500}
 
   has_many :posts, dependent: :destroy
+  has_many :reads, as: :readable, dependent: :destroy
+  has_many :readers, through: :reads, source: :user
 end

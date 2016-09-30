@@ -1,16 +1,18 @@
 class CommentsController < ApplicationController
   include UsersHelper
   include PostsHelper
+  include BoardsHelper
 
   before_action :comment_limit, only: [:create]
+  after_action -> { board_mark_read(@comment.commentable.board) }
 
   def create
     @comment = current_user.comments.new(comment_params)
     if @comment.save
       # assuming that the comment is for a post, will have to add code if add comment on a comment
       @post = @comment.commentable
-      create_follow(@post)
-      create_post_notifications(@comment, @post)
+      post_create_follow(@post)
+      post_create_notifications(@comment, @post)
       respond_to do |format|
         format.js
       end
@@ -24,7 +26,7 @@ class CommentsController < ApplicationController
   def update
     @comment = Comment.find(params[:id])
     if @comment.update(comment_params)
-      create_post_notifications(@comment, @comment.commentable)
+      post_create_notifications(@comment, @comment.commentable)
       respond_to do |format|
         format.js
       end

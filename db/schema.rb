@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160924211358) do
+ActiveRecord::Schema.define(version: 20160930112503) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -165,6 +165,16 @@ ActiveRecord::Schema.define(version: 20160924211358) do
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_posts_on_owner_id"
     t.index ["updated_at"], name: "index_posts_on_updated_at"
+  end
+
+  create_table "reads", force: :cascade do |t|
+    t.integer  "user_id",       null: false
+    t.string   "readable_type"
+    t.integer  "readable_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["readable_type", "readable_id"], name: "index_reads_on_readable_type_and_readable_id"
+    t.index ["user_id"], name: "index_reads_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

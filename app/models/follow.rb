@@ -17,7 +17,7 @@ class Follow < ApplicationRecord
   belongs_to :followable, polymorphic: true, touch: true
   belongs_to :follower, class_name: 'User'
   # to make notification checks easier
-  belongs_to :owner, :foreign_key => :follower_id, class_name: 'User',  touch: true
+  belongs_to :owner, :foreign_key => :follower_id, class_name: 'User'
 
   private
 

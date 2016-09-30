@@ -34,6 +34,7 @@ class User < ApplicationRecord
   validates :age, numericality: { only_integer: true }
   validates :language_level, numericality: {only_integer: true} #may change this since it's a dropdown
   mount_uploader :image, AvatarUploader
+
   has_many :notifications, :foreign_key => :notified_id, dependent: :destroy
   has_many :created_notifications, :foreign_key => :notifier_id, class_name: 'Notification', dependent: :destroy
   has_many :posts_notifications, -> { where read: false, notifiable_type: 'Post'}, :foreign_key => :notified_id, class_name: 'Notification'
@@ -48,6 +49,8 @@ class User < ApplicationRecord
   has_many :votes, :foreign_key => :owner_id, class_name: 'Vote', dependent: :destroy
   has_many :follows, :foreign_key => :follower_id, class_name: 'Follow', dependent: :destroy
   has_many :followed_posts, through: :follows, source: :followable, source_type: 'Post'
+  has_many :reads, dependent: :destroy
+  has_many :read_boards, through: :reads, source: :readable, source_type: 'Board'
 
   geocoded_by :location
 

@@ -23,7 +23,7 @@ class BoardsController < ApplicationController
     end
     # maybe refactor later, only update user if he/she is viewing unread posts, add +1 to current user due to delay in updating associations through touch
     if board_has_unread?(@board)
-      board_mark_read
+      board_mark_read(@board)
     end
   end
 
