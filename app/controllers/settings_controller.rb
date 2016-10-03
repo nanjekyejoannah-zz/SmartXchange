@@ -75,7 +75,11 @@ class SettingsController < ApplicationController
     @user = User.find(params[:user_id])
     if @user.update(user_params)
       flash[:notice] = 'Subscription changed'
-      redirect_to user_url(@user)
+      if signed_in?
+        redirect_to user_url(@user)
+      else
+        redirect_to root_url
+      end
     else
       flash[:alert] = 'There was a problem'
       render :unsubscribe
