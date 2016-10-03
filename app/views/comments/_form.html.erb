@@ -1,5 +1,5 @@
 <div class="comment-form new">
-  <form action="<%= comments_url %>" method="post" data-remote="true">
+  <form action="<%= comments_path %>" method="post" data-remote="true">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <textarea name="comment[content]"></textarea>
     <input type="hidden" name="comment[commentable_type]" value="Post">

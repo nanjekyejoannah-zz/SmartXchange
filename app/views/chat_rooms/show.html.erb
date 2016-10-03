@@ -1,5 +1,5 @@
 <!-- this class has no styling at the moment may want to maybe refactor later -->
-<h2><a href="<%=user_url(@receiver)%>">
+<h2><a href="<%=user_path(@receiver)%>">
   <%= user_convert_nationality_to_img(@receiver.nationality) %>
   <%= " #{@receiver.name} " %>
   <%= image_tag('green-dot.png', class:'active', alt: 'Active') if @receiver.active %>

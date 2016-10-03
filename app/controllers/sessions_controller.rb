@@ -8,23 +8,23 @@ class SessionsController < ApplicationController
   @@update = false
 
   def new
-    redirect_to users_url if signed_in?
+    redirect_to users_path if signed_in?
   end
 
   def create
     @user = User.find_by_credentials(params[:user])
     if @user
       sign_in!(@user)
-      redirect_to users_url
+      redirect_to users_path
     else
       flash[:error] = "Invalid email and/or password"
-      redirect_to login_url
+      redirect_to login_path
     end
   end
 
   def destroy
     sign_out!
-    redirect_to login_url
+    redirect_to login_path
   end
 
   # maybe get rid of this and just replace with '/auth/linkeidn' in button where its called refactor, also maybe move all of these to user controller
@@ -77,22 +77,22 @@ class SessionsController < ApplicationController
     # need to refactor later, some repeat code, added downcase in case linkedin's api doesn't downcase it already
     if !@user && User.where(:email => auth_hash['info']['email'].downcase).first # register or sign in with Linkedin and email taken without Linkedin integration
       flash[:error] = "User with this email already exists, please log in and add Linkedin to your profile"
-      redirect_to login_url and return
+      redirect_to login_path and return
     elsif !@user && !@@existing # register with linkedin and no linkedin account linked
       @user = User.create_with_omniauth(auth_hash)
       sign_in!(@user)
       welcome_new_user(@user) and return
     elsif @user && !@@existing # register with linkedin and existing linkedin account
       flash[:error] = "Linkedin account already registered with smartXchange, please login with your Linkedin"
-      redirect_to login_url and return
+      redirect_to login_path and return
     elsif !@user && @@existing # sign in with Linkedin and no Linkedin account linked
       @@existing = false
       flash[:error] = "No Linkedin account registered with smartXchange, please register"
-      redirect_to signup_url and return
+      redirect_to signup_path and return
     end # @user && @@existing, sign in with linkedin and account exists
     @@existing = false
     sign_in!(@user)
-    redirect_to users_url
+    redirect_to users_path
   end
 
   protected

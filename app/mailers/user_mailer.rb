@@ -74,6 +74,12 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: "#{@user.name} wants to practice #{@user.language}")
   end
 
+  def warning_email(user)
+    @user = user
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    mail(to: email_with_name, subject: 'Suspicious Activity')
+  end
+
   private
 
   def set_urls_and_attachments

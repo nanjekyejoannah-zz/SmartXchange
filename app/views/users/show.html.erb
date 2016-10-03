@@ -6,7 +6,7 @@
           <%= image_tag('green-dot.png', class:'active', alt: 'Active') %> <br>
         <% end  %>
         <% if current_user == @user %>
-            <form action="<%= user_url(@user) %>" method="post" enctype="multipart/form-data">
+            <form action="<%= user_path(@user) %>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="_method" value="patch">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <label>Name<br>
@@ -161,17 +161,17 @@
           <h4> <span style="font-weight:normal"><%= @user.location %> </span> </h4>
           <p><span style="font-weight:normal"><%= @user.linkedin.summary %></span></p>
           <% if @user == current_user  %>
-            <%= button_to "Update Linkedin", update_linkedin_session_url, method: :get, class: 'btn btn-primary linkedin' %>
+            <%= button_to "Update Linkedin", update_linkedin_session_path, method: :get, class: 'btn btn-primary linkedin' %>
             <br>
-            <%= button_to "Delete Linkedin", delete_linkedin_session_url, method: :delete, data: {confirm: "Are you sure you want to delete the Linkedin information associated with your account? Warning: If you registered with Linkedin you will not be able to sign back in to this account."}, class: 'btn btn-primary delete' %>
+            <%= button_to "Delete Linkedin", delete_linkedin_session_path, method: :delete, data: {confirm: "Are you sure you want to delete the Linkedin information associated with your account? Warning: If you registered with Linkedin you will not be able to sign back in to this account."}, class: 'btn btn-primary delete' %>
           <% end  %>
         <% elsif @user == current_user %>
-          <%= button_to "Add Linkedin", add_linkedin_session_url, method: :get, data: {confirm: "smartXchange will have access to your basic Linkedin profile and Linkedin email, are you sure?"}, class: 'btn btn-primary linkedin' %>
+          <%= button_to "Add Linkedin", add_linkedin_session_path, method: :get, data: {confirm: "smartXchange will have access to your basic Linkedin profile and Linkedin email, are you sure?"}, class: 'btn btn-primary linkedin' %>
         <% end %>
       </div>
       <% if current_user == @user %>
         <div class="user-delete">
-          <%= button_to "Delete Account", user_url(@user), method: :delete, data: {confirm: "Are you sure you want to delete your account? All conversations and associated messages will be destroyed."}, class: 'btn btn-primary delete'  %>
+          <%= button_to "Delete Account", user_path(@user), method: :delete, data: {confirm: "Are you sure you want to delete your account? All conversations and associated messages will be destroyed."}, class: 'btn btn-primary delete'  %>
         </div>
       <% end %>
 </div>

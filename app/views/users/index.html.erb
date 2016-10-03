@@ -11,14 +11,14 @@
 <!-- Header Row -->
 <!-- maybe refactor this a little -->
   <div class="row">
-    <h4><a href="<%= all_users_url %>">All Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
-      <a href="<%= active_users_url %>">Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span></a>,
-      <a href="<%= chat_bots_users_url %>">Chat Bots: <span style="font-weight: 300;"> <%= User.where(id: 6).count %> </span></a>,
-      <a href="<%= spanish_users_url %>"><%= user_convert_nationality_to_img('Spanish') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Spanish').count %> </span></a>,
-      <a href="<%= italian_users_url %>"><%= user_convert_nationality_to_img('Italian') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Italian').count %> </span></a>,
-      <a href="<%= german_users_url %>"><%= user_convert_nationality_to_img('German') %> : <span style="font-weight: 300;"> <%= User.where(language: 'German').count %> </span></a>,
-      <a href="<%= french_users_url %>"><%= user_convert_nationality_to_img('French') %> : <span style="font-weight: 300;"> <%= User.where(language: 'French').count %> </span></a>,
-      <a href="<%= english_users_url %>"><%= user_convert_nationality_to_img('English') %> : <span style="font-weight: 300;"> <%= User.where(language: 'English').count %> </span></a>
+    <h4><a href="<%= all_users_path %>">All Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
+      <a href="<%= active_users_path %>">Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span></a>,
+      <a href="<%= chat_bots_users_path %>">Chat Bots: <span style="font-weight: 300;"> <%= User.where(id: 6).count %> </span></a>,
+      <a href="<%= spanish_users_path %>"><%= user_convert_nationality_to_img('Spanish') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Spanish').count %> </span></a>,
+      <a href="<%= italian_users_path %>"><%= user_convert_nationality_to_img('Italian') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Italian').count %> </span></a>,
+      <a href="<%= german_users_path %>"><%= user_convert_nationality_to_img('German') %> : <span style="font-weight: 300;"> <%= User.where(language: 'German').count %> </span></a>,
+      <a href="<%= french_users_path %>"><%= user_convert_nationality_to_img('French') %> : <span style="font-weight: 300;"> <%= User.where(language: 'French').count %> </span></a>,
+      <a href="<%= english_users_path %>"><%= user_convert_nationality_to_img('English') %> : <span style="font-weight: 300;"> <%= User.where(language: 'English').count %> </span></a>
     </h4>
   </div>
 

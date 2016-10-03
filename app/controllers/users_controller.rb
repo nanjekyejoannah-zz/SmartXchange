@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def new
     @user_count = User.all.count - (User.all.count % 10)
-    redirect_to users_url if signed_in?
+    redirect_to users_path if signed_in?
   end
 
   def create
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = @user.errors.full_messages.to_sentence
       render :new
-      # redirect_to signup_url
+      # redirect_to signup_path
     end
   end
 
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
       # maybe refactor so array isn't generated everytime
       messages = ["Profile updated! Now it's time for some networking", "Profile updated! Bored? Post something to the Board and see how many votes it can get :)"]
       flash[:success] = messages.sample
-      redirect_to user_url(@user)
+      redirect_to user_path(@user)
     else
       flash[:error] = @user.errors.full_messages.to_sentence
       redirect_to :back

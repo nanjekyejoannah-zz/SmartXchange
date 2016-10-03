@@ -13,7 +13,7 @@
       <br>
 
       <!-- Sign in with Linkedin -->
-      <%= button_to "Sign in with Linkedin", existing_linkedin_session_url, method: 'get', class: 'btn btn-primary linkedin' %>
+      <%= button_to "Sign in with Linkedin", existing_linkedin_session_path, method: 'get', class: 'btn btn-primary linkedin' %>
 
       <h4 class="new subheading">OR</h4>
 
@@ -29,7 +29,7 @@
         <input type="submit" value="Sign In" class="btn btn-primary"><br>
       </form>
       <br>
-      <%= link_to "Forgot Password?", reset_password_users_path %> 
+      <%= link_to "Forgot Password?", reset_password_users_path %>
       <!-- hack job need to refactor with padding / margin -->
       <br>
       <br>

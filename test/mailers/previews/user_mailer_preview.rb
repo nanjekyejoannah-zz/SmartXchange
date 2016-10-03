@@ -23,4 +23,8 @@ class UserMailerPreview < ActionMailer::Preview
   def match_email
     UserMailer.match_email(User.first, User.second)
   end
+
+  def warning_email
+    UserMailer.warning_email(User.first)
+  end
 end

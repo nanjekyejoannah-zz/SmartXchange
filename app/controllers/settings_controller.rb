@@ -37,7 +37,7 @@ class SettingsController < ApplicationController
       if user_params[:new_password] == user_params[:password_confirmation]
         if @user.update(password: user_params[:new_password])
           flash[:success] = "Password updated"
-          redirect_to user_url(@user)
+          redirect_to user_path(@user)
         else
           flash[:error] = @user.errors.full_messages.to_sentence
           redirect_to :back
@@ -60,7 +60,7 @@ class SettingsController < ApplicationController
       user_id = params[:user_id]
     else
       flash[:error] = "Must be logged in as correct user or access this link through an email to view this page"
-      redirect_to login_url and return
+      redirect_to login_path and return
     end
     @user = User.find(user_id)
   end
@@ -76,9 +76,9 @@ class SettingsController < ApplicationController
     if @user.update(user_params)
       flash[:notice] = 'Subscription changed'
       if signed_in?
-        redirect_to user_url(@user)
+        redirect_to user_path(@user)
       else
-        redirect_to root_url
+        redirect_to root_path
       end
     else
       flash[:alert] = 'There was a problem'

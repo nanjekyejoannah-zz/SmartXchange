@@ -4,7 +4,7 @@ $('#post-<%= @post.id %> .post-content time').append(
     '<a href="#" class="hide-post-list-followers">• Hide • </a>' +
     '<ul>' +
       <% @followers.each do |follower| %>
-        '<li><%= link_to follower.name, user_url(follower) %>, </li>' +
+        '<li><%= link_to follower.name, user_path(follower) %>, </li>' +
       <% end %>
     '</ul>' +
   '</div>'
@@ -13,7 +13,7 @@ $('#post-<%= @post.id %> .post-content time').append(
 $('#post-<%= @post.id %> .post-content time .hide-post-list-followers').on('click', function(event){
   $('#post-<%= @post.id %> .post-content time .post-list-followers').remove()
   $('#post-<%= @post.id %> .post-content time').append(
-    '<%= link_to "• " + pluralize(@post.followers.count, "Follower"), followers_post_url(@post), remote: true, class: "post-followers"  %>'
+    '<%= link_to "• " + pluralize(@post.followers.count, "Follower"), followers_post_path(@post), remote: true, class: "post-followers"  %>'
   )
   event.preventDefault()
 })
