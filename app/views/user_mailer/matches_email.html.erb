@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <%= render 'layouts/header_mail' %>
+    <h4>Dear <%= @user.name %>,</h4>
+      <p>
+        Are you interested in practicing <%= @user.language %> with any of the following users? Notify them within 24 hours.
+      </p>
+      <% if @matches.any? %>
+        <ul>
+          <% @matches.each do |match| %>
+            <li>
+              <div class="mail-match">
+                <div class="mail-match-img">
+                  <%= image_tag(attachments["#{match.name}.jpg"].url, alt: "#{match.name}") %>
+                  <%= image_tag(attachments["linkedin.png"].url, alt: "Linkedin") if match.linkedin %>
+                </div>
+                <div class="mail-match-text">
+                  <span style="text-transform:uppercase;font-weight: 700"> <%= "#{match.name}" %></span>, <%= "#{match.title}" %>
+                  <%= link_to "Notify #{match.name.split(" ").first}", @url_email_match + "#{match.id}", class: 'mail-btn' %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+  </body>
+  <%= render 'layouts/footer_mail_simple' %>
+
+</html>

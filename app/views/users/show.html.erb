@@ -125,6 +125,8 @@
               <input class="btn btn-primary" type="submit" value="Update">
             </form>
             <br>
+            <%= link_to "User Settings", user_settings_path(@user), class: 'btn btn-primary settings' %>
+            <br><br>
         <% else %>
           <!-- need to refactor this, span part -->
           <h1> <%= @user.name %></h1>
@@ -137,7 +139,7 @@
             <span style="font-weight:normal"><%= user_convert_language_level(@user.language_level) %>
             </span>
           </h4>
-          <h4> <%= @user.nationality %> </h4>
+          <h4> <%= @user.nationality %> <span style="font-weight:normal">National</span> </h4>
           <!-- may change class to start-chat but have to make sure it doesn't conflict with js code -->
           <!-- also need to refactor the break -->
           <br>

@@ -3,11 +3,4 @@ Welcome to smartXchange, <%= @user.name %>!
 
 You have successfully signed up to smartXchange, your username is: <%= @user.email %>.
 
-To login to the site, just follow this <a href="<%= @url %>">link</a>..
-
-If you haven't already, link your Linkedin account to gain credibility and to have our matching algorithm find others close by.
-Make sure to check out the new <a href="<%= @url_tutorial %>">smartXchange board tutorial</a>, and
-don't forget to follow the latest posts on our <a href="https://twitter.com/smart_xchange">twitter</a> page.
-
-  Sebastian Peterlin
-  Co-founder of smartXchange
+To login to the site, just follow this <%= link_to "link", @url, class:'mail-btn'  %>.

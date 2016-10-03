@@ -41,6 +41,7 @@ module PostsHelper
         sourceable_id: vote_or_comment_or_follow_or_post_update.id
       )
     end
+    # maybe refactor, right now need to include UserHelper to call the below methods, could just call user.posts_notifications.where(read: false).count etc
     if !@notification.nil?
       WebNotificationsChannel.broadcast_to(
         notified,
@@ -49,11 +50,6 @@ module PostsHelper
         sound: true
       )
     end
-  end
-
-  def post_destroy_notifications(follow, post)
-    # destroy all post notifications for the follower if it exists, maybe refactor, doesn't matter if its read or not, and should only be one notification for each follow
-    post.notifications.where(sourceable_type: 'Follow', sourceable_id: follow.id).destroy_all
   end
 
   def post_create_follow(post)

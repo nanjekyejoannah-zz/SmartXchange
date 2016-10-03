@@ -81,8 +81,7 @@ class PostsController < ApplicationController
   def unfollow
     @post = Post.find(params[:id])
     @follow = post_destroy_follow(@post)
-    # if had one notification per follow could just call this as dependent destroy in follow model, wouldn't need it if didn't have unfollow
-    post_destroy_notifications(@follow, @post)
+    post_create_notifications(@follow, @post)
     respond_to do |format|
       format.js
     end
@@ -105,7 +104,7 @@ class PostsController < ApplicationController
   def vote_limit
     # limit to 10 votes per 24 hour time period
     @limit = 10
-    if (current_user.votes.count >= @limit) && ((Time.now - current_user.votes.order(created_at: :desc).limit(@limit).last.created_at)/60/60/24 <= 1)
+    if current_user.votes.count >= @limit && current_user.votes.order(created_at: :desc).limit(@limit).last.created_at > 24.hours.ago
       respond_to do |format|
         format.js {render "vote_limit"}
       end
@@ -116,7 +115,7 @@ class PostsController < ApplicationController
 
   def post_limit
     @limit = 5
-    if (current_user.posts.count >= @limit) && ((Time.now - current_user.posts.order(created_at: :desc).limit(@limit).last.created_at)/60/60/24 <= 1)
+    if current_user.posts.count >= @limit && current_user.posts.order(created_at: :desc).limit(@limit).last.created_at > 24.hours.ago
       respond_to do |format|
         format.js {render "post_limit"}
       end

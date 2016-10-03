@@ -1,9 +1,8 @@
 require 'will_paginate/array'
 class UsersController < ApplicationController
-  #add location
 
-  skip_before_action :require_signed_in!, only: [:new, :create, :reset_password, :create_password]
-  before_action :correct_user, only: [:update, :destroy, :change_password, :update_password]
+  skip_before_action :require_signed_in!, only: [:new, :create, :email_match]
+  before_action :correct_user, only: [:update, :destroy]
 
   def new
     @user_count = User.all.count - (User.all.count % 10)
@@ -71,7 +70,7 @@ class UsersController < ApplicationController
   end
 
   def chat_bots
-    @users = User.where(id: 6).includes(:linkedin).paginate(page: params[:page], per_page: 12)
+    @users = User.where(id: 6).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
@@ -103,59 +102,25 @@ class UsersController < ApplicationController
 
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = "User deleted."
+    flash[:notice] = "User deleted."
     redirect_to '/users/new'
   end
 
-  def reset_password
-  end
-
-  def create_password
-    @user = User.find_by(email: user_params[:email].downcase)
-    if @user
-      # 6 results in a string length of 8, string length is 4/3 * n
-      @new_password = SecureRandom.urlsafe_base64(6)
-      @user.update(password: @new_password)
-      UserMailer.reset_password(@user, @new_password).deliver_later
-      flash[:success] = "Email sent with password reset instructions"
-      redirect_to :back
-    # maybe make this a pop up in the future
+  def email_match
+    @user = User.find(params[:user_id])
+    @match = User.find(params[:match_id])
+    if @user.matches_token == params[:matches_token] && @user.matches_sent_at > 24.hours.ago
+      flash[:success] = "#{@match.name} notified :)"
+      UserMailer.match_email(@user, @match).deliver_later
     else
-      flash[:error] = "No user found with this email address"
-      redirect_to :back
-    end
-  end
-
-  def change_password
-    @user = User.find(params[:id])
-  end
-
-  def update_password
-    # probably need to refactor this, maybe add timer
-    @user = User.find(params[:id])
-    if @user.try(:is_password?, user_params[:temp_password])
-      if user_params[:password] == user_params[:password_confirmation]
-        if @user.update(password: user_params[:password])
-          flash[:success] = "Password updated"
-          redirect_to user_url(@user)
-        else
-          flash[:error] = @user.errors.full_messages.to_sentence
-          redirect_to :back
-        end
-      else
-        flash[:error] = "New password does not match password confirmation"
-        redirect_to :back
-      end
-    else
-      flash[:error] = "Password does not match existing password"
-      redirect_to :back
+      flash[:error] = "Either you're token is incorrect or it has expired"
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image, :temp_password, :password_confirmation, :nationality)
+    params.require(:user).permit(:password, :email, :name, :age, :title, :language, :language_level, :image, :nationality)
   end
 
 end

@@ -1,0 +1,9 @@
+<h1>User Settings</h1>
+<h3>Password</h3>
+<%= link_to "Change Password", change_password_user_settings_path, class: 'btn btn-primary settings' %>
+<h3>Email Subscriptions</h3>
+<% if @user.subscription %>
+  You are currently subscribed to monthly update emails, <%= link_to "Unsubscibe", unsubscribe_user_settings_url(@user), class: 'btn btn-primary delete' %>
+<% else %>
+  You are currently unsubscribed to monthly update emails, <%= link_to "Subscibe", subscribe_user_settings_url(@user), class: 'btn btn-primary' %>
+<% end %>

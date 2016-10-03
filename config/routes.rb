@@ -27,10 +27,17 @@ Rails.application.routes.draw do
     get 'french', on: :collection
     get 'german', on: :collection
     get 'english', on: :collection
-    get 'reset_password', on: :collection
-    post 'create_password', on: :collection
-    get 'change_password', on: :member
-    patch 'update_password',  on: :member
+    get 'email_match/:matches_token/:match_id', to: 'users#email_match'
+    get 'settings' => 'settings#show'
+    get 'reset_password' => 'settings#reset_password', on: :collection
+    post 'create_password' => 'settings#create_password', on: :collection
+    resources :settings, only: [] do
+      get 'change_password', on: :collection
+      patch 'update_password',  on: :collection
+      get 'unsubscribe', on: :collection
+      get 'subscribe', on: :collection
+      patch 'update_subscription', on: :collection
+    end
   end
 
   resources :chat_rooms, only: [:new, :create, :show, :index, :destroy]

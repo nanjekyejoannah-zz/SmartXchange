@@ -9,10 +9,18 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def monthly_update
-    UserMailer.monthly_update(User.first, 1)
+    UserMailer.monthly_update(User.first, 2)
   end
 
   def reset_password
     UserMailer.reset_password(User.first, SecureRandom.urlsafe_base64(6))
+  end
+
+  def matches_email
+    UserMailer.matches_email(User.first)
+  end
+
+  def match_email
+    UserMailer.match_email(User.first, User.second)
   end
 end

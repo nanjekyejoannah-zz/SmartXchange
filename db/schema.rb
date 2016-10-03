@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930112503) do
+ActiveRecord::Schema.define(version: 20161002124113) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20160930112503) do
   end
 
   create_table "follows", force: :cascade do |t|
-    t.integer  "follower_id"
+    t.integer  "follower_id",     null: false
     t.string   "followable_type"
     t.integer  "followable_id"
     t.datetime "created_at",      null: false
@@ -196,6 +196,9 @@ ActiveRecord::Schema.define(version: 20160930112503) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "nationality",     default: "Spanish",                        null: false
+    t.boolean  "subscription",    default: true,                             null: false
+    t.string   "matches_token"
+    t.datetime "matches_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["session_token"], name: "index_users_on_session_token"
   end

@@ -10,7 +10,7 @@ module BoardsHelper
   end
 
   def board_mark_read(board)
-    current_user.reads.where(readable_type: 'Board', readable_id: board.id).first.update!(updated_at: Time.now)
+    current_user.reads.where(readable_type: 'Board', readable_id: board.id).first.update(updated_at: Time.now)
   end
 
 end

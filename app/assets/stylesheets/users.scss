@@ -112,7 +112,16 @@
   background-color: #ff0000;
   border: none;
 }
-
+.btn.btn-primary.delete:hover {
+  background-color: #e50000;
+}
+.btn.btn-primary.settings {
+  background-color: #00b200;
+  border: none;
+}
+.btn.btn-primary.settings:hover {
+  background-color: #009900;
+}
 .linkedin-button {
   float: left;
   clear: both;

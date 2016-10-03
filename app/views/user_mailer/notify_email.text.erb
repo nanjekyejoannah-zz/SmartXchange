@@ -1,12 +1,4 @@
 Dear <%= @user.name %>,
 ===============================================
 
-  You have <%= pluralize(@notifications, "new notification") %>. Log in at <%= @url %> to see your unread messages!
-
-  If you haven't already, link your Linkedin account to gain credibility and to have our matching algorithm find others close by.
-  Make sure to check out the new <a href="<%= @url_tutorial %>">smartXchange board tutorial</a>, and
-  don't forget to follow the latest posts on our <a href="https://twitter.com/smart_xchange">twitter</a> page.
-
-  Keep practicing and networking in your free time at work or at home!
-  Sebastian Peterlin
-  Co-founder of smartXchange
+  You have <%= pluralize(@notifications, "new notification") %>. <%= link_to "Log in", @url, class:'mail-btn'  %> to see your unread <%= "notification".pluralize(@notifications) %>!

@@ -53,7 +53,7 @@ class CommentsController < ApplicationController
 
   def comment_limit
     @limit = 10
-    if (current_user.comments.count >= @limit) && ((Time.now - current_user.comments.order(created_at: :desc).limit(@limit).last.created_at)/60/60/24 <= 1)
+    if current_user.comments.count >= @limit && current_user.comments.order(created_at: :desc).limit(@limit).last.created_at > 24.hours.ago
       respond_to do |format|
         format.js {render "comment_limit"}
       end

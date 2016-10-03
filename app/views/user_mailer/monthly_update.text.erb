@@ -1,20 +1,13 @@
 Dear <%= @user.name %>,
 ===============================================
+
 <% if @notifications > 0  %>
-    You have <%= pluralize(@notifications, "new notification") %>. <a href="<%= @url %>">Log in</a> to see your unread messages and track your posts!
+    You have <%= pluralize(@notifications, "new notification") %>. <%= link_to "Log in", @url, class:'mail-btn'  %> to see your unread <%= "notification".pluralize(@notifications) %>!
 <% end %>
-  I am very excited to introduce smartXchange's newest feature: Board. Board is a place where everyone in the smartXchange community can
-  post about potential language exchange meetups, your projects (such as Kickstarter projects), links to your work (such as art, design, development),
-  and potential jobs / work you have to offer. You can also upvote or downvote a post (making someone's or your own post more popular), comment on a post,
-  and follow a post so that you receive all notifications for that post. You are limited to 5 posts, 10 votes, and 10 comments per 24 hour period :).
-  If you have doubts on how to use the Board, check out the 5min <a href="<%= @url_board_tutorial %>">smartXchange board tutorial</a>
 
-  Other new features: A much improved mobile feel, every page is now mobile friendly so the website can be easily used on a smartphone or tablet. A smartXchange mobile tutorial will be coming soon :). We also improved speed and security by making database queries (searches) faster and safer, with less queries performed for the same action and more security checks. Lastly, we added the ability to display links on your profile (in the title/profession section) and added time zone localization with time now displayed in your local time zone.
+  smartXchange is proud to have entered its third month since launching with now over 100 users!
+  This past month we have added the board (for posting to the general smartXchange community), added a nationality field (native country) so your native country's flag is displayed to the other user during conversations, added search to search our database of users, added geolocation (for users with Linkedin integration) so matches appear higher if they are closer, and added a mobile tutorial.
 
-  If you haven't already, make sure to check out the <a href="<%= @url_tutorial %>">smartXchange website video tutorial</a>, and
-  don't forget to follow the latest posts on our <a href="https://twitter.com/smart_xchange">twitter</a> page.
-
-  Keep practicing and networking in your free time at work
-  or at home!
-  Sebastian Peterlin
-  Co-founder of smartXchange
+  Make sure to update your nationality (native country), everyone has been set to Spanish (Spain) by default.
+  We have updated board notifications so that everytime you upvote or comment on a post you will automatically be added as a follower; to unfollow simply click Unfollow or downvote the post. If the board has been updated since you last read it, the word Board in the header will be highlighted in yellow to reflect this. If you click on the board tab, the board will be displayed and scroll to the newest update.
+  Lastly, enjoy the new search feature and search for other users by their description, age, name, location, nationality, Linkedin industry, and Linkedin summary.

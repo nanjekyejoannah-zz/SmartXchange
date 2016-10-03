@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  <style type="text/css" media="screen">
+    body {
+      font-family:"Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
+    li { list-style-type: none;}
+    #mail-header { background-color:#8fb8e2;}
+    #mail-header img { padding-left: 5px;}
+    .mail-match {
+      overflow:auto;
+      display: table;
+      height: 55px;
+    }
+    /*maybe refactor, width is so images don't overlap if there is linkedin*/
+    .mail-match-img {
+      display:table-cell;
+      vertical-align:middle;
+      width: 85px;
+    }
+    .mail-match-text {
+      display:table-cell;
+      vertical-align:middle;
+      padding-left: 10px;
+      line-height: 25px;
+    }
+    .mail-btn {
+      color:#fff;
+      background-color:#fed136;
+      border-color:#fed136;
+      border: 1px solid transparent;
+      font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+      text-transform:uppercase;
+      text-decoration:none;
+      font-weight:700;
+      border-radius:4px;
+      font-size:14px;
+      padding: 6px 12px;
+      line-height: 1.42857143;
+    }
+  </style>
+</head>
+<body>
+  <div id="mail-header">
+    <%= image_tag(attachments['logo.png'].url, alt: 'Logo') %>
+  </div>
+</body>

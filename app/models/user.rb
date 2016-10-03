@@ -91,6 +91,10 @@ class User < ApplicationRecord
     user
   end
 
+  def self.new_token
+    SecureRandom.urlsafe_base64(16)
+  end
+
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
@@ -101,7 +105,7 @@ class User < ApplicationRecord
   end
 
   def reset_token!
-    self.session_token = SecureRandom.urlsafe_base64(16)
+    self.session_token = User.new_token
     self.save!
     self.session_token
   end
@@ -149,7 +153,12 @@ class User < ApplicationRecord
     )
   end
 
-
+  def create_matches_token!
+    self.matches_token = User.new_token
+    self.matches_sent_at = Time.now
+    self.save!
+    self.matches_token
+  end
 
   protected
 
