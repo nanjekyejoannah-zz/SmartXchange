@@ -101,12 +101,11 @@ div.chat-room:hover {
     hyphens: auto;
 }
 
-// kept underscore due to form_for automatic class and id creation
 #message-form {
   overflow: auto;
 }
 
-// to prevent zoom in on smart phone screen
+// to prevent zoom in on smart phone screen, using form_for this is why there is an underscore
 #new_message textarea, textarea:focus, select:focus, input {
   font-size: 16px;
 }
