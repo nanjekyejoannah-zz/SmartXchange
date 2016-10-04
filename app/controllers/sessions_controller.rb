@@ -54,7 +54,7 @@ class SessionsController < ApplicationController
       uid: "",
       location: ""
     )
-    redirect_to :back
+    redirect_to user_url(current_user)
   end
 
   def create_linkedin
@@ -63,13 +63,13 @@ class SessionsController < ApplicationController
       current_user.add_with_omniauth(auth_hash)
       flash[:success] = "Linkedin added to profile"
       @@add = false
-      redirect_to :back and return
+      redirect_to user_url(current_user) and return
     end
     if @@update
       current_user.update_with_omniauth(auth_hash)
       flash[:success] = "Linkedin information updated"
       @@update = false
-      redirect_to :back and return
+      redirect_to user_url(current_user) and return
     end
 
     @user = User.where(:provider => auth_hash['provider'],
