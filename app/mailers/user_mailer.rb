@@ -98,7 +98,9 @@ class UserMailer < ApplicationMailer
     if Rails.env.production?
       # maybe refactor, if no image uploaded, need to fetch the image from default_url method, which for some reason wasn't finding the file - Errno::ENOENT: No such file or directory @ rb_sysopen - http://www.smartxchange.es/images/fallback/user/small_thumb_default.png  even though the file exists and the link works (also wasn't able to use Rails.root since prepends 'app' to path), this method works with remote fetch
       # need to use .url path without Rails.root due to images stored on amazon s3 servers
-      attachments.inline["#{user.name}.jpg"] = open(user.image.small_thumb.url).read
+      # .path shows up nil for default_url call
+      image_url = user.image.small_thumb.path ? user.image.small_thumb.url : "http://www.smartxchange.es#{user.image.small_thumb.url}"
+      attachments.inline["#{user.name}.jpg"] = open(image_url).read
     else
       attachments.inline["#{user.name}.jpg"] = File.read("#{Rails.root}/public/#{user.image.small_thumb.url}")
     end
