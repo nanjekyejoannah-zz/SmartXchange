@@ -53,7 +53,7 @@ class UserMailer < ApplicationMailer
     if @matches.any?
       @linkedin_img_not_set = true
       @matches.each do |match|
-        attachments.inline["#{match.name}.jpg"] = File.read("#{Rails.root}/public/#{match.image.small_thumb.path}")
+        attachments.inline["#{match.name}.jpg"] = File.read(match.image.small_thumb.url)
         # probably refactor, only do when needed so doesn't send as attachment if unused
         if @linkedin_img_not_set && match.linkedin
           attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png")
@@ -70,7 +70,7 @@ class UserMailer < ApplicationMailer
     @match = match
     @url_user = "http://www.smartxchange.es/users/#{@user.id}"
     attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @user.linkedin
-    attachments.inline["#{@user.name}.jpg"] = File.read("#{Rails.root}/public/#{@user.image.small_thumb.path}")
+    attachments.inline["#{@user.name}.jpg"] = File.read(@user.image.small_thumb.url)
     email_with_name = %("#{@match.name}" <#{@match.email}>)
     mail(to: email_with_name, subject: "#{@user.name} wants to practice #{@user.language}")
   end
