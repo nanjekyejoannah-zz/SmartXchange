@@ -155,7 +155,7 @@ class User < ApplicationRecord
 
   def create_matches_token!
     self.matches_token = User.new_token
-    self.matches_sent_at = Time.now
+    self.matches_sent_at = Time.zone.now
     self.save!
     self.matches_token
   end
