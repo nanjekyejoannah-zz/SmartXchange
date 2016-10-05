@@ -52,8 +52,7 @@ class UserMailer < ApplicationMailer
     if @matches.any?
       @linkedin_img_not_set = true
       @matches.each do |match|
-        # here and for match_email need to use .url path without Rails.root due to images stored on amazon s3 servers, altered default_url method in avatar_uploader to work with this call
-        attachments.inline["#{match.name}.jpg"] = File.read(match.image.small_thumb.url)
+        fetch_user_image(match)
         # probably refactor, only do when needed so doesn't send as attachment if unused
         if @linkedin_img_not_set && match.linkedin
           attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png")
@@ -70,7 +69,7 @@ class UserMailer < ApplicationMailer
     @match = match
     @url_user = "http://www.smartxchange.es/users/#{@user.id}"
     attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @user.linkedin
-    attachments.inline["#{@user.name}.jpg"] = File.read(@user.image.small_thumb.url)
+    fetch_user_image(@user)
     email_with_name = %("#{@match.name}" <#{@match.email}>)
     mail(to: email_with_name, subject: "#{@user.name} wants to practice #{@user.language}")
   end
@@ -92,6 +91,17 @@ class UserMailer < ApplicationMailer
 
   def prevent_delivery_to_unsubscribed
     mail.perform_deliveries = false unless @user.subscription
+  end
+
+  def fetch_user_image(user)
+    # in production .url works as url should, but in development .url works as path and vice versa
+    if Rails.env.production?
+      # maybe refactor, if no image uploaded, need to fetch the image from default_url method, which for some reason wasn't finding the file - Errno::ENOENT: No such file or directory @ rb_sysopen - http://www.smartxchange.es/images/fallback/user/small_thumb_default.png  even though the file exists and the link works (also wasn't able to use Rails.root since prepends 'app' to path), this method works with remote fetch
+      # need to use .url path without Rails.root due to images stored on amazon s3 servers
+      attachments.inline["#{user.name}.jpg"] = open(user.image.small_thumb.url).read
+    else
+      attachments.inline["#{user.name}.jpg"] = File.read("#{Rails.root}/public/#{user.image.small_thumb.url}")
+    end
   end
 
 end
