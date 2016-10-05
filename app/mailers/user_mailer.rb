@@ -44,7 +44,6 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: 'Password reset, smartXchange')
   end
 
-  # Development for some reason recognizes image.url as image.path and vice versa, but in production it's normal
   def matches_email(user)
     @user = user
     @matches = User.where(language: @user.language, language_level: @user.language_level).where.not(id: @user.id)[4..8]
@@ -53,6 +52,7 @@ class UserMailer < ApplicationMailer
     if @matches.any?
       @linkedin_img_not_set = true
       @matches.each do |match|
+        # here and for match_email need to use .url path without Rails.root due to images stored on amazon s3 servers, altered default_url method in avatar_uploader to work with this call
         attachments.inline["#{match.name}.jpg"] = File.read(match.image.small_thumb.url)
         # probably refactor, only do when needed so doesn't send as attachment if unused
         if @linkedin_img_not_set && match.linkedin
