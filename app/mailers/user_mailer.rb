@@ -44,6 +44,7 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: 'Password reset, smartXchange')
   end
 
+  # Development for some reason recognizes image.url as image.path and vice versa, but in production it's normal
   def matches_email(user)
     @user = user
     @matches = User.where(language: @user.language, language_level: @user.language_level).where.not(id: @user.id)[4..8]
@@ -52,7 +53,7 @@ class UserMailer < ApplicationMailer
     if @matches.any?
       @linkedin_img_not_set = true
       @matches.each do |match|
-        attachments.inline["#{match.name}.jpg"] = File.read("#{Rails.root}/public/#{match.image.small_thumb.url}")
+        attachments.inline["#{match.name}.jpg"] = File.read("#{Rails.root}/public/#{match.image.small_thumb.path}")
         # probably refactor, only do when needed so doesn't send as attachment if unused
         if @linkedin_img_not_set && match.linkedin
           attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png")
@@ -69,7 +70,7 @@ class UserMailer < ApplicationMailer
     @match = match
     @url_user = "http://www.smartxchange.es/users/#{@user.id}"
     attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @user.linkedin
-    attachments.inline["#{@user.name}.jpg"] = File.read("#{Rails.root}/public/#{@user.image.small_thumb.url}")
+    attachments.inline["#{@user.name}.jpg"] = File.read("#{Rails.root}/public/#{@user.image.small_thumb.path}")
     email_with_name = %("#{@match.name}" <#{@match.email}>)
     mail(to: email_with_name, subject: "#{@user.name} wants to practice #{@user.language}")
   end
