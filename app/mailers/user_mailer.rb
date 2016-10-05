@@ -46,7 +46,7 @@ class UserMailer < ApplicationMailer
 
   def matches_email(user)
     @user = user
-    @matches = User.where(language: @user.language, language_level: @user.language_level).where.not(id: @user.id)[7..8]
+    @matches = User.where(language: @user.language, language_level: @user.language_level).where.not(id: @user.id)[8..8]
     @matches_token = @user.create_matches_token!
     @url_email_match = "http://www.smartxchange.es/users/#{@user.id}/email_match/#{@matches_token}/"
     if @matches.any?
