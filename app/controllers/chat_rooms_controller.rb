@@ -24,11 +24,10 @@ class ChatRoomsController < ApplicationController
   end
 
   def create
-    initiator = current_user
-    @chat_room = ChatRoom.between(initiator,chat_room_params[:recipient_id]).first
+    @chat_room = ChatRoom.between(current_user.id, chat_room_params[:recipient_id], current_user.language).first
     if !@chat_room
       # set up right now so that the title of the chat room is the initiator's
-      @chat_room = ChatRoom.create!(initiator_id: initiator.id, recipient_id: chat_room_params[:recipient_id], title: initiator.language)
+      @chat_room = ChatRoom.create!(initiator_id: current_user.id, recipient_id: chat_room_params[:recipient_id], title: current_user.language)
     end
     show
   end

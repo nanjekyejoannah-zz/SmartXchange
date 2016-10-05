@@ -11,6 +11,7 @@
 #
 
 class Read < ApplicationRecord
+  validates_uniqueness_of :user_id, :scope => [:readable_type, :readable_id]
   belongs_to :user
   belongs_to :readable, polymorphic: true
 end

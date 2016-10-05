@@ -12,6 +12,7 @@
 
 class ChatRoom < ApplicationRecord
   validates_presence_of :initiator_id, :recipient_id, :title
+  validate :unique_chat_room
 
   belongs_to :initiator, class_name: 'User'
   belongs_to :recipient, class_name: 'User'
@@ -26,8 +27,16 @@ class ChatRoom < ApplicationRecord
   end
 
   #to check to see if there any existing chats between you and the potential recepient
-  scope :between, -> (initiator,recipient_id) do
-    where("((chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?) OR (chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?)) AND chat_rooms.title = ?", initiator.id,recipient_id, recipient_id, initiator.id,initiator.language)
+  scope :between, -> (initiator_id, recipient_id, title) do
+    where("((chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?) OR (chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?)) AND chat_rooms.title = ?", initiator_id, recipient_id, recipient_id, initiator_id, title)
+  end
+
+  protected
+
+  def unique_chat_room
+    if ChatRoom.between(self.initiator_id, self.recipient_id, self.title).any?
+      errors.add(:title, "Existing chat room with this title between these 2 users")
+    end
   end
 
 
