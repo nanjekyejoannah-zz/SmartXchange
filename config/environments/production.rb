@@ -31,8 +31,8 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
 
   # needs to be implemented in rails 4 to serve static assets in production according to stack overflow
-  # config.serve_static_files = true
-  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.serve_static_files = true
+  # config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
