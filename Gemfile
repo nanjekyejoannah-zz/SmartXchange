@@ -58,6 +58,10 @@ gem 'rails_autolink'
 # for using location in algorithm
 gem 'geocoder'
 
+# payments
+gem 'braintree', '~> 2.33.1'
+gem 'gon', '~> 5.1.2'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

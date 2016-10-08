@@ -562,6 +562,18 @@ section#contact :-ms-input-placeholder {
 section#contact .text-danger {
   color:#e74c3c
 }
+section#premium {
+  color: #7f7f7f;
+  background-color: #000;
+}
+.btn.premium {
+  color: #7f7f7f;
+  background-color: #000;
+  border-color: #ffffff;
+}
+.btn.premium:hover {
+  background-color: #191919;
+}
 footer {
   padding:25px 0;
   text-align:center

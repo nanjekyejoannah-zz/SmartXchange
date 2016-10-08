@@ -10,6 +10,10 @@
               <span class="icon-bar"></span>
             </button>
         <a class="navbar-brand" href="<%= root_path %>"><%= image_tag('logo.png', alt: 'SmartXchange') %></a>
+        <!-- probably refactor need to reposition correctly -->
+        <% if signed_in? && current_user.premium? %>
+          <span style="color:#fed136" id="premium-header">Premium</span>
+        <% end %>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->

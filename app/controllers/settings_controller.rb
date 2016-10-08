@@ -1,7 +1,7 @@
 class SettingsController < ApplicationController
 
   skip_before_action :require_signed_in!, only: [:reset_password, :create_password, :unsubscribe, :update_subscription]
-  before_action :correct_user, only: [:change_password, :update_password, :subscribe]
+  before_action :correct_user, only: [:change_password, :update_password, :subscribe, :update_subscription, :activate, :deactivate, :downgrade]
 
   def show
     @user = User.find(params[:user_id])
@@ -84,6 +84,26 @@ class SettingsController < ApplicationController
       flash[:alert] = 'There was a problem'
       render :unsubscribe
     end
+  end
+
+  def activate
+    # could switch this and deactive to @user = User.find(params[:user_id])
+    current_user.appear
+    flash[:success] = "You are now browsing in active mode"
+    redirect_to user_url(current_user)
+  end
+
+  def deactivate
+    current_user.disappear
+    flash[:success] = "You are now browsing in inactive modes"
+    redirect_to user_url(current_user)
+  end
+
+  def downgrade
+    current_user.package = Package.first
+    # refund the person, send email...
+    flash[:notice] = "You now have the Standard package"
+    redirect_to user_url(current_user)
   end
 
   private

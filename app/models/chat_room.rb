@@ -12,7 +12,9 @@
 
 class ChatRoom < ApplicationRecord
   validates_presence_of :initiator_id, :recipient_id, :title
-  validate :unique_chat_room
+  # maybe remove this validation only used when creating chat rooms from command line
+  validate :unique_chat_room?
+  validate :person_of_interest_or_chat_bot_and_not_premium?
 
   belongs_to :initiator, class_name: 'User'
   belongs_to :recipient, class_name: 'User'
@@ -31,9 +33,17 @@ class ChatRoom < ApplicationRecord
     where("((chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?) OR (chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?)) AND chat_rooms.title = ?", initiator_id, recipient_id, recipient_id, initiator_id, title)
   end
 
+  def person_of_interest_or_chat_bot_and_not_premium?
+    initiator = User.find(self.initiator_id)
+    recipient = User.find(self.recipient_id)
+    if (recipient.person_of_interest? || recipient.chat_bot?) && !initiator.premium?
+      errors.add(:recipient_id, "You must be a premium member to message Persons of Interest or ChatBots")
+    end
+  end
+
   protected
 
-  def unique_chat_room
+  def unique_chat_room?
     if ChatRoom.between(self.initiator_id, self.recipient_id, self.title).any?
       errors.add(:title, "Existing chat room with this title between these 2 users")
     end

@@ -1,4 +1,4 @@
-<div class="col-md-4 portfolio-item">
+<div class="col-md-4 portfolio-item" style="<%= 'border:1px solid #fed136;border-radius:5px;' if user.person_of_interest? %>">
     <a href="<%= user_path(user) %>">
         <div class="user-image">
           <!-- kind of hack with paragraph to align image may need to refactor -->

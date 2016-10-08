@@ -1,13 +1,13 @@
 # == Schema Information
 #
-# Table name: follows
+# Table name: packages
 #
-#  id              :integer          not null, primary key
-#  follower_id     :integer          not null
-#  followable_type :string
-#  followable_id   :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id             :integer          not null, primary key
+#  classification :string           not null
+#  description    :string           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  price          :decimal(8, 2)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

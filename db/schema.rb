@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002124113) do
+ActiveRecord::Schema.define(version: 20161007221034) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -145,6 +145,15 @@ ActiveRecord::Schema.define(version: 20161002124113) do
     t.index ["notified_id"], name: "index_notifications_on_notified_id"
   end
 
+  create_table "packages", force: :cascade do |t|
+    t.string   "classification",                         null: false
+    t.string   "description",                            null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.decimal  "price",          precision: 8, scale: 2
+    t.index ["classification"], name: "index_packages_on_classification", unique: true
+  end
+
   create_table "positions", force: :cascade do |t|
     t.string   "title"
     t.string   "summary"
@@ -167,6 +176,15 @@ ActiveRecord::Schema.define(version: 20161002124113) do
     t.index ["updated_at"], name: "index_posts_on_updated_at"
   end
 
+  create_table "purchases", force: :cascade do |t|
+    t.integer  "buyer_id",   null: false
+    t.integer  "package_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["buyer_id", "package_id"], name: "index_purchases_on_buyer_id_and_package_id", unique: true
+    t.index ["buyer_id"], name: "index_purchases_on_buyer_id"
+  end
+
   create_table "reads", force: :cascade do |t|
     t.integer  "user_id",       null: false
     t.string   "readable_type"
@@ -178,27 +196,29 @@ ActiveRecord::Schema.define(version: 20161002124113) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                                      null: false
-    t.string   "name",            default: "New User",                       null: false
-    t.integer  "age",             default: 25,                               null: false
-    t.string   "language",        default: "Spanish",                        null: false
-    t.integer  "language_level",  default: 3,                                null: false
-    t.string   "password_digest",                                            null: false
-    t.string   "session_token",                                              null: false
+    t.string   "email",                                                            null: false
+    t.string   "name",                  default: "New User",                       null: false
+    t.integer  "age",                   default: 25,                               null: false
+    t.string   "language",              default: "Spanish",                        null: false
+    t.integer  "language_level",        default: 3,                                null: false
+    t.string   "password_digest",                                                  null: false
+    t.string   "session_token",                                                    null: false
     t.string   "image"
-    t.boolean  "active",          default: false,                            null: false
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
-    t.string   "title",           default: "Please fill in your profession", null: false
+    t.boolean  "active",                default: false,                            null: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
+    t.string   "title",                 default: "Please fill in your profession", null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
-    t.string   "nationality",     default: "Spanish",                        null: false
-    t.boolean  "subscription",    default: true,                             null: false
+    t.string   "nationality",           default: "Spanish",                        null: false
+    t.boolean  "subscription",          default: true,                             null: false
     t.string   "matches_token"
     t.datetime "matches_sent_at"
+    t.string   "braintree_customer_id"
+    t.boolean  "person_of_interest",    default: false,                            null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["session_token"], name: "index_users_on_session_token"
   end

@@ -140,6 +140,9 @@
             </span>
           </h4>
           <h4> <%= @user.nationality %> <span style="font-weight:normal">National</span> </h4>
+          <% if @user.person_of_interest?  %>
+            <h4>Person of Interest</h4>
+          <% end %>
           <!-- may change class to start-chat but have to make sure it doesn't conflict with js code -->
           <!-- also need to refactor the break -->
           <br>

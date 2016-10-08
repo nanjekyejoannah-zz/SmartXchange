@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="section-heading">A professional network, translate-on-demand, trivia chatbots and more!</h2>
+            <h2 class="section-heading">A professional network, translate-on-demand, trivia chatbots, and more!</h2>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
           <div class="row">
               <div class="col-lg-12 text-center">
                   <h2 class="section-heading">Services</h2>
-                  <h3 class="section-subheading text-muted">Frustrated with your ability to speak a second or third language and frustrated with the current options for learning and practicing? While studying in Madrid, some members of our team were frustrated by the language learning options available and found that we needed to practice with someone close to our level. In comes smartXchange: a unique platform for matching people based on their language level and background with the intent of practicing a second or third language. Find other active or non-active users and practice your language of choice while discussing your background and networking! </h3>
+                  <h3 class="section-subheading text-muted">Frustrated with your ability to speak a second or third language and frustrated with the current options for learning and practicing? While studying in Madrid, some members of our team were frustrated by the language learning options available and found that we needed to practice with someone close to our level. In comes smartXchange: a unique platform for matching people based on their language level and background with the intent of practicing a second or third language. Find other active or non-active users and practice your language of choice while discussing your background and networking. No contacts, no followers, no connections, only conversations. </h3>
               </div>
           </div>
           <div class="row text-center">
@@ -214,5 +214,16 @@
                 </div>
             </div>
         </div>
+    </section>
+    <section id="premium">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 text-center">
+                  <h2 class="section-heading">smartXchange Premium</h2>
+                  <h3 class="section-subheading text-muted">Access to conversations with high-level persons of interest (Professors, Managers, CEOs, etc), tailored language aids (chat bots, tutoring, voice-to-text), and tests for language proficiency of employees and prospective employees</h3>
+                  <%=link_to "Premium Package #{number_to_currency(Package.second.price, :unit => "€")} / month", new_transaction_path, class: "btn btn-primary premium" %>
+              </div>
+          </div>
+      </div>
     </section>
 </body>

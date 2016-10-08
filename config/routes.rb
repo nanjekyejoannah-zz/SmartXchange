@@ -37,6 +37,9 @@ Rails.application.routes.draw do
       get 'unsubscribe', on: :collection
       get 'subscribe', on: :collection
       patch 'update_subscription', on: :collection
+      get 'activate', on: :collection
+      get 'deactivate', on: :collection
+      get 'downgrade', on: :collection
     end
   end
 
@@ -52,6 +55,8 @@ Rails.application.routes.draw do
     get "followers", on: :member
   end
   resources :comments, only: [:create, :update, :destroy]
+
+  resources :transactions, only: [:new, :create]
 
   mount ActionCable.server => '/cable'
 

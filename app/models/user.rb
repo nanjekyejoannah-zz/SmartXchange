@@ -2,25 +2,29 @@
 #
 # Table name: users
 #
-#  id              :integer          not null, primary key
-#  email           :string           not null
-#  name            :string           default("New User"), not null
-#  age             :integer          default(25), not null
-#  language        :string           default("Spanish"), not null
-#  language_level  :integer          default(3), not null
-#  password_digest :string           not null
-#  session_token   :string           not null
-#  image           :string
-#  active          :boolean          default(FALSE), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  title           :string           default("Please fill in your profession"), not null
-#  provider        :string
-#  uid             :string
-#  location        :string
-#  latitude        :float
-#  longitude       :float
-#  nationality     :string           default("Spanish"), not null
+#  id                    :integer          not null, primary key
+#  email                 :string           not null
+#  name                  :string           default("New User"), not null
+#  age                   :integer          default(25), not null
+#  language              :string           default("Spanish"), not null
+#  language_level        :integer          default(3), not null
+#  password_digest       :string           not null
+#  session_token         :string           not null
+#  image                 :string
+#  active                :boolean          default(FALSE), not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  title                 :string           default("Please fill in your profession"), not null
+#  provider              :string
+#  uid                   :string
+#  location              :string
+#  latitude              :float
+#  longitude             :float
+#  nationality           :string           default("Spanish"), not null
+#  subscription          :boolean          default(TRUE), not null
+#  matches_token         :string
+#  matches_sent_at       :datetime
+#  braintree_customer_id :string
 #
 
 #active is for instantaneous feature Tati talked about
@@ -51,11 +55,14 @@ class User < ApplicationRecord
   has_many :followed_posts, through: :follows, source: :followable, source_type: 'Post'
   has_many :reads, dependent: :destroy
   has_many :read_boards, through: :reads, source: :readable, source_type: 'Board'
+  has_one :purchase, :foreign_key => :buyer_id, dependent: :destroy
+  has_one :package, through: :purchase
 
   geocoded_by :location
 
   before_save :downcase_email
   after_validation :geocode, if: :location_present_and_changed
+  after_create :add_package
 
   default_scope -> { order(created_at: :asc) } #may refactor take this out, asc want longest users around first
 
@@ -160,6 +167,31 @@ class User < ApplicationRecord
     self.matches_token
   end
 
+  def cart_total_price
+    #assuming for this and purchase_cart! method can only buy one of the premium package (2nd package) for now
+    Package.second.price
+  end
+
+  def purchase_cart!
+    self.package = Package.second
+  end
+
+  def has_payment_info?
+    braintree_customer_id
+  end
+
+  def premium?
+    self.package == Package.second
+  end
+
+  def person_of_interest?
+    self.person_of_interest
+  end
+
+  def chat_bot?
+    self.id == 6
+  end
+
   protected
 
   def ensure_session_token
@@ -173,6 +205,15 @@ class User < ApplicationRecord
   def location_present_and_changed
     return true if (self.location.present? && self.location_changed?)
     false
+  end
+
+  def add_package
+    # may take this out since only used when creating a package from command line
+    if self.person_of_interest
+      self.package = Package.second
+    else
+      self.package = Package.first
+    end
   end
 
 

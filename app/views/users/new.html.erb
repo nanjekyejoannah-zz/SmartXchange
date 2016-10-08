@@ -10,7 +10,6 @@
 
   <br>
   <br>
-
   <!-- Register with Linkedin -->
   <%= button_to "Register with Linkedin", new_linkedin_session_path, method: 'get', data: {confirm: "smartXchange will have access to your basic Linkedin profile and Linkedin email, are you sure?"}, class: 'btn btn-primary linkedin' %>
 
@@ -141,6 +140,8 @@
   <!-- hack job need to refactor with padding or margin -->
   <br>
   <br>
+
+  <%= link_to "smartXchange Premium", "#{about_path}#premium", class: 'btn btn-primary premium' %>
   <br>
   <br>
   <br>
