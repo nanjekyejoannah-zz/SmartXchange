@@ -16,6 +16,7 @@ class UsersController < ApplicationController
       welcome_new_user(@user)
     else
       flash[:error] = @user.errors.full_messages.to_sentence
+      @user_count = User.all.count - (User.all.count % 10)
       render :new
     end
   end
@@ -55,6 +56,11 @@ class UsersController < ApplicationController
       flash[:error] = @user.errors.full_messages.to_sentence
       redirect_to :back
     end
+  end
+
+  def destroy
+    User.find(params[:id]).destroy
+    redirect_to '/users/new', notice: "User deleted"
   end
 
   # maybe refactor these two to be in a frontend framework or move to protected
@@ -97,12 +103,6 @@ class UsersController < ApplicationController
   def german
     @users = User.where(language: 'German').includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
-  end
-
-  def destroy
-    User.find(params[:id]).destroy
-    flash[:notice] = "User deleted."
-    redirect_to '/users/new'
   end
 
   def email_match

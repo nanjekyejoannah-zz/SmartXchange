@@ -56,7 +56,9 @@ Rails.application.routes.draw do
   end
   resources :comments, only: [:create, :update, :destroy]
 
-  resources :transactions, only: [:new, :create]
+  resources :transactions, only: [:new, :create] do
+    post "create_customer", on: :collection
+  end
 
   mount ActionCable.server => '/cable'
 

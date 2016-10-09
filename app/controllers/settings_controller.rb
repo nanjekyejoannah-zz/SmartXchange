@@ -1,7 +1,7 @@
 class SettingsController < ApplicationController
 
   skip_before_action :require_signed_in!, only: [:reset_password, :create_password, :unsubscribe, :update_subscription]
-  before_action :correct_user, only: [:change_password, :update_password, :subscribe, :update_subscription, :activate, :deactivate, :downgrade]
+  before_action :correct_user, except: [:reset_password, :create_password, :unsubscribe, :update_subscription]
 
   def show
     @user = User.find(params[:user_id])
@@ -55,7 +55,7 @@ class SettingsController < ApplicationController
   def unsubscribe
     if params[:id]
       user_id = Rails.application.message_verifier(:unsubscribe).verify(params[:id])
-    # since can't call :correct_user on this action add this below for security, to_s instead of looking up user for speed (I think)
+    # maybe refactor and call correct_user below, for now this works hack job, to_s instead of looking up user for speed (I think)
     elsif signed_in? && params[:user_id] == current_user.id.to_s
       user_id = params[:user_id]
     else
@@ -90,20 +90,23 @@ class SettingsController < ApplicationController
     # could switch this and deactive to @user = User.find(params[:user_id])
     current_user.appear
     flash[:success] = "You are now browsing in active mode"
-    redirect_to user_url(current_user)
+    redirect_to :back
   end
 
   def deactivate
     current_user.disappear
-    flash[:success] = "You are now browsing in inactive modes"
-    redirect_to user_url(current_user)
+    redirect_to :back, notice: "You are now browsing in inactive modes"
   end
 
   def downgrade
-    current_user.package = Package.first
-    # refund the person, send email...
-    flash[:notice] = "You now have the Standard package"
-    redirect_to user_url(current_user)
+    # maybe refactor and move this method to transactions controller
+    customer = Braintree::Customer.find(current_user.braintree_customer_id)
+    subscriptions = customer.payment_methods.map(&:subscriptions).flatten
+    subscription = subscriptions.select {|s| (s.status == "Active" && s.plan_id == "2")}.first
+    Braintree::Subscription.cancel(subscription.id)
+    current_user.unsubscribe_to_premium
+    UserMailer.premium_unsubscribe(current_user).deliver_later
+    redirect_to :back, notice: "Subscription cancelled! You now have the Standard package"
   end
 
   private

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <%= render 'layouts/header_mail' %>
+  <body>
+    <h4>Dear <%= @user.name %>,</h4>
+    <p>
+      Sorry to see you leave smartXchange Premium. If possible, please respond to this email with your reason for cancelling.
+    </p>
+  </body>
+  <%= render 'layouts/footer_mail_simple' %>
+</html>

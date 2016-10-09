@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
   def correct_user
     # need this for settings maybe refactor
-    id = params[:id] ? params[:id] : params[:user_id]
+    id = params[:user_id] ? params[:user_id] : params[:id]
     @user = User.find(id)
     unless @user == current_user
       flash[:error] = "Unauthorized access"

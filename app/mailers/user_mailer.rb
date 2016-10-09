@@ -80,12 +80,25 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: 'Suspicious Activity')
   end
 
+  def premium_subscribe (user)
+    @user = user
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    mail(to: email_with_name, subject: 'Welcome to smartXchange Premium')
+  end
+
+  def premium_unsubscribe(user)
+    @user = user
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    mail(to: email_with_name, subject: 'Sorry to see you leave')
+  end
+
   private
 
   def set_urls_and_attachments
     @url  = 'http://www.smartxchange.es/login'
     @url_tutorial = 'http://www.smartxchange.es/about#video'
     @url_mobile_tutorial = 'http://www.smartxchange.es/about#video-mobile'
+    @url_premium = 'http://www.smartxchange.es/about#premium'
     attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/logo.png")
   end
 

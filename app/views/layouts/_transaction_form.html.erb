@@ -1,10 +1,9 @@
 <div class="form-container radius-box glassy-bg small-10 small-centered medium-8 large-6 columns">
   <h3 class="mbs">Buy the Premium Package</h3>
   <%= form_tag transactions_path do %>
-    <%= render 'layouts/customer_form' unless current_user.has_payment_info? %>
-    <p>Please enter your payment details and await an email from us. Your money back guaranteed if you're unsatisfied with the service.</p>
+    <p>Begin your 7 day free trial today! Please enter your payment details and check your inbox for an email from us.</p>
     <div id="dropin"></div>
     <br>
-    <%=submit_tag "Pay #{number_to_currency(current_user.cart_total_price, :unit => "€")} / month", class: "btn btn-xl premium" %>
+    <%=submit_tag "Subscribe", class: "btn btn-xl premium" %>
   <% end %>
 </div>

@@ -27,4 +27,12 @@ class UserMailerPreview < ActionMailer::Preview
   def warning_email
     UserMailer.warning_email(User.first)
   end
+
+  def premium_subscribe
+    UserMailer.premium_subscribe(User.first)
+  end
+
+  def premium_unsubscribe
+    UserMailer.premium_unsubscribe(User.first)
+  end
 end

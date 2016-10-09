@@ -15,4 +15,9 @@ class Package < ApplicationRecord
   # maybe refactor not sure about dependent destroy here
   has_many :purchases, dependent: :destroy
   has_many :buyers, through: :purchases
+
+  def description_uncapitalize
+    self.description[0, 1].downcase + self.description[1..-1]
+  end
+
 end

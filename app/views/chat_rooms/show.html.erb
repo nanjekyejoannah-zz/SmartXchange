@@ -2,7 +2,7 @@
 <h2><a href="<%=user_path(@receiver)%>">
   <%= user_convert_nationality_to_img(@receiver.nationality) %>
   <%= " #{@receiver.name} " %>
-  <%= image_tag('green-dot.png', class:'active', alt: 'Active') if @receiver.active %>
+  <%= image_tag('green-dot.png', alt: 'Active') if @receiver.active %>
   </a>
   <%= " - #{@chat_room.title} Conversation"%>
 </h2>

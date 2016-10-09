@@ -62,7 +62,6 @@ class User < ApplicationRecord
 
   before_save :downcase_email
   after_validation :geocode, if: :location_present_and_changed
-  after_create :add_package
 
   default_scope -> { order(created_at: :asc) } #may refactor take this out, asc want longest users around first
 
@@ -167,17 +166,17 @@ class User < ApplicationRecord
     self.matches_token
   end
 
-  def cart_total_price
-    #assuming for this and purchase_cart! method can only buy one of the premium package (2nd package) for now
-    Package.second.price
-  end
-
-  def purchase_cart!
+  def subscribe_to_premium
+    # assuming can only subscribe to the premium package (2nd package) for now, for this and premium?  method
     self.package = Package.second
   end
 
+  def unsubscribe_to_premium
+    self.package = Package.first
+  end
+
   def has_payment_info?
-    braintree_customer_id
+    self.braintree_customer_id
   end
 
   def premium?
@@ -205,15 +204,6 @@ class User < ApplicationRecord
   def location_present_and_changed
     return true if (self.location.present? && self.location_changed?)
     false
-  end
-
-  def add_package
-    # may take this out since only used when creating a package from command line
-    if self.person_of_interest
-      self.package = Package.second
-    else
-      self.package = Package.first
-    end
   end
 
 

@@ -1,49 +1,79 @@
 class TransactionsController < ApplicationController
 
+  before_action :user_has_premium?, only: [:new, :create]
+
   def new
-    gon.client_token = generate_client_token
+    if current_user.has_payment_info?
+      gon.client_token = generate_client_token
+    else
+      render :new_customer
+    end
   end
 
   def create
-    unless current_user.has_payment_info?
-      @result = Braintree::Transaction.sale(
-        amount: current_user.cart_total_price,
-        payment_method_nonce: params[:payment_method_nonce],
-        customer: {
-          first_name: params[:first_name],
-          last_name: params[:last_name],
-          company: params[:company],
-          email: current_user.email,
-          phone: params[:phone]
-        },
-        options: {
-          store_in_vault_on_success: true
-        })
-    else
-      @result = Braintree::Transaction.sale(
-                  amount: current_user.cart_total_price,
-                  payment_method_nonce: params[:payment_method_nonce])
-    end
+    @result = Braintree::Subscription.create(
+      payment_method_nonce: params[:payment_method_nonce],
+      plan_id: "2"
+    )
     if @result.success?
-      current_user.update(braintree_customer_id: @result.transaction.customer_details.id) unless current_user.has_payment_info?
-      current_user.purchase_cart!
-      # send email
-      redirect_to root_url, notice: "Congratulations! Your transaction has been successful! Please check your email for instructions on what to do next."
+      current_user.subscribe_to_premium
+      UserMailer.premium_subscribe(current_user).deliver_later
+      redirect_to root_url, notice: "Congratulations! You have successfully subscribed to smartXchange Premium! Please check your email for instructions on what to do next."
     else
-      flash[:error] = "Something went wrong while processing your transaction. Please try again!"
+      flash[:error] = "Something went wrong while processing your subscription. Please try again!"
       gon.client_token = generate_client_token
       render :new
+    end
+  end
+
+  def new_customer
+  end
+
+  def create_customer
+    unless check_customer_params
+      flash[:error] = "Please fill out all fields"
+      redirect_to :back and return
+    end
+    result = Braintree::Customer.create(
+      first_name: customer_params[:first_name],
+      last_name: customer_params[:last_name],
+      company: customer_params[:company],
+      email: current_user.email,
+      phone: customer_params[:phone]
+    )
+    if result.success?
+      current_user.update(braintree_customer_id: result.customer.id)
+      redirect_to new_transaction_path
+    else
+      flash[:error] = result.errors
+      render :new_customer
     end
   end
 
   private
 
   def generate_client_token
-    if current_user.has_payment_info?
-      Braintree::ClientToken.generate(customer_id: current_user.braintree_customer_id)
-    else
-      Braintree::ClientToken.generate
+    # maybe refactor, shouldn't be called unless user has braintree_customer_id therefore shouldn't throw error
+    Braintree::ClientToken.generate(customer_id: current_user.braintree_customer_id)
+  end
+
+  def user_has_premium?
+    if current_user.premium?
+      redirect_to :back, notice: "User already has Premium Membership"
     end
+  end
+
+  def customer_params
+    params.require(:customer).permit(:first_name, :last_name, :company, :phone)
+  end
+
+  def check_customer_params
+    customer_params.each  do |name, value|
+      if value.length == 0
+        return false
+      end
+    end
+    true
   end
 
 end

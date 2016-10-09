@@ -3,7 +3,7 @@
       <div class="user-content profile">
         <!-- maybe move this later -->
         <% if @user.active  %>
-          <%= image_tag('green-dot.png', class:'active', alt: 'Active') %> <br>
+          <%= image_tag('green-dot.png', alt: 'Active') %> <br>
         <% end  %>
         <% if current_user == @user %>
             <form action="<%= user_path(@user) %>" method="post" enctype="multipart/form-data">
