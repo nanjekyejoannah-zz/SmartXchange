@@ -66,7 +66,7 @@ class SettingsController < ApplicationController
   end
 
   def subscribe
-    # no links from emails so don't need message verifier
+    # no links from emails so don't need message verifier or checks
     user_id = params[:user_id]
     @user = User.find(user_id)
   end
@@ -95,7 +95,7 @@ class SettingsController < ApplicationController
 
   def deactivate
     current_user.disappear
-    redirect_to :back, notice: "You are now browsing in inactive modes"
+    redirect_to :back, notice: "You are now browsing in stealth mode"
   end
 
   def downgrade

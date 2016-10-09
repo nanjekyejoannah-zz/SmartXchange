@@ -18,7 +18,7 @@
 
 <h3>Active</h3>
 <% if @user.active %>
-  You are currently browsing in active mode, switch to inactive mode? <%= link_to "Inactive", deactivate_user_settings_path, class: 'btn btn-primary delete' %>
+  You are currently browsing in active mode, switch to stealth mode? <%= link_to "Stealth", deactivate_user_settings_path, class: 'btn btn-primary stealth' %>
 <% else %>
-  You are currently browsing in inactive mode, switch to active mode? <%= link_to "Active", activate_user_settings_path, class: 'btn btn-primary settings' %>
+  You are currently browsing in stealth mode, switch to active mode? <%= link_to "Active", activate_user_settings_path, class: 'btn btn-primary settings' %>
 <% end %>
