@@ -1,6 +1,6 @@
 == README
 
-Ruby on Rails basic application to allow users to find each other for the purpose of practicing languages. Will eventually like to incorporate unique features.
+Ruby on Rails basic application to allow users to find each other for the purpose of practicing languages. Constantly adding new features, open to suggestions.
 
 
 * Ruby 2.3, Rails 5.0, using Puma server locally, redis in production
@@ -11,7 +11,7 @@ Ruby on Rails basic application to allow users to find each other for the purpos
 
 * Braintree for payments
 
-* Prototyping chatbot technology through chatbots.io and pandorabots_api
+* Prototyping chatbot technology through chatbots.io and modified pandorabots_api gem
 
 * Basic Linkedin integration
 
