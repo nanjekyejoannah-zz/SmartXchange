@@ -1,0 +1,20 @@
+<h1>Email Subscriptions</h1>
+<form action="<%= update_subscription_user_settings_path(@user) %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="email[weekly_notifications]" value="false">
+  <input type="checkbox" id="weekly_notifications"name="email[weekly_notifications]" value="true" <%= 'checked' if @user.email_subscription.weekly_notifications %> >
+  <label for="weekly_notifications">Weekly Notifications</label><br>
+  <input type="hidden" name="email[monthly_update]" value="false">
+  <input type="checkbox" id="monthly_update" name="email[monthly_update]" value="true" <%= 'checked' if @user.email_subscription.monthly_update %> >
+  <label for="monthly_update">Monthly Update</label><br>
+  <input type="hidden" name="email[language_matches]" value="false">
+  <input type="checkbox" id="language_matches" name="email[language_matches]" value="true" <%= 'checked' if @user.email_subscription.language_matches %> >
+  <label for="language_matches">Peer Recommendations</label><br>
+  <input type="hidden" name="email[notify_match]" value="false">
+  <input type="checkbox" id="notify_match" name="email[notify_match]" value="true" <%= 'checked' if @user.email_subscription.notify_match %> >
+  <label for="notify_match">Peer Interest</label><br><br>
+  <input type="submit" value="Update Subscriptions" class="btn btn-primary settings">
+</form>
+<br>
+<%= link_to 'Back', user_settings_path(@user), class: 'btn btn-primary delete' %>

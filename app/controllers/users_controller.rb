@@ -2,7 +2,7 @@ require 'will_paginate/array'
 class UsersController < ApplicationController
 
   skip_before_action :require_signed_in!, only: [:new, :create, :email_match]
-  before_action :correct_user, only: [:update, :destroy]
+  before_action :correct_user?, only: [:update, :destroy]
 
   def new
     @user_count = User.all.count - (User.all.count % 10)
@@ -110,7 +110,7 @@ class UsersController < ApplicationController
     @match = User.find(params[:match_id])
     if @user.matches_token == params[:matches_token] && @user.matches_sent_at > 24.hours.ago
       flash[:success] = "#{@match.name} notified :)"
-      UserMailer.match_email(@user, @match).deliver_later
+      UserMailer.notify_match(@user, @match).deliver_later
     else
       flash[:error] = "Either you're token is incorrect or it has expired"
     end

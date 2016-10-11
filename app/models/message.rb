@@ -3,11 +3,11 @@
 # Table name: messages
 #
 #  id           :integer          not null, primary key
-#  body         :text
+#  body         :text             not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  sender_id    :integer
-#  chat_room_id :integer
+#  sender_id    :integer          not null
+#  chat_room_id :integer          not null
 #
 
 class Message < ApplicationRecord
@@ -17,6 +17,7 @@ class Message < ApplicationRecord
   belongs_to :sender, class_name: 'User'
   belongs_to :chat_room, touch: true
 
+  # maybe refactor / take out not necessary since default is asc
   default_scope -> { order(created_at: :asc) }
 
   # after_create_commit { MessageBroadcastJob.perform_later(self) }

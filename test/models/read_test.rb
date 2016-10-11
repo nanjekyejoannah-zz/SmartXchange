@@ -4,8 +4,8 @@
 #
 #  id            :integer          not null, primary key
 #  user_id       :integer          not null
-#  readable_type :string
-#  readable_id   :integer
+#  readable_type :string           not null
+#  readable_id   :integer          not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

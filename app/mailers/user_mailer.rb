@@ -6,33 +6,38 @@ class UserMailer < ApplicationMailer
   # end
   # @users.each do |user|
   #   if user_count_unread(user) > 0
-  #     UserMailer.notify_email(user, user_count_unread(user)).deliver_now
+  #     UserMailer.weekly_notifications(user, user_count_unread(user)).deliver_now
   #   end
+  # end
+  # @users.each do |user|
+  #   EmailSubscription.create!(user_id: user.id)
   # end
 
   before_action :set_urls_and_attachments
-  # bit of a hack, maybe refactor need @user to be set before sending
-  after_action :prevent_delivery_to_unsubscribed, only: [:monthly_update]
+  # bit of a hack, maybe refactor need @user to be set before sending, welcome new will always be true just there so doesn't enter method
+  after_action :prevent_delivery_to_unsubscribed, except: [:welcome_new, :reset_password, :suspicious_activity, :premium_subscribe, :premium_unsubscribe]
 
-  def welcome_email(user)
+  def welcome_new(user)
     @user = user
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Welcome to smartXchange')
   end
 
-  def notify_email(user, notifications)
+  def weekly_notifications(user, notifications)
     # change this to users who want notifications eventually
     @user = user
     @notifications = notifications
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'smartXchange Notifications')
   end
 
   def monthly_update(user, notifications)
     @user = user
     @notifications = notifications
-    @unsubscribe_hash = Rails.application.message_verifier(:unsubscribe).generate(@user.id)
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'smartXchange enters its third month since launch')
   end
 
@@ -41,10 +46,11 @@ class UserMailer < ApplicationMailer
     @password = password
     @url_change_password = "http://www.smartxchange.es/users/#{@user.id}/settings/change_password"
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Password reset, smartXchange')
   end
 
-  def matches_email(user)
+  def language_matches(user)
     @user = user
     @matches = User.where(language: @user.language, language_level: @user.language_level).where.not(id: @user.id)
     @matches_token = @user.create_matches_token!
@@ -61,34 +67,39 @@ class UserMailer < ApplicationMailer
       end
     end
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Have you messaged these language practice peers?')
   end
 
-  def match_email(user, match)
+  def notify_match(user, match)
     @user = user
     @match = match
     @url_user = "http://www.smartxchange.es/users/#{@user.id}"
     attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @user.linkedin
     fetch_user_image(@user)
     email_with_name = %("#{@match.name}" <#{@match.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: "#{@user.name} wants to practice #{@user.language}")
   end
 
-  def warning_email(user)
+  def suspicious_activity(user)
     @user = user
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Suspicious Activity')
   end
 
   def premium_subscribe (user)
     @user = user
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Welcome to smartXchange Premium')
   end
 
   def premium_unsubscribe(user)
     @user = user
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Sorry to see you leave')
   end
 
@@ -103,7 +114,11 @@ class UserMailer < ApplicationMailer
   end
 
   def prevent_delivery_to_unsubscribed
-    mail.perform_deliveries = false unless @user.subscription
+    mail.perform_deliveries = false unless @user.email_subscription.send(action_name)
+  end
+
+  def set_unsubscribe_hash
+    @unsubscribe_hash = Rails.application.message_verifier(:unsubscribe).generate(@user.id)
   end
 
   def fetch_user_image(user)

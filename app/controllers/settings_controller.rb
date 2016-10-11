@@ -1,7 +1,7 @@
 class SettingsController < ApplicationController
 
-  skip_before_action :require_signed_in!, only: [:reset_password, :create_password, :unsubscribe, :update_subscription]
-  before_action :correct_user, except: [:reset_password, :create_password, :unsubscribe, :update_subscription]
+  skip_before_action :require_signed_in!, only: [:reset_password, :create_password, :email_subscription, :update_subscription]
+  before_action :correct_user?, except: [:reset_password, :create_password, :email_subscription, :update_subscription]
 
   def show
     @user = User.find(params[:user_id])
@@ -52,11 +52,10 @@ class SettingsController < ApplicationController
     end
   end
 
-  def unsubscribe
+  def email_subscription
     if params[:id]
       user_id = Rails.application.message_verifier(:unsubscribe).verify(params[:id])
-    # maybe refactor and call correct_user below, for now this works hack job, to_s instead of looking up user for speed (I think)
-    elsif signed_in? && params[:user_id] == current_user.id.to_s
+    elsif signed_in? && correct_user?
       user_id = params[:user_id]
     else
       flash[:error] = "Must be logged in as correct user or access this link through an email to view this page"
@@ -65,24 +64,13 @@ class SettingsController < ApplicationController
     @user = User.find(user_id)
   end
 
-  def subscribe
-    # no links from emails so don't need message verifier or checks
-    user_id = params[:user_id]
-    @user = User.find(user_id)
-  end
-
   def update_subscription
     @user = User.find(params[:user_id])
-    if @user.update(user_params)
-      flash[:notice] = 'Subscription changed'
-      if signed_in?
-        redirect_to user_path(@user)
-      else
-        redirect_to root_path
-      end
+    if @user.email_subscription.update(email_params)
+      redirect_to :back, notice: 'Subscription changed'
     else
       flash[:alert] = 'There was a problem'
-      render :unsubscribe
+      render :email_subscription
     end
   end
 
@@ -112,7 +100,11 @@ class SettingsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :current_password, :new_password, :password_confirmation, :subscription)
+    params.require(:user).permit(:email, :current_password, :new_password, :password_confirmation)
+  end
+
+  def email_params
+    params.require(:email).permit(:weekly_notifications, :monthly_update, :language_matches, :notify_match)
   end
 
 end

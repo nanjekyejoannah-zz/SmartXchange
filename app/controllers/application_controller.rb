@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
     # raise 'Auth Error' unless signed_in? #for $http requests
   end
 
-  def correct_user
+  def correct_user?
     # need this for settings maybe refactor
     id = params[:user_id] ? params[:user_id] : params[:id]
     @user = User.find(id)
@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
       flash[:error] = "Unauthorized access"
       # this and correct_chat_room are not set to redirect_to :back because they can only be accessed by typing them in the url and therefore no http_referer is set
       redirect_to users_path
+      return false
     end
+    true
   end
 
   def correct_chat_room
@@ -59,7 +61,7 @@ class ApplicationController < ActionController::Base
 
   def welcome_new_user(user)
     flash[:success] = "Welcome to smartXchange. Complete your profile and start networking and practicing your language! Make sure to update your nationality so that your country's flag will be displayed to others when they talk with you"
-    UserMailer.welcome_email(user).deliver_later
+    UserMailer.welcome_new(user).deliver_later
     redirect_to user_path(user)
   end
 

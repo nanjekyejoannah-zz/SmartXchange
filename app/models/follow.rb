@@ -4,14 +4,16 @@
 #
 #  id              :integer          not null, primary key
 #  follower_id     :integer          not null
-#  followable_type :string
-#  followable_id   :integer
+#  followable_type :string           not null
+#  followable_id   :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 
 class Follow < ApplicationRecord
-  validates_presence_of :follower_id, :followable
+  validates_presence_of :follower_id, :followable_type, :followable_id
+  # wasn't able to add this validation to database, exceeds 62 character limit
+  validates_uniqueness_of :follower_id, scope: [:followable_type, :followable_id]
   before_save :ensure_post_owner_not_follower
 
   belongs_to :followable, polymorphic: true, touch: true

@@ -21,10 +21,10 @@
 #  latitude              :float
 #  longitude             :float
 #  nationality           :string           default("Spanish"), not null
-#  subscription          :boolean          default(TRUE), not null
 #  matches_token         :string
 #  matches_sent_at       :datetime
 #  braintree_customer_id :string
+#  person_of_interest    :boolean          default(FALSE), not null
 #
 
 require 'test_helper'

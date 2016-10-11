@@ -12,7 +12,7 @@
 #
 
 class Comment < ApplicationRecord
-  validates_presence_of :content, :owner_id, :commentable
+  validates_presence_of :content, :owner_id, :commentable_type, :commentable_id
   validates :content, length: {minimum: 5, maximum: 255}
 
   belongs_to :owner, class_name: 'User'

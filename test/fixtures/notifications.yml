@@ -6,12 +6,12 @@
 #  read            :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  notified_id     :integer
-#  notifier_id     :integer
-#  notifiable_type :string
-#  notifiable_id   :integer
-#  sourceable_type :string
-#  sourceable_id   :integer
+#  notified_id     :integer          not null
+#  notifier_id     :integer          not null
+#  notifiable_type :string           not null
+#  notifiable_id   :integer          not null
+#  sourceable_type :string           not null
+#  sourceable_id   :integer          not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

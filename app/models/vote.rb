@@ -8,11 +8,11 @@
 #  votable_id   :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  owner_id     :integer
+#  owner_id     :integer          not null
 #
 
 class Vote < ApplicationRecord
-  validates_presence_of :owner_id, :votable
+  validates_presence_of :value, :votable_type, :votable_id, :owner_id
   validates :value, inclusion: { in: [1,-1] }
 
   belongs_to :votable, polymorphic: true, touch: true

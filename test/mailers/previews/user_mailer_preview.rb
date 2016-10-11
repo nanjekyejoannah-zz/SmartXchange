@@ -1,11 +1,11 @@
 # Preview all emails at http://localhost:3000/rails/mailers/user_mailer
 class UserMailerPreview < ActionMailer::Preview
-  def welcome_email
-    UserMailer.welcome_email(User.first)
+  def welcome_new
+    UserMailer.welcome_new(User.first)
   end
 
-  def notify_email
-    UserMailer.notify_email(User.first, 1)
+  def weekly_notifications
+    UserMailer.weekly_notifications(User.first, 1)
   end
 
   def monthly_update
@@ -16,16 +16,16 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.reset_password(User.first, SecureRandom.urlsafe_base64(6))
   end
 
-  def matches_email
-    UserMailer.matches_email(User.first)
+  def language_matches
+    UserMailer.language_matches(User.first)
   end
 
-  def match_email
-    UserMailer.match_email(User.first, User.second)
+  def notify_match
+    UserMailer.notify_match(User.first, User.second)
   end
 
-  def warning_email
-    UserMailer.warning_email(User.first)
+  def suspicious_activity
+    UserMailer.suspicious_activity(User.first)
   end
 
   def premium_subscribe

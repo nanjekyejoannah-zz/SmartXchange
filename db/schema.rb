@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007221034) do
+ActiveRecord::Schema.define(version: 20161010221048) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -34,14 +34,15 @@ ActiveRecord::Schema.define(version: 20161007221034) do
     t.text     "description", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["title"], name: "index_boards_on_title", unique: true
   end
 
   create_table "chat_rooms", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",        null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.integer  "initiator_id"
-    t.integer  "recipient_id"
+    t.integer  "initiator_id", null: false
+    t.integer  "recipient_id", null: false
     t.index ["initiator_id"], name: "index_chat_rooms_on_initiator_id"
     t.index ["recipient_id"], name: "index_chat_rooms_on_recipient_id"
     t.index ["updated_at"], name: "index_chat_rooms_on_updated_at"
@@ -82,10 +83,21 @@ ActiveRecord::Schema.define(version: 20161007221034) do
     t.datetime "updated_at",      null: false
   end
 
+  create_table "email_subscriptions", force: :cascade do |t|
+    t.integer  "user_id",                             null: false
+    t.boolean  "weekly_notifications", default: true, null: false
+    t.boolean  "monthly_update",       default: true, null: false
+    t.boolean  "language_matches",     default: true, null: false
+    t.boolean  "notify_match",         default: true, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["user_id"], name: "index_email_subscriptions_on_user_id", unique: true
+  end
+
   create_table "follows", force: :cascade do |t|
     t.integer  "follower_id",     null: false
-    t.string   "followable_type"
-    t.integer  "followable_id"
+    t.string   "followable_type", null: false
+    t.integer  "followable_id",   null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.index ["followable_type", "followable_id"], name: "index_follows_on_followable_type_and_followable_id"
@@ -120,29 +132,30 @@ ActiveRecord::Schema.define(version: 20161007221034) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.text     "body"
+    t.text     "body",         null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.integer  "sender_id"
-    t.integer  "chat_room_id"
+    t.integer  "sender_id",    null: false
+    t.integer  "chat_room_id", null: false
     t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
     t.index ["created_at"], name: "index_messages_on_created_at"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
   create_table "notifications", force: :cascade do |t|
     t.boolean  "read",            default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
-    t.integer  "notified_id"
-    t.integer  "notifier_id"
-    t.string   "notifiable_type"
-    t.integer  "notifiable_id"
-    t.string   "sourceable_type"
-    t.integer  "sourceable_id"
+    t.integer  "notified_id",                     null: false
+    t.integer  "notifier_id",                     null: false
+    t.string   "notifiable_type",                 null: false
+    t.integer  "notifiable_id",                   null: false
+    t.string   "sourceable_type",                 null: false
+    t.integer  "sourceable_id",                   null: false
     t.index ["created_at"], name: "index_notifications_on_created_at"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
-    t.index ["notifiable_type"], name: "index_notifications_on_notifiable_type"
     t.index ["notified_id"], name: "index_notifications_on_notified_id"
+    t.index ["sourceable_type", "sourceable_id"], name: "index_notifications_on_sourceable_type_and_sourceable_id"
   end
 
   create_table "packages", force: :cascade do |t|
@@ -187,11 +200,12 @@ ActiveRecord::Schema.define(version: 20161007221034) do
 
   create_table "reads", force: :cascade do |t|
     t.integer  "user_id",       null: false
-    t.string   "readable_type"
-    t.integer  "readable_id"
+    t.string   "readable_type", null: false
+    t.integer  "readable_id",   null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["readable_type", "readable_id"], name: "index_reads_on_readable_type_and_readable_id"
+    t.index ["user_id", "readable_type", "readable_id"], name: "index_reads_on_user_id_and_readable_type_and_readable_id", unique: true
     t.index ["user_id"], name: "index_reads_on_user_id"
   end
 
@@ -214,7 +228,6 @@ ActiveRecord::Schema.define(version: 20161007221034) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "nationality",           default: "Spanish",                        null: false
-    t.boolean  "subscription",          default: true,                             null: false
     t.string   "matches_token"
     t.datetime "matches_sent_at"
     t.string   "braintree_customer_id"
@@ -229,7 +242,7 @@ ActiveRecord::Schema.define(version: 20161007221034) do
     t.integer  "votable_id",             null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.integer  "owner_id"
+    t.integer  "owner_id",               null: false
     t.index ["owner_id"], name: "index_votes_on_owner_id"
     t.index ["votable_type", "votable_id"], name: "index_votes_on_votable_type_and_votable_id"
   end

@@ -34,8 +34,7 @@ Rails.application.routes.draw do
     resources :settings, only: [] do
       get 'change_password', on: :collection
       patch 'update_password',  on: :collection
-      get 'unsubscribe', on: :collection
-      get 'subscribe', on: :collection
+      get 'email_subscription', on: :collection
       patch 'update_subscription', on: :collection
       get 'activate', on: :collection
       get 'deactivate', on: :collection

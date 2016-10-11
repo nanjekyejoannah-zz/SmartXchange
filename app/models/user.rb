@@ -21,10 +21,10 @@
 #  latitude              :float
 #  longitude             :float
 #  nationality           :string           default("Spanish"), not null
-#  subscription          :boolean          default(TRUE), not null
 #  matches_token         :string
 #  matches_sent_at       :datetime
 #  braintree_customer_id :string
+#  person_of_interest    :boolean          default(FALSE), not null
 #
 
 #active is for instantaneous feature Tati talked about
@@ -57,11 +57,13 @@ class User < ApplicationRecord
   has_many :read_boards, through: :reads, source: :readable, source_type: 'Board'
   has_one :purchase, :foreign_key => :buyer_id, dependent: :destroy
   has_one :package, through: :purchase
+  has_one :email_subscription, dependent: :destroy
 
   geocoded_by :location
 
   before_save :downcase_email
   after_validation :geocode, if: :location_present_and_changed
+  after_create :add_email_subscription
 
   default_scope -> { order(created_at: :asc) } #may refactor take this out, asc want longest users around first
 
@@ -204,6 +206,10 @@ class User < ApplicationRecord
   def location_present_and_changed
     return true if (self.location.present? && self.location_changed?)
     false
+  end
+
+  def add_email_subscription
+    EmailSubscription.create!(user_id: self.id)
   end
 
 
