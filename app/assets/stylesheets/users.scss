@@ -134,13 +134,6 @@
   clear: both;
 }
 
-//padding-left of 265 because standard for all images of width 250px and about 15px of padding between image and user-content.profile
-.user-delete {
-  padding-top: 50px;
-  padding-left: 265px;
-  clear: both;
-}
-
 .search-field {
   width: 60%;
 }
@@ -154,9 +147,6 @@
         float: none;
         width: 100%;
 
-    }
-    .user-delete {
-        padding-left: 15px;
     }
     .reset-password input[type="submit"] {
       margin-top: 10px;

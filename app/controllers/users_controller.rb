@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       sign_in!(@user)
-      welcome_new_user(@user)
+      welcome_new(@user)
     else
       flash[:error] = @user.errors.full_messages.to_sentence
       @user_count = User.all.count - (User.all.count % 10)
@@ -29,7 +29,6 @@ class UsersController < ApplicationController
     else
       @users = User.where(language: current_user.language).includes(:linkedin).sort {|u1, u2| sort_method(u2) <=> sort_method(u1) }.paginate(page: params[:page], per_page: 12)
     end
-    render :index
   end
 
   def sort_method(user)
@@ -42,7 +41,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @chat_room = ChatRoom.new
-    render :show
   end
 
   def update

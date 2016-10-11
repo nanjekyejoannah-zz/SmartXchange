@@ -30,7 +30,7 @@ class TransactionsController < ApplicationController
   end
 
   def create_customer
-    unless check_customer_params
+    unless customer_params_present?
       flash[:error] = "Please fill out all fields"
       redirect_to :back and return
     end
@@ -58,16 +58,14 @@ class TransactionsController < ApplicationController
   end
 
   def user_has_premium?
-    if current_user.premium?
-      redirect_to :back, notice: "User already has Premium Membership"
-    end
+    redirect_to :back, notice: "User already has Premium Membership" if current_user.premium?
   end
 
   def customer_params
     params.require(:customer).permit(:first_name, :last_name, :company, :phone)
   end
 
-  def check_customer_params
+  def customer_params_present?
     customer_params.each  do |name, value|
       if value.length == 0
         return false

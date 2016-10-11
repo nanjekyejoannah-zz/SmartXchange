@@ -43,7 +43,7 @@ class User < ApplicationRecord
   has_many :created_notifications, :foreign_key => :notifier_id, class_name: 'Notification', dependent: :destroy
   has_many :posts_notifications, -> { where read: false, notifiable_type: 'Post'}, :foreign_key => :notified_id, class_name: 'Notification'
   has_many :chat_rooms_notifications, -> { where read: false, notifiable_type: 'ChatRoom'}, :foreign_key => :notified_id, class_name: 'Notification'
-  # may want to refactor these into one so you can call .chat_rooms for each user
+  # keeping this for the dependent destroy aspect
   has_many :initiated_chat_rooms, :foreign_key => :initiator_id, class_name: 'ChatRoom', dependent: :destroy
   has_many :received_chat_rooms, :foreign_key => :recipient_id, class_name: 'ChatRoom', dependent: :destroy
   has_many :sent_messages, :foreign_key => :sender_id, class_name: 'Message', dependent: :destroy
@@ -55,6 +55,7 @@ class User < ApplicationRecord
   has_many :followed_posts, through: :follows, source: :followable, source_type: 'Post'
   has_many :reads, dependent: :destroy
   has_many :read_boards, through: :reads, source: :readable, source_type: 'Board'
+  # for now can only purchase one package, may change this to feature add-ons to purchases
   has_one :purchase, :foreign_key => :buyer_id, dependent: :destroy
   has_one :package, through: :purchase
   has_one :email_subscription, dependent: :destroy

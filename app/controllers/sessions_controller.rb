@@ -81,7 +81,7 @@ class SessionsController < ApplicationController
     elsif !@user && !@@existing # register with linkedin and no linkedin account linked
       @user = User.create_with_omniauth(auth_hash)
       sign_in!(@user)
-      welcome_new_user(@user) and return
+      welcome_new(@user) and return
     elsif @user && !@@existing # register with linkedin and existing linkedin account
       flash[:error] = "Linkedin account already registered with smartXchange, please login with your Linkedin"
       redirect_to login_path and return

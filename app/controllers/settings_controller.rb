@@ -37,7 +37,7 @@ class SettingsController < ApplicationController
       if user_params[:new_password] == user_params[:password_confirmation]
         if @user.update(password: user_params[:new_password])
           flash[:success] = "Password updated"
-          redirect_to user_path(@user)
+          redirect_to user_settings_path(@user)
         else
           flash[:error] = @user.errors.full_messages.to_sentence
           redirect_to :back
@@ -67,7 +67,7 @@ class SettingsController < ApplicationController
   def update_subscription
     @user = User.find(params[:user_id])
     if @user.email_subscription.update(email_params)
-      redirect_to :back, notice: 'Subscription changed'
+      redirect_to :back, notice: 'Email subscription changed'
     else
       flash[:alert] = 'There was a problem'
       render :email_subscription
@@ -94,7 +94,7 @@ class SettingsController < ApplicationController
     Braintree::Subscription.cancel(subscription.id)
     current_user.unsubscribe_to_premium
     UserMailer.premium_unsubscribe(current_user).deliver_later
-    redirect_to :back, notice: "Subscription cancelled! You now have the Standard package"
+    redirect_to :back, notice: "Premium subscription cancelled! You now have the Standard package"
   end
 
   private

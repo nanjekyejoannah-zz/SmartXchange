@@ -12,6 +12,7 @@
 
 class ChatRoom < ApplicationRecord
   validates_presence_of :initiator_id, :recipient_id, :title
+  validates_inclusion_of :title, in: ["Spanish", "Italian", "German", "French", "English"]
   # maybe remove this validation only used when creating chat rooms from command line
   validate :unique_chat_room?
   validate :person_of_interest_or_chat_bot_and_not_premium?

@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     Time.zone = ActiveSupport::TimeZone[-min.minutes]
   end
 
-  def welcome_new_user(user)
+  def welcome_new(user)
     flash[:success] = "Welcome to smartXchange. Complete your profile and start networking and practicing your language! Make sure to update your nationality so that your country's flag will be displayed to others when they talk with you"
     UserMailer.welcome_new(user).deliver_later
     redirect_to user_path(user)
