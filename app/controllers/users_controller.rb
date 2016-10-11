@@ -1,5 +1,6 @@
 require 'will_paginate/array'
 class UsersController < ApplicationController
+  include UsersHelper
 
   skip_before_action :require_signed_in!, only: [:new, :create, :email_match]
   before_action :correct_user?, only: [:update, :destroy]
@@ -24,8 +25,15 @@ class UsersController < ApplicationController
   def index
     if params[:search]
       search = params[:search].downcase
-      # need references to make it work, maybe refactor later
-      @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR lower(nationality) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
+      if /[a-c][1-2]/.match(search)
+        level = /[a-c][1-2]/.match(search)[0]
+        rating = user_convert_language_level_to_rating(level)
+        language = /spanish|italian|english|french|german/.match(search)
+        # need references to make it work, maybe refactor later
+        @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR (lower(language) LIKE :language AND cast(language_level as text) LIKE :rating) OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%", language: "#{language}", rating: "#{rating}").references(:linkedin).paginate(page: params[:page], per_page: 12)
+      else
+        @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR lower(nationality) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
+      end
     else
       @users = User.where(language: current_user.language).includes(:linkedin).sort {|u1, u2| sort_method(u2) <=> sort_method(u1) }.paginate(page: params[:page], per_page: 12)
     end

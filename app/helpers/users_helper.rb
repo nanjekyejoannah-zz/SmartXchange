@@ -17,19 +17,36 @@ module UsersHelper
     user.posts_notifications.first
   end
 
-  def user_convert_language_level(level)
-    if level == 1
+  def user_convert_language_level(rating)
+    if rating == 1
       return "A1 - beginner"
-    elsif level == 2
+    elsif rating == 2
       return "A2 - elementary"
-    elsif level == 3
+    elsif rating == 3
       return "B1 - intermediate"
-    elsif level == 4
+    elsif rating == 4
       return "B2 - upper intermediate"
-    elsif level == 5
+    elsif rating == 5
       return "C1 - advanced"
-    elsif level == 6
+    elsif rating == 6
       return "C2 - master"
+    end
+  end
+
+  def user_convert_language_level_to_rating(level)
+    # assuming level always comes in as lower case
+    if level == "a1"
+      return 1
+    elsif level == "a2"
+      return 2
+    elsif level == "b1"
+      return 3
+    elsif level == "b2"
+      return 4
+    elsif level == "c1"
+      return 5
+    elsif level == "c2"
+      return 6
     end
   end
 

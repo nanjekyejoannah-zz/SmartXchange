@@ -28,6 +28,8 @@ class UserMailer < ApplicationMailer
     # change this to users who want notifications eventually
     @user = user
     @notifications = notifications
+    # built with google url builder
+    add_campaign('?utm_source=notifications_email&utm_medium=email&utm_campaign=october_notifications')
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     set_unsubscribe_hash
     mail(to: email_with_name, subject: 'smartXchange Notifications')
@@ -111,6 +113,13 @@ class UserMailer < ApplicationMailer
     @url_mobile_tutorial = 'http://www.smartxchange.es/about#video-mobile'
     @url_premium = 'http://www.smartxchange.es/about#premium'
     attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/logo.png")
+  end
+
+  def add_campaign(string)
+    @url += "#{string}"
+    @url_tutorial = "http://www.smartxchange.es/about#{string}#video"
+    @url_mobile_tutorial = "http://www.smartxchange.es/about#{string}#video-mobile"
+    @url_premium = "http://www.smartxchange.es/about#{string}#premium"
   end
 
   def prevent_delivery_to_unsubscribed
