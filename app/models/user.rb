@@ -71,9 +71,14 @@ class User < ApplicationRecord
   attr_reader :password
   after_initialize :ensure_session_token
 
+
   def self.find_by_credentials(user_params)
     user = User.find_by_email(user_params[:email].downcase)
     user.try(:is_password?, user_params[:password]) ? user : nil
+  end
+
+  def self.new_token
+    SecureRandom.urlsafe_base64(16)
   end
 
   def self.create_with_omniauth(auth)
@@ -98,37 +103,6 @@ class User < ApplicationRecord
       summary: auth['extra']['raw_info']['summary']
     )
     user
-  end
-
-  def self.new_token
-    SecureRandom.urlsafe_base64(16)
-  end
-
-  def password=(password)
-    @password = password
-    self.password_digest = BCrypt::Password.create(password)
-  end
-
-  def is_password?(password)
-    BCrypt::Password.new(self.password_digest).is_password?(password)
-  end
-
-  def reset_token!
-    self.session_token = User.new_token
-    self.save!
-    self.session_token
-  end
-
-  def appear
-    p "appear called in user"
-    self.active = true
-    self.save!
-  end
-
-  def disappear
-    p "disappear called in user"
-    self.active = false
-    self.save!
   end
 
   def add_with_omniauth(auth)
@@ -160,6 +134,44 @@ class User < ApplicationRecord
       industry: auth['extra']['raw_info']['industry'],
       summary: auth['extra']['raw_info']['summary']
     )
+  end
+
+  def password=(password)
+    @password = password
+    self.password_digest = BCrypt::Password.create(password)
+  end
+
+  def is_password?(password)
+    BCrypt::Password.new(self.password_digest).is_password?(password)
+  end
+
+  def reset_token!
+    self.session_token = User.new_token
+    self.save!
+    self.session_token
+  end
+
+  def appear
+    p "appear called in user"
+    self.active = true
+    self.save!
+  end
+
+  def disappear
+    p "disappear called in user"
+    self.active = false
+    self.save!
+  end
+
+  def sort_method
+    User.where(language: self.language).where.not(id: self.id).includes(:linkedin).sort {|u1, u2| u2.sort_value(self) <=> u1.sort_value(self) }
+  end
+
+  def sort_value(base_user)
+    denominator = self.language_level > base_user.language_level ? (self.language_level.to_f * 2) : (base_user.language_level.to_f * 2)
+    sort = (self.language_level.to_f + base_user.language_level.to_f) / denominator
+    sort *= 1.5 if base_user.location && self.location && base_user.distance_from(self) < 50
+    sort
   end
 
   def create_matches_token!

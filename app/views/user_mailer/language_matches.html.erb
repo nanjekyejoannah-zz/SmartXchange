@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <%= render 'layouts/header_mail' %>
+  <%= render 'layouts/header_mail' %>
+  <body>
     <h4>Dear <%= @user.name %>,</h4>
       <p>
         Are you interested in practicing <%= @user.language %> with any of the following users? Notify them within 24 hours.
@@ -24,6 +25,7 @@
         </ul>
       <% end %>
   </body>
+  <br><%= link_to "Log in", @url, class:'mail-btn' %> to see more people practicing <%= @user.language %><br>
   <%= render 'layouts/footer_mail_simple' %>
 
 </html>

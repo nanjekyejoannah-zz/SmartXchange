@@ -35,15 +35,8 @@ class UsersController < ApplicationController
         @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR lower(nationality) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
       end
     else
-      @users = User.where(language: current_user.language).includes(:linkedin).sort {|u1, u2| sort_method(u2) <=> sort_method(u1) }.paginate(page: params[:page], per_page: 12)
+      @users = current_user.sort_method.paginate(page: params[:page], per_page: 12)
     end
-  end
-
-  def sort_method(user)
-    denominator = user.language_level > current_user.language_level ? (user.language_level.to_f * 2) : (current_user.language_level.to_f * 2)
-    sort = (user.language_level.to_f + current_user.language_level.to_f) / denominator
-    sort *= 1.5 if current_user.location && user.location && current_user.distance_from(user) < 50
-    sort
   end
 
   def show

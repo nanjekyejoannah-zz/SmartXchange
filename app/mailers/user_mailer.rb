@@ -51,7 +51,7 @@ class UserMailer < ApplicationMailer
 
   def language_matches(user)
     @user = user
-    @matches = User.where(language: @user.language, language_level: @user.language_level).where.not(id: @user.id)
+    @matches = @user.sort_method
     @matches_token = @user.create_matches_token!
     @url_email_match = "http://www.smartxchange.es/users/#{@user.id}/email_match/#{@matches_token}/"
     if @matches.any?
@@ -65,6 +65,8 @@ class UserMailer < ApplicationMailer
         end
       end
     end
+    # for login link @url
+    add_campaign('?utm_source=matches_email&utm_medium=email&utm_campaign=october_matches')
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Have you messaged these language practice peers?')
@@ -76,6 +78,8 @@ class UserMailer < ApplicationMailer
     @url_user = "http://www.smartxchange.es/users/#{@user.id}"
     attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @user.linkedin
     fetch_user_image(@user)
+    # for view profile link @url_user
+    add_campaign('?utm_source=matches_email&utm_medium=email&utm_campaign=october_matches')
     email_with_name = %("#{@match.name}" <#{@match.email}>)
     set_unsubscribe_hash
     mail(to: email_with_name, subject: "#{@user.name} wants to practice #{@user.language}")
@@ -117,6 +121,7 @@ class UserMailer < ApplicationMailer
     @url_tutorial = "http://www.smartxchange.es/about#{string}#video"
     @url_mobile_tutorial = "http://www.smartxchange.es/about#{string}#video-mobile"
     @url_premium = "http://www.smartxchange.es/about#{string}#premium"
+    @url_user += "#{string}" if @url_user
   end
 
   def prevent_delivery_to_unsubscribed

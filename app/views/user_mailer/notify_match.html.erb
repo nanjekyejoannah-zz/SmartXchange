@@ -10,7 +10,7 @@
         </div>
         <div class="mail-match-text">
           <span style="text-transform:uppercase;font-weight: 700;"> <%= "#{@user.name}" %></span>, <%= "#{@user.title}, wants to start #{['a','e','i','o','u'].include?(@user.language[0].downcase) ? 'an' : 'a'}" %> <span style="text-transform:uppercase;font-weight: 700;"><%= "#{@user.language}"%></span><%=" conversation with you" %>
-          <%= link_to "View #{@user.name.split(" ").first}'s Profile", @url_user, class: 'mail-btn' %>
+          <br><%= link_to "View Profile", @url_user, class: 'mail-btn' %>
         </div>
       </div>
   </body>
