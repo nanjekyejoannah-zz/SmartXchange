@@ -1,7 +1,7 @@
 Dear <%= @user.name %>,
 ===============================================
 
-<%= image_tag(attachments["#{@user.name}.jpg"].url, style: "padding-left:10px;", alt: "#{@user.name}") %>
-<%= image_tag(attachments["linkedin.png"].url, alt: "Linkedin") if @user.linkedin %>
-  <%= "#{@user.name}" %>, <%= "#{@user.title}, wants to start #{['a','e','i','o','u'].include?(@user.language[0].downcase) ? 'an' : 'a'} #{@user.language} conversation with you" %>
-  <%= link_to "View Profile", @url_user, class: 'mail-btn' %>
+<%= image_tag(attachments["#{@interested_user.name}.jpg"].url, style: "padding-left:10px;", alt: "#{@interested_user.name}") %>
+<%= image_tag(attachments["linkedin.png"].url, alt: "Linkedin") if @interested_user.linkedin %>
+  <%= "#{@interested_user.name}" %>, <%= "#{@interested_user.title}, wants to start #{['a','e','i','o','u'].include?(@interested_user.language[0].downcase) ? 'an' : 'a'} #{@interested_user.language} conversation with you" %>
+  <%= link_to "View Profile", @url_interested_user, class: 'mail-btn' %>

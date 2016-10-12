@@ -72,17 +72,18 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: 'Have you messaged these language practice peers?')
   end
 
-  def notify_match(user, match)
-    @user = user
-    @match = match
-    @url_user = "http://www.smartxchange.es/users/#{@user.id}"
-    attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @user.linkedin
-    fetch_user_image(@user)
+  def notify_match(interested_user, matched_user)
+    @interested_user = interested_user
+    # set as @user instead of @matched_user so don't have to change unsubscribe logic
+    @user = matched_user
+    @url_interested_user = "http://www.smartxchange.es/users/#{@interested_user.id}"
+    attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @interested_user.linkedin
+    fetch_user_image(@interested_user)
     # for view profile link @url_user
     add_campaign('?utm_source=matches_email&utm_medium=email&utm_campaign=october_matches')
-    email_with_name = %("#{@match.name}" <#{@match.email}>)
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
     set_unsubscribe_hash
-    mail(to: email_with_name, subject: "#{@user.name} wants to practice #{@user.language}")
+    mail(to: email_with_name, subject: "#{@interested_user.name} wants to practice #{@interested_user.language}")
   end
 
   def suspicious_activity(user)
@@ -92,7 +93,7 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: 'Suspicious Activity')
   end
 
-  def premium_subscribe (user)
+  def premium_subscribe(user)
     @user = user
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     set_unsubscribe_hash
@@ -121,7 +122,7 @@ class UserMailer < ApplicationMailer
     @url_tutorial = "http://www.smartxchange.es/about#{string}#video"
     @url_mobile_tutorial = "http://www.smartxchange.es/about#{string}#video-mobile"
     @url_premium = "http://www.smartxchange.es/about#{string}#premium"
-    @url_user += "#{string}" if @url_user
+    @url_interested_user += "#{string}" if @url_interested_user
   end
 
   def prevent_delivery_to_unsubscribed
