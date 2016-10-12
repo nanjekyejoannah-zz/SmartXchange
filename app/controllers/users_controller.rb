@@ -25,12 +25,12 @@ class UsersController < ApplicationController
   def index
     if params[:search]
       search = params[:search].downcase
-      if /[a-c][1-2]/.match(search)
-        level = /[a-c][1-2]/.match(search)[0]
-        rating = user_convert_language_level_to_rating(level)
-        language = /spanish|italian|english|french|german/.match(search)
+      if search.scan(/[a-c][1-2]/).any?
+        levels = search.scan(/[a-c][1-2]/)
+        ratings = levels.map {|level| user_convert_language_level_to_rating(level)}
+        language = /spanish|italian|english|french|german/.match(search)[0]
         # need references to make it work, maybe refactor later
-        @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR (lower(language) LIKE :language AND cast(language_level as text) LIKE :rating) OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%", language: "#{language}", rating: "#{rating}").references(:linkedin).paginate(page: params[:page], per_page: 12)
+        @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR (lower(language) LIKE :language AND language_level IN (:ratings)) OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%", language: "#{language}", ratings: ratings).references(:linkedin).paginate(page: params[:page], per_page: 12)
       else
         @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR lower(nationality) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
       end

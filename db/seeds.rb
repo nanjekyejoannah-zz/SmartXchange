@@ -21,7 +21,7 @@ u9 = User.create!(email: 'example9@gmail.com',password: 'password', name: 'Orlan
 b1 = Board.create!(title: 'General Board', description: 'Board where you can post about meetups, projects, etc');
 
 p1 = Package.create!(classification: 'Standard', description: 'Access to the Platform', price: 0)
-p2 = Package.create!(classification: 'Premium', description: 'Access to conversations with high-level persons of interest (Professors, Managers, CEOs, etc), language learning aids (chatbots, tutoring), and tailored services to meet your needs!', price: 4.99)
+p2 = Package.create!(classification: 'Premium', description: 'Access to conversations with persons of interest (Professors, Managers, CEOs, artists, etc), language learning aids (chatbots, tutoring), and tailored services to meet your needs!', price: 4.99)
 # languages = ["Spanish","English","German","French"]
 # language_levels = [1,2,3,4,5,6,7,8,9,10]
 # ages = [23,25,27,29,31,33,35,37]

@@ -9,9 +9,6 @@ class UserMailer < ApplicationMailer
   #     UserMailer.weekly_notifications(user, user_count_unread(user)).deliver_now
   #   end
   # end
-  # @users.each do |user|
-  #   EmailSubscription.create!(user_id: user.id)
-  # end
 
   before_action :set_urls_and_attachments
   # bit of a hack, maybe refactor need @user to be set before sending, welcome new will always be true just there so doesn't enter method
