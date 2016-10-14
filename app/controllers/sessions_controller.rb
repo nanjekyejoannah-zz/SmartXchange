@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_credentials(params[:user])
     if @user
       sign_in!(@user)
-      redirect_to users_path
+      redirect_to(session[:return_to] || users_path)
     else
       flash[:error] = "Invalid email and/or password"
       redirect_to login_path

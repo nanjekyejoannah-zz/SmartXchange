@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010221048) do
+ActiveRecord::Schema.define(version: 20161013192739) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -91,6 +91,8 @@ ActiveRecord::Schema.define(version: 20161010221048) do
     t.boolean  "notify_match",         default: true, null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.boolean  "new_conversation",     default: true, null: false
+    t.boolean  "new_message",          default: true, null: false
     t.index ["user_id"], name: "index_email_subscriptions_on_user_id", unique: true
   end
 

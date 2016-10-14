@@ -9,7 +9,7 @@
           <%= image_tag(attachments["linkedin.png"].url, alt: "Linkedin") if @interested_user.linkedin %>
         </div>
         <div class="mail-match-text">
-          <span style="text-transform:uppercase;font-weight: 700;"> <%= "#{@interested_user.name}" %></span>, <%= "#{@interested_user.title}, wants to start #{['a','e','i','o','u'].include?(@interested_user.language[0].downcase) ? 'an' : 'a'}" %> <span style="text-transform:uppercase;font-weight: 700;"><%= "#{@interested_user.language}"%></span><%=" conversation with you" %>
+          <span style="text-transform:uppercase;font-weight: 700;"> <%= "#{@interested_user.name}" %></span>, <%= "#{@interested_user.title}, wants to start #{a_or_an(@interested_user.language)} " %><span style="text-transform:uppercase;font-weight: 700;"><%= "#{@interested_user.language}"%></span><%=" conversation with you" %>
           <br><%= link_to "View Profile", @url_interested_user, class: 'mail-btn' %>
         </div>
       </div>

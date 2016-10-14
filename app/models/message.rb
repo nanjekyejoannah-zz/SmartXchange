@@ -20,10 +20,21 @@ class Message < ApplicationRecord
   # maybe refactor / take out not necessary since default is asc
   default_scope -> { order(created_at: :asc) }
 
-  # after_create_commit { MessageBroadcastJob.perform_later(self) }
+  after_create :email_recipient_conditional
+
+  # after_create_commit { SendEmailJob.perform_later(self) }
 
   def timestamp
     created_at.strftime('%H:%M:%S %d %B %Y')
+  end
+
+  protected
+
+  def email_recipient_conditional
+    if self.chat_room.updated_at < 24.hours.ago
+      # needs refactoring, slow process, deliver_later does not work on UserMailer here
+      UserMailer.new_message(self).deliver
+    end
   end
 
 end

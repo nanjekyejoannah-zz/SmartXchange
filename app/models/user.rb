@@ -71,7 +71,6 @@ class User < ApplicationRecord
   attr_reader :password
   after_initialize :ensure_session_token
 
-
   def self.find_by_credentials(user_params)
     user = User.find_by_email(user_params[:email].downcase)
     user.try(:is_password?, user_params[:password]) ? user : nil

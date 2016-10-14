@@ -10,6 +10,8 @@
 #  notify_match         :boolean          default(TRUE), not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  new_conversation     :boolean          default(TRUE), not null
+#  new_message          :boolean          default(TRUE), not null
 #
 
 class EmailSubscription < ApplicationRecord

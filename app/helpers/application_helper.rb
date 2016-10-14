@@ -13,4 +13,8 @@ module ApplicationHelper
     nil
   end
 
+  def a_or_an(string)
+    ['a','e','i','o','u'].include?(string[0].downcase) ? 'an' : 'a'
+  end
+
 end

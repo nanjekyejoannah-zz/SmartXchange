@@ -17,7 +17,7 @@
                 </div>
                 <div class="mail-match-text">
                   <span style="text-transform:uppercase;font-weight: 700"> <%= "#{match.name}" %></span>, <%= "#{match.title}" %>
-                  <br><%= link_to "Notify", @url_email_match + "#{match.id}", class: 'mail-btn' %>
+                  <br><%= link_to "Notify", @match_urls[match.id], class: 'mail-btn' %>
                 </div>
               </div>
             </li>

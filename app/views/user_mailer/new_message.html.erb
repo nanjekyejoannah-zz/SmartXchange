@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <%= render 'layouts/header_mail' %>
+  <body>
+    <h4>Dear <%= @user.name %>,</h4>
+      <div class="mail-match">
+        <div class="mail-match-img">
+          <%= image_tag(attachments["#{@sender.name}.jpg"].url, alt: "#{@sender.name}") %>
+          <%= image_tag(attachments["linkedin.png"].url, alt: "Linkedin") if @sender.linkedin %>
+        </div>
+        <div class="mail-match-text">
+          <span style="text-transform:uppercase;font-weight: 700;"> <%= "#{@sender.name}" %></span>, <%= "#{@sender.title}, has sent you a message in your " %><span style="text-transform:uppercase;font-weight: 700;"><%= "#{@chat_room.title}"%></span><%=" conversation" %>
+          <br><%= link_to "View Conversation", @chat_room_url, class: 'mail-btn' %>
+        </div>
+      </div>
+  </body>
+  <%= render 'layouts/footer_mail_simple' %>
+</html>

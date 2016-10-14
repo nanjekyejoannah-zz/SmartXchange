@@ -10,7 +10,14 @@ class UserMailer < ApplicationMailer
   #   end
   # end
 
-  before_action :set_urls_and_attachments
+  # for using a_or_an method in emails
+  include ApplicationHelper
+  include ChatRoomsHelper
+  add_template_helper(ApplicationHelper)
+
+  # all places where we're using footer_mail with all links
+  before_action :set_footer_urls, only: [:welcome_new, :weekly_notifications, :monthly_update]
+  before_action :set_header_logo
   # bit of a hack, maybe refactor need @user to be set before sending, welcome new will always be true just there so doesn't enter method
   after_action :prevent_delivery_to_unsubscribed, except: [:welcome_new, :reset_password, :suspicious_activity, :premium_subscribe, :premium_unsubscribe]
 
@@ -26,8 +33,8 @@ class UserMailer < ApplicationMailer
     @user = user
     @notifications = notifications
     # built with google url builder
-    add_campaign('?utm_source=notifications_email&utm_medium=email&utm_campaign=october_notifications')
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    add_campaign_to_footer(notifications_campaign)
     set_unsubscribe_hash
     mail(to: email_with_name, subject: 'smartXchange Notifications')
   end
@@ -36,8 +43,9 @@ class UserMailer < ApplicationMailer
     @user = user
     @notifications = notifications
     email_with_name = %("#{@user.name}" <#{@user.email}>)
+    add_campaign_to_footer(notifications_campaign)
     set_unsubscribe_hash
-    mail(to: email_with_name, subject: 'smartXchange enters its third month since launch')
+    mail(to: email_with_name, subject: 'smartXchange introduces Premium')
   end
 
   def reset_password(user, password)
@@ -55,18 +63,13 @@ class UserMailer < ApplicationMailer
     @matches_token = @user.create_matches_token!
     @url_email_match = "http://www.smartxchange.es/users/#{@user.id}/email_match/#{@matches_token}/"
     if @matches.any?
-      @linkedin_img_not_set = true
+      @match_urls = Hash.new
       @matches.each do |match|
-        fetch_user_image(match)
-        # probably refactor, only do when needed so doesn't send as attachment if unused
-        if @linkedin_img_not_set && match.linkedin
-          attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png")
-          @linkedin_img_not_set = false
-        end
+        fetch_user_image_and_linkedin(match)
+        @match_urls[match.id] = @url_email_match + match.id.to_s + matches_campaign
       end
     end
-    # for login link @url
-    add_campaign('?utm_source=matches_email&utm_medium=email&utm_campaign=october_matches')
+    @url = "http://www.smartxchange.es/login" + matches_campaign
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     set_unsubscribe_hash
     mail(to: email_with_name, subject: 'Have you messaged these language practice peers?')
@@ -76,11 +79,9 @@ class UserMailer < ApplicationMailer
     @interested_user = interested_user
     # set as @user instead of @matched_user so don't have to change unsubscribe logic
     @user = matched_user
-    @url_interested_user = "http://www.smartxchange.es/users/#{@interested_user.id}"
-    attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if @interested_user.linkedin
-    fetch_user_image(@interested_user)
-    # for view profile link @url_user
-    add_campaign('?utm_source=matches_email&utm_medium=email&utm_campaign=october_matches')
+    # not using add_campaign since this is less lines of code, only need to add campaign to the view profile link
+    @url_interested_user = "http://www.smartxchange.es/users/#{@interested_user.id}#{matches_campaign}"
+    fetch_user_image_and_linkedin(@interested_user)
     email_with_name = %("#{@user.name}" <#{@user.email}>)
     set_unsubscribe_hash
     mail(to: email_with_name, subject: "#{@interested_user.name} wants to practice #{@interested_user.language}")
@@ -107,22 +108,58 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: 'Sorry to see you leave')
   end
 
+  def new_conversation(chat_room)
+    @user = chat_room.recipient
+    @initiator = chat_room.initiator
+    # not get @chat_room since for now chat_room is always initiated in initiator's language (to practice)
+    @chat_room_url = "http://www.smartxchange.es/chat_rooms/#{chat_room.id}" + conversations_campaign
+    fetch_user_image_and_linkedin(@initiator)
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
+    mail(to: email_with_name, subject: "#{@initiator.name} has started #{a_or_an(@initiator.language)} #{@initiator.language} conversation with you")
+  end
+
+  def new_message(message)
+    @user = chat_room_interlocutor(message.chat_room, message.sender)
+    @sender = message.sender
+    @chat_room = message.chat_room
+    @chat_room_url = "http://www.smartxchange.es/chat_rooms/#{message.chat_room.id}" + conversations_campaign
+    fetch_user_image_and_linkedin(@sender)
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
+    mail(to: email_with_name, subject: "#{@sender.name} has sent you a message in your #{@chat_room.title} conversation")
+  end
+
   private
 
-  def set_urls_and_attachments
-    @url  = 'http://www.smartxchange.es/login'
-    @url_tutorial = 'http://www.smartxchange.es/about#video'
-    @url_mobile_tutorial = 'http://www.smartxchange.es/about#video-mobile'
-    @url_premium = 'http://www.smartxchange.es/about#premium'
+  def set_footer_urls
+    @url  = "http://www.smartxchange.es/login"
+    @url_tutorial = "http://www.smartxchange.es/about#video"
+    @url_mobile_tutorial = "http://www.smartxchange.es/about#video-mobile"
+    @url_premium = "http://www.smartxchange.es/about#premium"
+  end
+
+  def set_header_logo
     attachments.inline['logo.png'] = File.read("#{Rails.root}/app/assets/images/logo.png")
   end
 
-  def add_campaign(string)
+  def add_campaign_to_footer(string)
     @url += "#{string}"
     @url_tutorial = "http://www.smartxchange.es/about#{string}#video"
     @url_mobile_tutorial = "http://www.smartxchange.es/about#{string}#video-mobile"
     @url_premium = "http://www.smartxchange.es/about#{string}#premium"
-    @url_interested_user += "#{string}" if @url_interested_user
+  end
+
+  def notifications_campaign
+    "?utm_source=notifications_email&utm_medium=email&utm_campaign=october_notifications"
+  end
+
+  def matches_campaign
+    "?utm_source=matches_email&utm_medium=email&utm_campaign=october_matches"
+  end
+
+  def conversations_campaign
+    "?utm_source=conversation_email&utm_medium=email&utm_campaign=october_conversations"
   end
 
   def prevent_delivery_to_unsubscribed
@@ -133,7 +170,7 @@ class UserMailer < ApplicationMailer
     @unsubscribe_hash = Rails.application.message_verifier(:unsubscribe).generate(@user.id)
   end
 
-  def fetch_user_image(user)
+  def fetch_user_image_and_linkedin(user)
     # in production .url works as url should, but in development .url works as path and vice versa
     if Rails.env.production?
       # maybe refactor, if no image uploaded, need to fetch the image from default_url method, which for some reason wasn't finding the file - Errno::ENOENT: No such file or directory @ rb_sysopen - http://www.smartxchange.es/images/fallback/user/small_thumb_default.png  even though the file exists and the link works (also wasn't able to use Rails.root since prepends 'app' to path), but this method works with remote fetch
@@ -144,6 +181,7 @@ class UserMailer < ApplicationMailer
     else
       attachments.inline["#{user.name}.jpg"] = File.read("#{Rails.root}/public/#{user.image.small_thumb.url}")
     end
+    attachments.inline['linkedin.png'] = File.read("#{Rails.root}/app/assets/images/linkedin-button-small.png") if user.linkedin
   end
 
 end

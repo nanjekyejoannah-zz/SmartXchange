@@ -35,4 +35,12 @@ class UserMailerPreview < ActionMailer::Preview
   def premium_unsubscribe
     UserMailer.premium_unsubscribe(User.first)
   end
+
+  def new_conversation
+    UserMailer.new_conversation(ChatRoom.first)
+  end
+
+  def new_message
+    UserMailer.new_message(Message.last)
+  end
 end

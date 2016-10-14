@@ -36,6 +36,8 @@ class ChatRoomsController < ApplicationController
       unless @chat_room.persisted?
         flash[:error] = @chat_room.errors.full_messages.to_sentence
         redirect_to :back and return
+      else
+        UserMailer.new_conversation(@chat_room).deliver_later
       end
     end
     show
