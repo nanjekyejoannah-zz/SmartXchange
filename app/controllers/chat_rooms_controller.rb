@@ -1,8 +1,7 @@
 class ChatRoomsController < ApplicationController
-
-  before_action :correct_chat_room, only: [:show, :destroy]
-
   include ChatRoomsHelper
+
+  before_action :correct_chat_room?, only: [:show, :destroy]
 
   def index
     # includes is for chat room helper methods called when listing a chat room
@@ -37,7 +36,7 @@ class ChatRoomsController < ApplicationController
         flash[:error] = @chat_room.errors.full_messages.to_sentence
         redirect_to :back and return
       else
-        UserMailer.new_conversation(@chat_room).deliver_later
+        UserMailer.new_conversation(@chat_room).deliver_later(wait_until: 2.minutes.from_now)
       end
     end
     show
@@ -56,4 +55,5 @@ class ChatRoomsController < ApplicationController
   def chat_room_params
     params.require(:chat_room).permit(:recipient_id)
   end
+
 end

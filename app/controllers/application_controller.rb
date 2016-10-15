@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user, :signed_in?
 
-  before_action :require_signed_in!, :set_timezone
+  before_action :require_signed_in!, :set_timezone, :protect_from_host_header_attack
 
   private
 
@@ -42,17 +42,21 @@ class ApplicationController < ActionController::Base
     @user = User.find(id)
     unless @user == current_user
       flash[:error] = "Unauthorized access"
-      # this and correct_chat_room are not set to redirect_to :back because they can only be accessed by typing them in the url and therefore no http_referer is set
+      # this and correct_chat_room? are not set to redirect_to :back because they can only be accessed by typing them in the url and therefore no http_referer is set
       redirect_to users_path
       return false
     end
     true
   end
 
-  def correct_chat_room
+  def correct_chat_room?
     @chat_room = ChatRoom.find(params[:id])
+
     # maybe move the end of this method into chat_room.rb
-    redirect_to users_path unless (@chat_room.initiator == current_user || @chat_room.recipient == current_user)
+    unless (@chat_room.initiator == current_user || @chat_room.recipient == current_user)
+      flash[:error] = "Unauthorized access"
+      redirect_to users_path
+    end
   end
 
   def set_timezone
@@ -66,6 +70,10 @@ class ApplicationController < ActionController::Base
     flash[:success] = "Welcome to smartXchange. Complete your profile and start networking and practicing your language! Make sure to update your nationality so that your country's flag will be displayed to others when they talk with you"
     UserMailer.welcome_new(user).deliver_later
     redirect_to user_path(user)
+  end
+
+  def protect_from_host_header_attack
+    env['HTTP_HOST'] = default_url_options.fetch(:host, env['HTTP_HOST'])
   end
 
 end
