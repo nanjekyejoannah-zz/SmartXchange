@@ -9,7 +9,7 @@
             <form action="<%= user_path(@user) %>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="_method" value="patch">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-              <label>Name<br>
+              <label>Name / Nickname<br>
                 <input id="user-name" name="user[name]" type="text" value="<%= @user.name %>"><br>
               </label><br>
               <label>Age<br>
