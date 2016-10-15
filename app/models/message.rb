@@ -31,7 +31,7 @@ class Message < ApplicationRecord
   protected
 
   def email_recipient_conditional
-    if self.chat_room.updated_at < 24.hours.ago
+    if self.chat_room.updated_at < 1.hour.ago
       # needs refactoring, slow process, deliver_later does not work on UserMailer here
       UserMailer.new_message(self).deliver
     end

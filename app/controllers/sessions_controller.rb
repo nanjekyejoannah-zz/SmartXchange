@@ -92,7 +92,7 @@ class SessionsController < ApplicationController
     end # @user && @@existing, sign in with linkedin and account exists
     @@existing = false
     sign_in!(@user)
-    redirect_to users_path
+    redirect_to(session[:return_to] || users_path)
   end
 
   protected
