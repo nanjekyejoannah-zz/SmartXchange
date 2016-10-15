@@ -2,24 +2,36 @@
 <form action="<%= update_subscription_user_settings_path(@user) %>" method="post">
   <input type="hidden" name="_method" value="patch">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <input type="hidden" name="email[weekly_notifications]" value="false">
-  <input type="checkbox" id="weekly_notifications"name="email[weekly_notifications]" value="true" <%= 'checked' if @user.email_subscription.weekly_notifications %> >
-  <label for="weekly_notifications">Weekly Notifications</label><br>
-  <input type="hidden" name="email[monthly_update]" value="false">
-  <input type="checkbox" id="monthly_update" name="email[monthly_update]" value="true" <%= 'checked' if @user.email_subscription.monthly_update %> >
-  <label for="monthly_update">Monthly Update</label><br>
-  <input type="hidden" name="email[language_matches]" value="false">
-  <input type="checkbox" id="language_matches" name="email[language_matches]" value="true" <%= 'checked' if @user.email_subscription.language_matches %> >
-  <label for="language_matches">Peer Recommendations</label><br>
-  <input type="hidden" name="email[notify_match]" value="false">
-  <input type="checkbox" id="notify_match" name="email[notify_match]" value="true" <%= 'checked' if @user.email_subscription.notify_match %> >
-  <label for="notify_match">Peer Interest</label><br>
-  <input type="hidden" name="email[new_conversation]" value="false">
-  <input type="checkbox" id="new_conversation" name="email[new_conversation]" value="true" <%= 'checked' if @user.email_subscription.new_conversation %> >
-  <label for="new_conversation">New Conversation Notification</label><br>
-  <input type="hidden" name="email[new_message]" value="false">
-  <input type="checkbox" id="new_message" name="email[new_message]" value="true" <%= 'checked' if @user.email_subscription.new_message %> >
-  <label for="new_message">New Message Notification</label><br><br>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[weekly_notifications]" value="false">
+    <input type="checkbox" id="weekly_notifications"name="email[weekly_notifications]" value="true" <%= 'checked' if @user.email_subscription.weekly_notifications %> >
+    <label for="weekly_notifications">Weekly Notifications (only emailed if you have unread notifications)</label><br>
+  </div>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[monthly_update]" value="false">
+    <input type="checkbox" id="monthly_update" name="email[monthly_update]" value="true" <%= 'checked' if @user.email_subscription.monthly_update %> >
+    <label for="monthly_update">Monthly Update</label><br>
+  </div>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[language_matches]" value="false">
+    <input type="checkbox" id="language_matches" name="email[language_matches]" value="true" <%= 'checked' if @user.email_subscription.language_matches %> >
+    <label for="language_matches">Our Monthly Peer Recommendations</label><br>
+  </div>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[notify_match]" value="false">
+    <input type="checkbox" id="notify_match" name="email[notify_match]" value="true" <%= 'checked' if @user.email_subscription.notify_match %> >
+    <label for="notify_match">Peer Interest (someone we recommend expresses interest in starting a conversation)</label><br>
+  </div>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[new_conversation]" value="false">
+    <input type="checkbox" id="new_conversation" name="email[new_conversation]" value="true" <%= 'checked' if @user.email_subscription.new_conversation %> >
+    <label for="new_conversation">New Conversation Notification</label><br>
+  </div>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[new_message]" value="false">
+    <input type="checkbox" id="new_message" name="email[new_message]" value="true" <%= 'checked' if @user.email_subscription.new_message %> >
+    <label for="new_message">New Message Notification (if more than 1 hour of inactivity in conversation)</label><br><br>
+  </div>
   <input type="submit" value="Update Subscriptions" class="btn btn-primary settings">
 </form>
 <br>
