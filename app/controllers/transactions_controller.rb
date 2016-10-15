@@ -20,7 +20,7 @@ class TransactionsController < ApplicationController
       UserMailer.premium_subscribe(current_user).deliver_later
       redirect_to root_url, notice: "Congratulations! You have successfully subscribed to smartXchange Premium! Please check your email for instructions on what to do next."
     else
-      flash[:error] = "Something went wrong while processing your subscription. Please try again!"
+      flash.now[:error] = "Something went wrong while processing your subscription. Please try again!"
       gon.client_token = generate_client_token
       render :new
     end
@@ -45,7 +45,7 @@ class TransactionsController < ApplicationController
       current_user.update(braintree_customer_id: result.customer.id)
       redirect_to new_transaction_path
     else
-      flash[:error] = result.errors
+      flash.now[:error] = result.errors
       render :new_customer
     end
   end

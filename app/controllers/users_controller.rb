@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       sign_in!(@user)
       welcome_new(@user)
     else
-      flash[:error] = @user.errors.full_messages.to_sentence
+      flash.now[:error] = @user.errors.full_messages.to_sentence
       @user_count = User.all.count - (User.all.count % 10)
       render :new
     end

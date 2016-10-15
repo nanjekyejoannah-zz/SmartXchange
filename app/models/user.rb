@@ -34,7 +34,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, length: {maximum: 255}, format: {:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/i, on: :create}
   validates :password, length: { minimum: 5, maximum: 50, allow_nil: true }
   validates :title, length: {minimum: 5, maximum: 255}
-  validates :name, length: {minimum: 2, maximum: 255}
+  validates :name, uniqueness: true, length: {minimum: 2, maximum: 255}
   validates :age, numericality: { only_integer: true }
   validates :language_level, numericality: {only_integer: true} #may change this since it's a dropdown
   mount_uploader :image, AvatarUploader
@@ -208,7 +208,7 @@ class User < ApplicationRecord
   protected
 
   def ensure_session_token
-    self.session_token ||= SecureRandom.urlsafe_base64(16)
+    self.session_token ||= User.new_token
   end
 
   def downcase_email
