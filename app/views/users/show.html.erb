@@ -119,6 +119,9 @@
                   <option value="Vietnamese" <%= "selected" if @user.nationality == "Vietnamese" %> >Vietnam</option>
                </select>
              </label><br>
+             <label>Location (City, Country)<br>
+               <input type="text" name="user[location]" value="<%= @user.location %>">
+             </label>
               <label>Picture<br>
                 <input type="file" name="user[image]" value="<%= @user.image.small_thumb %>">
               </label><br>
@@ -143,6 +146,7 @@
           <% if @user.person_of_interest?  %>
             <h4>Person of Interest</h4>
           <% end %>
+          <h4> <span style="font-weight:normal"><%= @user.location %> </span> </h4><br>
           <!-- may change class to start-chat but have to make sure it doesn't conflict with js code -->
           <!-- also need to refactor the break -->
           <br>
@@ -161,7 +165,6 @@
            <br> <!-- refactor later just for appearances now -->
           <a href="<%= @user.linkedin.public_url %>"><%= image_tag('linkedin-button.png', alt: 'Linkedin') %></a>
           <h4> <%= @user.linkedin.industry %></h4>
-          <h4> <span style="font-weight:normal"><%= @user.location %> </span> </h4>
           <p><span style="font-weight:normal"><%= @user.linkedin.summary %></span></p>
           <% if @user == current_user  %>
             <%= button_to "Update Linkedin", update_linkedin_session_path, method: :get, class: 'btn btn-primary linkedin' %>

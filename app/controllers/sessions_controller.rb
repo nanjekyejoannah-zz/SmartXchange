@@ -51,8 +51,7 @@ class SessionsController < ApplicationController
     current_user.linkedin.destroy
     current_user.update(
       provider: "",
-      uid: "",
-      location: ""
+      uid: ""
     )
     redirect_to user_url(current_user)
   end
