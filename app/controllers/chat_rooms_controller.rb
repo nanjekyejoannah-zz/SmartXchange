@@ -13,7 +13,7 @@ class ChatRoomsController < ApplicationController
   end
 
   def show
-    @chat_room ||= ChatRoom.find_by(id: params[:id])
+    @chat_room ||= ChatRoom.find(params[:id])
     # probably refactor, in cases where user has conversations and then switches to standard membership and tries to access those conversations
     if @chat_room.person_of_interest_or_chat_bot_and_not_premium?
       flash[:error] = @chat_room.errors.full_messages.to_sentence
@@ -23,7 +23,7 @@ class ChatRoomsController < ApplicationController
     @message = Message.new
     @receiver = chat_room_interlocutor(@chat_room, current_user)
     # updating notifications for user as they visit chat room
-    chat_room_mark_read(@chat_room, current_user.id)
+    chat_room_mark_read(@chat_room, current_user)
     render :show #needed since create action redirects here, needs to know what template to show
   end
 

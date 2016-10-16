@@ -4,7 +4,7 @@ module ChatRoomsHelper
     user == chat_room.recipient ? chat_room.initiator : chat_room.recipient
   end
 
-  # assumes that chat_room is loaded with notifications and we don't have to query the database again
+  # using select instead of where because that chat_room is loaded with notifications and we don't have to query the database again
   def chat_room_count_unread(chat_room, user)
     chat_room.notifications.select{|notification| notification.read == false && notification.notified_id == user.id}.count
   end
@@ -17,9 +17,43 @@ module ChatRoomsHelper
     true
   end
 
-  def chat_room_mark_read(chat_room, notified_id)
+  def chat_room_mark_read(chat_room, notified)
     # assuming only one notification is created per new message(s) in chat room, by above method, maybe refactor to delete notification
-    chat_room.notifications.where(read: false, notified_id: notified_id).update(read: true)
+    chat_room.notifications.where(read: false, notified_id: notified.id).update(read: true)
+  end
+
+  def chat_room_create_notification(message)
+    # maybe refactor and implement a better method than this instance variable in the future
+    @notification = nil
+    recipient = chat_room_interlocutor(message.chat_room, message.sender)
+    if chat_room_notification_check(message.chat_room, recipient)
+      @notification = Notification.create!(
+        notified_id: recipient.id,
+        notifier_id: message.sender.id,
+        notifiable_type: 'ChatRoom',
+        notifiable_id: message.chat_room.id,
+        sourceable_type: 'Message',
+        sourceable_id: message.id
+      )
+    end
+    # using message.sender in code below because of potential conflict if chatbot is responding
+    # need to include UsersHelper in order to use the below methods, for now everytime I include ChatRoomsHelper also include UsersHelper
+    if !@notification.nil?
+      WebNotificationsChannel.broadcast_to(
+        recipient,
+        chat_rooms_notifications: user_count_unread_chat_rooms(recipient),
+        total_notifications: user_count_unread(recipient),
+        sound: true
+      )
+      # if sending from this chat room mark last notification from sender as read
+      chat_room_mark_read(message.chat_room, message.sender)
+      WebNotificationsChannel.broadcast_to(
+        message.sender,
+        chat_rooms_notifications: user_count_unread_chat_rooms(message.sender),
+        total_notifications: user_count_unread(message.sender),
+        sound: false
+      )
+    end
   end
 
 end

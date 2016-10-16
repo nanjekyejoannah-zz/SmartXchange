@@ -1,6 +1,7 @@
 <div class="chat-room <%= chat_room.id %>">
 <a href="<%= chat_room_path(chat_room) %>" class="chat-room">
-    <% unread = chat_room_count_unread(chat_room, current_user) > 0 ? "(#{chat_room_count_unread(chat_room, current_user)})" : "" %>
+    <% chat_room_unread_notifications = chat_room_count_unread(chat_room, current_user) %>
+    <% unread = chat_room_unread_notifications > 0 ? "(#{chat_room_unread_notifications})" : "" %>
     <% user = chat_room_interlocutor(chat_room, current_user) %>
       <!-- using user scss here may refactor change to chat css later -->
         <div class="chat-room-image">
