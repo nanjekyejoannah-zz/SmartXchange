@@ -64,6 +64,7 @@ class User < ApplicationRecord
 
   before_save :downcase_email
   after_validation :geocode, if: :location_present_and_changed
+  after_validation :lat_changed?
   after_create :add_email_subscription
 
   default_scope -> { order(created_at: :asc) } #may refactor take this out, asc want longest users around first
@@ -217,7 +218,18 @@ class User < ApplicationRecord
 
   def location_present_and_changed
     return true if (self.location.present? && self.location_changed?)
-    false
+    return false
+  end
+
+  def lat_changed?
+    # for some reason need to return at the end
+    if self.location_changed?
+        if !self.latitude_changed?
+            self.errors.add(:location, "is not valid")
+            return false
+        end
+    end
+    return true
   end
 
   def add_email_subscription

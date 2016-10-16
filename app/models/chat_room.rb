@@ -38,7 +38,7 @@ class ChatRoom < ApplicationRecord
     initiator = User.find(self.initiator_id)
     recipient = User.find(self.recipient_id)
     if (recipient.person_of_interest? || recipient.chat_bot?) && !initiator.premium?
-      errors.add(:recipient_id, "You must be a premium member to message Persons of Interest or ChatBots")
+      errors.add(:recipient_id, "is a chatbot or Person of Interest, premium membership required")
     end
   end
 
@@ -46,7 +46,7 @@ class ChatRoom < ApplicationRecord
 
   def unique_chat_room?
     if ChatRoom.between(self.initiator_id, self.recipient_id, self.title).any?
-      errors.add(:title, "Existing chat room with this title between these 2 users")
+      errors.add(:title, "exists between these 2 users")
     end
   end
 

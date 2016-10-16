@@ -19,17 +19,17 @@ jQuery(document).on 'turbolinks:load', ->
         console.log('chatroom - disconnected')
 
       received: (data) ->
-          console.log('chatroom - received')
-          $last_message = $("#messages .message").last()
-          $new_message = $(data['message'])
-          # to prevent repeat messages broadcasted may need to refactor later
-          if $last_message.data('message-id') != $new_message.data('message-id')
-            sender_id = $new_message.data('sender-id')
-            current_user_id = parseInt($('meta[name=user-id]').attr("content"))
-            if current_user_id != sender_id
-              $new_message.removeClass("self").addClass("other")
-            $messages.append($new_message)
-          messages_to_bottom()
+        console.log('chatroom - received')
+        $last_message = $("#messages .message").last()
+        $new_message = $(data['message'])
+        # to prevent repeat messages broadcasted may need to refactor later
+        if $last_message.data('message-id') != $new_message.data('message-id')
+          sender_id = $new_message.data('sender-id')
+          current_user_id = parseInt($('meta[name=user-id]').attr("content"))
+          if current_user_id != sender_id
+            $new_message.removeClass("self").addClass("other")
+          $messages.append($new_message)
+        messages_to_bottom()
 
       send_message: (message,chat_room_id) ->
         console.log('chatroom - send_message')
