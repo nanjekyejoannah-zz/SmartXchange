@@ -137,7 +137,7 @@
                 <i> <%= @user.age %></i>
               </span>
           </h4>
-          <h4> <%= auto_link(@user.title) %></h4>
+          <h4><%= auto_link(@user.title) %></h4>
           <h4> <b><%= "#{@user.language}, "%></b>
             <span style="font-weight:normal"><%= user_convert_language_level(@user.language_level) %>
             </span>
@@ -146,7 +146,7 @@
           <% if @user.person_of_interest?  %>
             <h4>Person of Interest</h4>
           <% end %>
-          <h4> <span style="font-weight:normal"><%= @user.location %> </span> </h4><br>
+          <h4> <span style="font-weight:normal"><i><%= @user.location %></i> </span> </h4><br>
           <!-- may change class to start-chat but have to make sure it doesn't conflict with js code -->
           <!-- also need to refactor the break -->
           <br>
