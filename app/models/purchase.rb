@@ -10,7 +10,7 @@
 #
 
 class Purchase < ApplicationRecord
-  validates_presence_of :buyer_id, :package_id
+  validates_presence_of :buyer, :package
   validates_uniqueness_of :buyer_id, scope: :package_id
 
   belongs_to :buyer, class_name: 'User'

@@ -15,7 +15,7 @@
 #
 
 class Review < ApplicationRecord
-  validates_presence_of :reviewer_id, :reviewable_type, :reviewable_id, :chat_room_id, :language_level, :language
+  validates_presence_of :reviewer, :reviewable, :chat_room, :language_level, :language
   # too long to have this database validation, only here
   # most validations are for instances when creating review from command line
   validates :language, uniqueness: { scope: [:reviewer_id, :reviewable_type, :reviewable_id], message: "You have already submitted a review for this user in this language, please check your reviews (in your user settings) and edit this review" }

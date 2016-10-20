@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161019042204) do
+ActiveRecord::Schema.define(version: 20161020133026) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -223,6 +223,7 @@ ActiveRecord::Schema.define(version: 20161019042204) do
     t.text     "comment"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["chat_room_id", "reviewer_id"], name: "index_reviews_on_chat_room_id_and_reviewer_id", unique: true
     t.index ["chat_room_id"], name: "index_reviews_on_chat_room_id"
     t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable_type_and_reviewable_id"
     t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"

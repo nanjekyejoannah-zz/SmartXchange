@@ -15,7 +15,7 @@
 #
 
 class EmailSubscription < ApplicationRecord
-  validates_presence_of :user_id
+  validates_presence_of :user
   validates :user_id, uniqueness: true
 
   belongs_to :user

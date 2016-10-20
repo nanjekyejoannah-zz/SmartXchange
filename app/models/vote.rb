@@ -12,7 +12,7 @@
 #
 
 class Vote < ApplicationRecord
-  validates_presence_of :value, :votable_type, :votable_id, :owner_id
+  validates_presence_of :value, :votable, :owner
   validates :value, inclusion: { in: [1,-1] }
 
   belongs_to :votable, polymorphic: true, touch: true

@@ -11,7 +11,7 @@
 #
 
 class Message < ApplicationRecord
-  validates_presence_of :chat_room_id, :sender_id, :body
+  validates_presence_of :chat_room, :sender, :body
   validates :body, length: {minimum: 1, maximum: 500}
 
   belongs_to :sender, class_name: 'User'

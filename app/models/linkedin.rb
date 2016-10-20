@@ -13,7 +13,7 @@
 
 class Linkedin < ApplicationRecord
   # currently no way of displaying error if this happens, but buttons should only appear in cases where this can't happen
-  validates_presence_of :user_id
+  validates_presence_of :user
   validates :user_id, uniqueness: true
 
   belongs_to :user

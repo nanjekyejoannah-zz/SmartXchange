@@ -11,7 +11,7 @@
 #
 
 class Post < ApplicationRecord
-  validates_presence_of :owner_id, :board_id, :content
+  validates_presence_of :owner, :board, :content
   validates :content, length: {minimum: 5, maximum: 255}
 
   belongs_to :owner, class_name: 'User'
