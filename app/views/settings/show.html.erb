@@ -19,6 +19,8 @@
   You are currently browsing in stealth mode, switch to active mode? <%= link_to "Active", activate_user_settings_path, class: 'btn btn-primary settings' %>
 <% end %>
 
+<h3>Reviews</h3>
+<%= link_to "My Reviews", user_reviews_path(@user), class: 'btn btn-primary settings' %>
 
 <h3>Account</h3>
 <%= button_to "Delete Account", user_path(@user), method: :delete, data: {confirm: "Are you sure you want to delete your account? All conversations and posts will be destroyed."}, class: 'btn btn-primary delete'  %>

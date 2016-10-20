@@ -30,7 +30,17 @@
   <div class="email-subscription-checkbox">
     <input type="hidden" name="email[new_message]" value="false">
     <input type="checkbox" id="new_message" name="email[new_message]" value="true" <%= 'checked' if @user.email_subscription.new_message %> >
-    <label for="new_message">New Message Notification (if more than 1 hour of inactivity in conversation)</label><br><br>
+    <label for="new_message">New Message Notification (if more than 1 hour of inactivity in conversation)</label><br>
+  </div>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[peer_review]" value="false">
+    <input type="checkbox" id="peer_review" name="email[peer_review]" value="true" <%= 'checked' if @user.email_subscription.peer_review %> >
+    <label for="peer_review">Peer Review Notification (every 100 messages you will be asked to give the other user a review of the language they are practicing)</label><br>
+  </div>
+  <div class="email-subscription-checkbox">
+    <input type="hidden" name="email[notify_review]" value="false">
+    <input type="checkbox" id="notify_review" name="email[notify_review]" value="true" <%= 'checked' if @user.email_subscription.notify_review %> >
+    <label for="notify_review">New Review Notification (you will be notified every time someone gives you a review)</label><br><br>
   </div>
   <input type="submit" value="Update Subscriptions" class="btn btn-primary settings">
 </form>

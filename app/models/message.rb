@@ -21,6 +21,7 @@ class Message < ApplicationRecord
   default_scope -> { order(created_at: :asc) }
 
   after_create :email_recipient_conditional
+  after_create :send_peer_review?
 
   # after_create_commit { SendEmailJob.perform_later(self) }
 
@@ -34,6 +35,15 @@ class Message < ApplicationRecord
     if self.chat_room.updated_at < 1.hour.ago
       # needs refactoring, slow process, deliver_later does not work on UserMailer here
       UserMailer.new_message(self).deliver
+    end
+  end
+
+  def send_peer_review?
+    # send peer review email after every 100 messages in conversation
+    limit = 100
+    if (self.chat_room.messages.size % limit == 0 ) && (self.chat_room.messages.size / limit != 0)
+      UserMailer.peer_review(self.chat_room.initiator, self.chat_room.recipient, self.chat_room).deliver
+      UserMailer.peer_review(self.chat_room.recipient, self.chat_room.initiator, self.chat_room).deliver
     end
   end
 

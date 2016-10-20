@@ -43,4 +43,12 @@ class UserMailerPreview < ActionMailer::Preview
   def new_message
     UserMailer.new_message(Message.last)
   end
+
+  def peer_review
+    UserMailer.peer_review(ChatRoom.first.initiator, ChatRoom.first.recipient, ChatRoom.first)
+  end
+
+  def notify_review
+    UserMailer.notify_review(Review.last.reviewable, Review.last.reviewer, Review.last)
+  end
 end

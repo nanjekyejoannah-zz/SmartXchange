@@ -59,6 +59,8 @@ class User < ApplicationRecord
   has_one :purchase, :foreign_key => :buyer_id, dependent: :destroy
   has_one :package, through: :purchase
   has_one :email_subscription, dependent: :destroy
+  has_many :reviews, as: :reviewable, dependent: :destroy
+  has_many :created_reviews, :foreign_key => :reviewer_id, class_name: 'Review', dependent: :destroy
 
   geocoded_by :location
 

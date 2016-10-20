@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get 'deactivate', on: :collection
       get 'downgrade', on: :collection
     end
+    resources :reviews, except: [:show]
   end
 
   resources :chat_rooms, only: [:new, :create, :show, :index, :destroy]

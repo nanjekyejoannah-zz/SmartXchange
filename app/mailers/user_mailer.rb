@@ -130,6 +130,29 @@ class UserMailer < ApplicationMailer
     mail(to: email_with_name, subject: "#{@sender.name} has sent you a message in your #{@chat_room.title} conversation")
   end
 
+  def peer_review(user, other_user, chat_room)
+    @user = user
+    @other_user = other_user
+    @chat_room = chat_room
+    @peer_review_hash = Rails.application.message_verifier(:peer_review).generate(@other_user.id)
+    @peer_review_url = "http://www.smartxchange.es/users/#{@user.id}/reviews/new#{reviews_campaign}&chat_room_id=#{@chat_room.id}&id=#{@peer_review_hash}"
+    fetch_user_image_and_linkedin(@other_user)
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
+    mail(to: email_with_name, subject: "Please review #{@other_user.name} in your #{@chat_room.title} conversation together")
+  end
+
+  def notify_review(user, other_user, review)
+    @user = user
+    @other_user = other_user
+    @review = review
+    @peer_review_url = "http://www.smartxchange.es/users/#{@user.id}#{reviews_campaign}#review-#{@review.id}"
+    fetch_user_image_and_linkedin(@other_user)
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
+    set_unsubscribe_hash
+    mail(to: email_with_name, subject: "#{@other_user.name} has left you a review")
+  end
+
   private
 
   def set_footer_urls
@@ -160,6 +183,10 @@ class UserMailer < ApplicationMailer
 
   def conversations_campaign
     "?utm_source=conversation_email&utm_medium=email&utm_campaign=october_conversations"
+  end
+
+  def reviews_campaign
+    "?utm_source=review_email&utm_medium=email&utm_campaign=october_reviews"
   end
 
   def prevent_delivery_to_unsubscribed

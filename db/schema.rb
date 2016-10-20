@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161015192735) do
+ActiveRecord::Schema.define(version: 20161019042204) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 20161015192735) do
     t.datetime "updated_at",                          null: false
     t.boolean  "new_conversation",     default: true, null: false
     t.boolean  "new_message",          default: true, null: false
+    t.boolean  "peer_review",          default: true, null: false
+    t.boolean  "notify_review",        default: true, null: false
     t.index ["user_id"], name: "index_email_subscriptions_on_user_id", unique: true
   end
 
@@ -209,6 +211,21 @@ ActiveRecord::Schema.define(version: 20161015192735) do
     t.index ["readable_type", "readable_id"], name: "index_reads_on_readable_type_and_readable_id"
     t.index ["user_id", "readable_type", "readable_id"], name: "index_reads_on_user_id_and_readable_type_and_readable_id", unique: true
     t.index ["user_id"], name: "index_reads_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "reviewer_id",     null: false
+    t.string   "reviewable_type", null: false
+    t.integer  "reviewable_id",   null: false
+    t.integer  "chat_room_id",    null: false
+    t.string   "language",        null: false
+    t.integer  "language_level",  null: false
+    t.text     "comment"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["chat_room_id"], name: "index_reviews_on_chat_room_id"
+    t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable_type_and_reviewable_id"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "users", force: :cascade do |t|

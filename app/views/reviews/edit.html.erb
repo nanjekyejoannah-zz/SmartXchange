@@ -1,0 +1,38 @@
+<h1>Edit Peer Review</h1>
+
+<p>
+  You have exchanged over <%= @chat_room.messages.size %> messages in your <%= @chat_room.title %> conversation with <%= @other_user.name %>.
+  <br>Please update your review of <%= @other_user.name %>:
+</p>
+<form action="<%= user_review_path(current_user, @review) %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="review[reviewable_type]" value="<%= @other_user.class.name %>">
+  <input type="hidden" name="review[reviewable_id]" value="<%= @other_user.id %>">
+  <input type="hidden" name="review[chat_room_id]" value="<%= @chat_room.id %>">
+  <p>
+    What language did you practice with <%= @other_user.name %>?
+    <select name="review[language]">
+     <option value="Spanish" <%= 'selected' if @review.language=='Spanish'%> >Spanish</option>
+     <option value="English" <%= 'selected' if @review.language=='English'%> >English</option>
+     <option value="German" <%= 'selected' if @review.language=='German'%> >German</option>
+     <option value="French" <%= 'selected' if @review.language=='French'%> >French</option>
+     <option value="Italian" <%= 'selected' if @review.language=='Italian'%> >Italian</option>
+   </select>
+  </p>
+  <p>
+    How would you rate <%= @other_user.name %>'s language level in <%= @review.language %>?
+    <select name="review[language_level]">
+       <option value="1" <%= 'selected' if @review.language_level==1 %> >A1 - beginner</option>
+       <option value="2" <%= 'selected' if @review.language_level==2 %> >A2 - elementary</option>
+       <option value="3" <%= 'selected' if @review.language_level==3 %> >B1 - intermediate</option>
+       <option value="4" <%= 'selected' if @review.language_level==4 %> >B2 - upper intermediate</option>
+       <option value="5" <%= 'selected' if @review.language_level==5 %> >C1 - advanced</option>
+       <option value="6" <%= 'selected' if @review.language_level==6 %> >C2 - master</option>
+   </select>
+  </p>
+  <label>Comments (optional - won't be displayed, only for our use):<br>
+    <textarea name="review[comment]" style="width: 300px; height: 100px;"><%= @review.comment %></textarea>
+  </label><br>
+  <input type="submit" value="Submit" class="btn btn-primary settings">
+</form>
