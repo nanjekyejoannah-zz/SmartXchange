@@ -22,6 +22,7 @@ class Review < ApplicationRecord
   validates :chat_room_id, uniqueness: { scope: :reviewer_id, message: "You may only give one review per conversation" }
   validate :reviewer_not_reviewable
   validate :reviewer_in_chat_room
+  validate :reviewable_in_chat_room
   # validating that association chat_room.user_reviews is 2 or less, only on create
   validate :user_reviews_length, on: :create
 
@@ -46,6 +47,10 @@ class Review < ApplicationRecord
 
   def reviewer_in_chat_room
     errors.add(:reviewer_id, "did not participate in this conversation") unless (self.chat_room.initiator == self.reviewer || self.chat_room.recipient == self.reviewer)
+  end
+
+  def reviewable_in_chat_room
+    errors.add(:reviewable_id, "did not participate in this conversation") unless (self.chat_room.initiator == self.reviewable || self.chat_room.recipient == self.reviewable)
   end
 
 end

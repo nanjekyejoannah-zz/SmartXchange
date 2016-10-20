@@ -13,7 +13,6 @@
   <div class="row">
     <h4><a href="<%= all_users_path %>">All Users: <span style="font-weight: 300;"> <%= User.all.count %> </span></a>,
       <a href="<%= active_users_path %>">Active Users: <span style="font-weight: 300;"> <%= User.where(active: true).count %> </span></a>,
-      <a href="<%= chat_bots_users_path %>">ChatBots: <span style="font-weight: 300;"> <%= User.where(id: 6).count %> </span></a>,
       <a href="<%= spanish_users_path %>"><%= user_convert_nationality_to_img('Spanish') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Spanish').count %> </span></a>,
       <a href="<%= italian_users_path %>"><%= user_convert_nationality_to_img('Italian') %> : <span style="font-weight: 300;"> <%= User.where(language: 'Italian').count %> </span></a>,
       <a href="<%= german_users_path %>"><%= user_convert_nationality_to_img('German') %> : <span style="font-weight: 300;"> <%= User.where(language: 'German').count %> </span></a>,

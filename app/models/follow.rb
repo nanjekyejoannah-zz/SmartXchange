@@ -24,6 +24,7 @@ class Follow < ApplicationRecord
   private
 
   def ensure_post_owner_not_follower
+    # for now follawble_type will always be Post, just extra precaution
     raise "Post owner can not be follower!" if self.followable_type == 'Post' && self.followable.owner == self.follower
   end
 

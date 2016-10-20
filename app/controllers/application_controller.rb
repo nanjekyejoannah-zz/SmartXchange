@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
 
   def sign_in!(user)
     @current_user = user
+    session[:return_to] = nil
     session[:token] = user.reset_token!
   end
 

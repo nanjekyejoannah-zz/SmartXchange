@@ -12,6 +12,8 @@
 #  updated_at           :datetime         not null
 #  new_conversation     :boolean          default(TRUE), not null
 #  new_message          :boolean          default(TRUE), not null
+#  peer_review          :boolean          default(TRUE), not null
+#  notify_review        :boolean          default(TRUE), not null
 #
 
 require 'test_helper'
