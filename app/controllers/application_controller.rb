@@ -24,8 +24,12 @@ class ApplicationController < ActionController::Base
 
   def sign_in!(user)
     @current_user = user
-    session[:return_to] = nil
     session[:token] = user.reset_token!
+  end
+
+  def normal_sign_in
+    redirect_to(session[:return_to] || users_path)
+    session[:return_to] = nil
   end
 
   def require_signed_in!
