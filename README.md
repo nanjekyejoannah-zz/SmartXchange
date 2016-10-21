@@ -5,7 +5,7 @@ Ruby on Rails basic application to allow users to find each other for the purpos
 
 * Ruby 2.3, Rails 5.0, using Puma server locally, redis in production
 
-* Using carrier wave, mini_magick, and fog for uploading images and AWS for storing images
+* Using Carrierwave, Mini_magick, and Fog for uploading images and AWS for storing images
 
 * Heroku for hosting
 
@@ -15,9 +15,11 @@ Ruby on Rails basic application to allow users to find each other for the purpos
 
 * Basic Linkedin integration
 
-* Users geocoded by Linkedin location
+* Geocoder for location
 
-* Database using sqlite3 for development and postgres in production
+* Database using Sqlite3 for development and Postgres in production
+
+* Security test results from Acunetix, Beyond Security, and Detectify show medium to low vulnerability
 
 * Some issues when running on internet explorer
 
