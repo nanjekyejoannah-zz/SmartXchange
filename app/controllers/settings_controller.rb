@@ -69,7 +69,7 @@ class SettingsController < ApplicationController
     if @user.email_subscription.update(email_params)
       redirect_to :back, notice: 'Email subscription changed'
     else
-      flash[:alert] = 'There was a problem'
+      flash.now[:alert] = 'There was a problem'
       render :email_subscription
     end
   end

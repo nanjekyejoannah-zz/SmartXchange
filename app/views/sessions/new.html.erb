@@ -21,7 +21,7 @@
       <form action="/session" method="post" class="new">
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
         <label>Email<br>
-          <input name="user[email]" type="text"><br>
+          <input name="user[email]" type="text" value="<%= @email %>"><br>
         </label><br>
         <label>Password<br>
           <input name="user[password]" type="password" autocomplete="off"><br>

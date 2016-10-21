@@ -76,7 +76,13 @@ class User < ApplicationRecord
 
   def self.find_by_credentials(user_params)
     user = User.find_by_email(user_params[:email].downcase)
-    user.try(:is_password?, user_params[:password]) ? user : nil
+    if user && user.try(:is_password?, user_params[:password])
+      return user
+    elsif user
+      return user.email
+    else
+      return nil
+    end
   end
 
   def self.new_token
