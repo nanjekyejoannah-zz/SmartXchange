@@ -72,24 +72,24 @@ Rails.application.configure do
   # config.action_controller.asset_host = 'http://assets.example.com'
 
   # host header protection
-  config.action_controller.default_url_options = { host: 'www.smartxchange.es' }
+  config.action_controller.default_url_options = { host: ENV['HTTP_HOST'] }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
 
   # So that you can use _url in email layouts
-  config.action_mailer.default_url_options = { host: 'www.smartxchange.es' }
+  config.action_mailer.default_url_options = { host: ENV['HTTP_HOST'] }
 
   # To access assets like images in email layouts
-  config.action_mailer.asset_host = 'www.smartxchange.es'
+  config.action_mailer.asset_host = ENV['HTTP_HOST']
 
   # sending from speterlin12 gmail account
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
-    domain:               'www.smartxchange.es',
+    domain:               ENV['HTTP_HOST'],
     user_name:            ENV['GMAIL_USERNAME'],
     password:             ENV['GMAIL_PASSWORD'],
     authentication:       'plain',
