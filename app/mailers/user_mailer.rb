@@ -4,11 +4,6 @@ class UserMailer < ApplicationMailer
   # @users[0..48].each do |user|
   #     UserMailer.monthly_update(user, user_count_unread(user)).deliver_now
   # end
-  # @users.each do |user|
-  #   if user_count_unread(user) > 0
-  #     UserMailer.weekly_notifications(user, user_count_unread(user)).deliver_now
-  #   end
-  # end
 
   # for using a_or_an method in emails
   include ApplicationHelper
@@ -59,7 +54,7 @@ class UserMailer < ApplicationMailer
 
   def language_matches(user)
     @user = user
-    @matches = @user.sort_method[0..4]
+    @matches = @user.sort_method[0..5]
     @matches_token = @user.create_matches_token!
     @url_email_match = "http://www.smartxchange.es/users/#{@user.id}/email_match/#{@matches_token}/"
     if @matches.any?
