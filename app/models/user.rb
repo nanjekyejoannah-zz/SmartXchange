@@ -178,7 +178,8 @@ class User < ApplicationRecord
   def sort_value(base_user)
     denominator = self.language_level > base_user.language_level ? (self.language_level.to_f * 2) : (base_user.language_level.to_f * 2)
     sort = (self.language_level.to_f + base_user.language_level.to_f) / denominator
-    sort *= 1.5 if (base_user.location && self.location && (base_user.distance_from(self) < 50))
+    # using latitude in case there was a failed geocode on location, precaution but better this way
+    sort *= 1.5 if base_user.latitude && self.latitude && base_user.distance_from(self) < 50
     sort
   end
 
