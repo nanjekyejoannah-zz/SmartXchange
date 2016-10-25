@@ -25,6 +25,7 @@
 #  matches_sent_at       :datetime
 #  braintree_customer_id :string
 #  person_of_interest    :boolean          default(FALSE), not null
+#  tutor                 :boolean          default(FALSE), not null
 #
 
 require 'test_helper'

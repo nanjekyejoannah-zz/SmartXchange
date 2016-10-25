@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161020133026) do
+ActiveRecord::Schema.define(version: 20161025144328) do
 
   create_table "basic_profiles", force: :cascade do |t|
     t.string   "first_name"
@@ -252,6 +252,7 @@ ActiveRecord::Schema.define(version: 20161020133026) do
     t.datetime "matches_sent_at"
     t.string   "braintree_customer_id"
     t.boolean  "person_of_interest",    default: false,                            null: false
+    t.boolean  "tutor",                 default: false,                            null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["session_token"], name: "index_users_on_session_token"

@@ -15,7 +15,7 @@ class ChatRoom < ApplicationRecord
   validates_inclusion_of :title, in: ["Spanish", "Italian", "German", "French", "English"]
   # maybe remove this validation only used when creating chat rooms from command line
   validate :unique_chat_room?
-  validate :person_of_interest_or_chat_bot_and_not_premium?
+  validate :person_of_interest_or_chat_bot_or_tutor_and_not_premium?
 
   belongs_to :initiator, class_name: 'User'
   belongs_to :recipient, class_name: 'User'
@@ -36,11 +36,11 @@ class ChatRoom < ApplicationRecord
     where("((chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?) OR (chat_rooms.initiator_id = ? AND chat_rooms.recipient_id =?)) AND chat_rooms.title = ?", initiator_id, recipient_id, recipient_id, initiator_id, title)
   end
 
-  def person_of_interest_or_chat_bot_and_not_premium?
+  def person_of_interest_or_chat_bot_or_tutor_and_not_premium?
     initiator = User.find(self.initiator_id)
     recipient = User.find(self.recipient_id)
-    if (recipient.person_of_interest? || recipient.chat_bot?) && !initiator.premium?
-      errors.add(:recipient_id, "is a chatbot or Person of Interest, premium membership required")
+    if (recipient.person_of_interest? || recipient.chat_bot? || recipient.tutor?) && !initiator.premium?
+      errors.add(:recipient_id, "is a Person of Interest, Chatbot, or Tutor, Premium membership required")
     end
   end
 

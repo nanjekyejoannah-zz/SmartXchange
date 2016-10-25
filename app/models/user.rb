@@ -25,6 +25,7 @@
 #  matches_sent_at       :datetime
 #  braintree_customer_id :string
 #  person_of_interest    :boolean          default(FALSE), not null
+#  tutor                 :boolean          default(FALSE), not null
 #
 
 #active is for instantaneous feature Tati talked about
@@ -37,6 +38,7 @@ class User < ApplicationRecord
   validates :name, uniqueness: true, length: {minimum: 2, maximum: 255}
   validates :age, numericality: { only_integer: true }
   validates :language_level, numericality: {only_integer: true} #may change this since it's a dropdown
+  validates :person_of_interest, :tutor, :inclusion => {:in => [true, false]}
   mount_uploader :image, AvatarUploader
 
   has_many :notifications, :foreign_key => :notified_id, dependent: :destroy
@@ -205,10 +207,6 @@ class User < ApplicationRecord
 
   def premium?
     self.package == Package.second
-  end
-
-  def person_of_interest?
-    self.person_of_interest
   end
 
   def chat_bot?

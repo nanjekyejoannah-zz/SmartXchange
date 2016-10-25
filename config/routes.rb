@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     get 'all', on: :collection
     get 'active', on: :collection
     get 'chat_bots', on: :collection
+    get 'tutors', on: :collection
     get 'spanish', on: :collection
     get 'italian', on: :collection
     get 'french', on: :collection

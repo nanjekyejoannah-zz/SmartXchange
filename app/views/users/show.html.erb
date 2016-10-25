@@ -119,6 +119,7 @@
                 <option value="Spanish" <%= "selected" if @user.nationality == "Spanish" %> >Spain</option>
                 <option value="Swedish" <%= "selected" if @user.nationality == "Swedish" %> >Sweden</option>
                 <option value="Thai" <%= "selected" if @user.nationality == "Thai" %> >Thailand</option>
+                <option value="Turkish" <%= "selected" if @user.nationality == "Turkish" %> >Turkey</option>
                 <option value="Uruguayan" <%= "selected" if @user.nationality == "Uruguayan" %> >Uruguay</option>
                 <option value="Venezuelan" <%= "selected" if @user.nationality == "Venezuelan" %> >Venezuela</option>
                 <option value="Vietnamese" <%= "selected" if @user.nationality == "Vietnamese" %> >Vietnam</option>
@@ -151,6 +152,9 @@
         <h4> <%= @user.nationality %> <span style="font-weight:normal">National</span> </h4>
         <% if @user.person_of_interest?  %>
           <h4>Person of Interest</h4>
+        <% end %>
+        <% if @user.tutor?  %>
+          <h4>Tutor</h4>
         <% end %>
         <h4> <span style="font-weight:normal"><i><%= @user.location %></i> </span> </h4><br>
         <!-- may change class to start-chat but have to make sure it doesn't conflict with js code -->

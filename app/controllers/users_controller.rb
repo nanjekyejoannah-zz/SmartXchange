@@ -25,12 +25,17 @@ class UsersController < ApplicationController
   def index
     if params[:search]
       search = params[:search].downcase
-      if search.scan(/[a-c][1-2]/).any?
+      # maybe refactor, seperating language and language level from rest of search string, stripping white space, and performing search only on the remaining values for generic fields
+      if search.scan(/[a-c][1-2]/).any? && search.scan(/spanish|italian|english|french|german/).any?
         levels = search.scan(/[a-c][1-2]/)
+        levels.each {|level| search.slice!(level) }
         ratings = levels.map {|level| user_convert_language_level_to_rating(level)}
         language = /spanish|italian|english|french|german/.match(search)[0]
+        search.slice!(language)
+        search = search.strip
         # need references to make it work, maybe refactor later
-        @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR (lower(language) LIKE :language AND language_level IN (:ratings)) OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%", language: "#{language}", ratings: ratings).references(:linkedin).paginate(page: params[:page], per_page: 12)
+        @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR (lower(language) LIKE :language AND language_level IN (:ratings)) OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%", language: language, ratings: ratings).references(:linkedin).paginate(page: params[:page], per_page: 12)
+        @users = @users.where(tutor: true) if search.scan(/tutor|teacher/).any?
       else
         @users = User.includes(:linkedin).where('lower(name) LIKE :search OR cast(age as text) LIKE :search OR lower(title) LIKE :search OR lower(location) LIKE :search OR lower(nationality) LIKE :search OR lower(linkedins.industry) LIKE :search OR lower(linkedins.summary) LIKE :search', search: "%#{search}%").references(:linkedin).paginate(page: params[:page], per_page: 12)
       end
@@ -75,6 +80,11 @@ class UsersController < ApplicationController
 
   def chat_bots
     @users = User.where(id: 6).paginate(page: params[:page], per_page: 12)
+    render :index
+  end
+
+  def tutors
+    @users = User.where(tutor: true).includes(:linkedin).paginate(page: params[:page], per_page: 12)
     render :index
   end
 
