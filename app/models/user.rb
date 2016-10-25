@@ -38,6 +38,7 @@ class User < ApplicationRecord
   validates :name, uniqueness: true, length: {minimum: 2, maximum: 255}
   validates :age, numericality: { only_integer: true }
   validates :language_level, numericality: {only_integer: true} #may change this since it's a dropdown
+  # to prevent nil values in boolean field, according to stackoverflow
   validates :person_of_interest, :tutor, :inclusion => {:in => [true, false]}
   mount_uploader :image, AvatarUploader
 

@@ -3,7 +3,7 @@
     <%= message_convert_level_to_img(message) %>
   </div>
   <div class="message-content">
-    <p><%= auto_link(message.body) %> </p>
+    <p><%= auto_link(message.body, html: { target: '_blank' }) %> </p>
     <time datetime="<%= message.created_at %>">
       <%= message.sender.name %> • <%= message.timestamp %>
     </time>

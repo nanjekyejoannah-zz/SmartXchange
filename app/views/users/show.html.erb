@@ -144,7 +144,7 @@
               <i> <%= @user.age %></i>
             </span>
         </h4>
-        <h4><%= auto_link(@user.title) %></h4>
+        <h4><%= auto_link(@user.title, html: { target: '_blank' }) %></h4>
         <h4> <b><%= "#{@user.language}, "%></b>
           <span style="font-weight:normal"><%= user_convert_language_level(@user.language_level) %>
           </span>

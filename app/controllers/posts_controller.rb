@@ -5,6 +5,7 @@ class PostsController < ApplicationController
 
   before_action :vote_limit, only: [:upvote, :downvote]
   before_action :post_limit, only: [:create]
+  before_action :correct_post?, only: [:update, :destroy]
   after_action -> { board_mark_read(@post.board) }, except: [:followers]
 
   def create
@@ -122,6 +123,14 @@ class PostsController < ApplicationController
       return false
     end
     true
+  end
+
+  def correct_post?
+    post = Post.find(params[:id])
+    unless post.owner == current_user
+      flash[:error] = "Unauthorized access"
+      redirect_to root_path
+    end
   end
 
 end

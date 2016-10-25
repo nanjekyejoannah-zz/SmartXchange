@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   include BoardsHelper
 
   before_action :comment_limit, only: [:create]
+  before_action :correct_comment?, only: [:update, :destroy]
   after_action -> { board_mark_read(@comment.commentable.board) }
 
   def create
@@ -62,5 +63,12 @@ class CommentsController < ApplicationController
     true
   end
 
+  def correct_comment?
+    comment = Comment.find(params[:id])
+    unless comment.owner == current_user
+      flash[:error] = "Unauthorized access"
+      redirect_to root_path
+    end
+  end
 
 end
