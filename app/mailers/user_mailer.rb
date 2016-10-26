@@ -152,7 +152,6 @@ class UserMailer < ApplicationMailer
 
   def set_footer_urls
     @url  = "http://www.smartxchange.es/login"
-    @url_tutorial = "http://www.smartxchange.es/about#video"
     @url_mobile_tutorial = "http://www.smartxchange.es/about#video-mobile"
     @url_premium = "http://www.smartxchange.es/about#premium"
   end
@@ -163,7 +162,6 @@ class UserMailer < ApplicationMailer
 
   def add_campaign_to_footer(string)
     @url += "#{string}"
-    @url_tutorial = "http://www.smartxchange.es/about#{string}#video"
     @url_mobile_tutorial = "http://www.smartxchange.es/about#{string}#video-mobile"
     @url_premium = "http://www.smartxchange.es/about#{string}#premium"
   end
