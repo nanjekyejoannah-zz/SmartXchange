@@ -171,7 +171,7 @@
     <div class="linkedin-content">
       <% if @user.linkedin %>
          <br> <!-- refactor later just for appearances now -->
-        <a href="<%= @user.linkedin.public_url %>"><%= image_tag('linkedin-button.png', alt: 'Linkedin') %></a>
+        <a href="<%= @user.linkedin.public_url %>" target="_blank"><%= image_tag('linkedin-button.png', alt: 'Linkedin') %></a>
         <h4> <%= @user.linkedin.industry %></h4>
         <p><span style="font-weight:normal"><%= @user.linkedin.summary %></span></p>
         <% if @user == current_user  %>
